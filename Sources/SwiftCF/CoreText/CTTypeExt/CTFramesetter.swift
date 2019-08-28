@@ -13,11 +13,11 @@ public extension CTFramesetter {
         return CTFramesetterCreateWithAttributedString(attributedString)
     }
     
-    @inlinable func frame(stringRange: CFRange, path: CGPath, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> CTFrame {
+    @inlinable func frame(stringRange: CFRange = .zero, path: CGPath, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> CTFrame {
         return CTFramesetterCreateFrame(self, stringRange, path, .from(frameAttributes))
     }
     
-    @inlinable func suggestFrameSize(constraints: CGSize, stringRange: CFRange, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> (size: CGSize, fitRange: CFRange) {
+    @inlinable func suggestFrameSize(constraints: CGSize, stringRange: CFRange = .zero, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> (size: CGSize, fitRange: CFRange) {
         var fitRange = CFRange()
         let size = CTFramesetterSuggestFrameSizeWithConstraints(self, stringRange, .from(frameAttributes), constraints, &fitRange)
         return (size, fitRange)

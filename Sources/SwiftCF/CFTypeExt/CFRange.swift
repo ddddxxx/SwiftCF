@@ -2,6 +2,8 @@ import Foundation
 
 public extension CFRange {
     
+    static let zero = CFRange(location: 0, length: 0)
+    
     @inlinable var asNS: NSRange {
         return NSRange(location: location, length: length)
     }
