@@ -15,11 +15,11 @@ extension CTFrame {
 }
 
 public extension CTFrame.AttributeKey {
-    static let progression = Self(kCTFrameProgressionAttributeName)
-    static let pathFillRule = Self(kCTFramePathFillRuleAttributeName)
-    static let pathWidth = Self(kCTFramePathWidthAttributeName)
-    static let clippingPaths = Self(kCTFrameClippingPathsAttributeName)
-    static let pathClippingPath = Self(kCTFramePathClippingPathAttributeName)
+    static let progression = CTFrame.AttributeKey(kCTFrameProgressionAttributeName)
+    static let pathFillRule = CTFrame.AttributeKey(kCTFramePathFillRuleAttributeName)
+    static let pathWidth = CTFrame.AttributeKey(kCTFramePathWidthAttributeName)
+    static let clippingPaths = CTFrame.AttributeKey(kCTFrameClippingPathsAttributeName)
+    static let pathClippingPath = CTFrame.AttributeKey(kCTFramePathClippingPathAttributeName)
 }
 
 #endif // canImport(CoreText)

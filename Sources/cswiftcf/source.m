@@ -15,5 +15,5 @@ const CFTypeRef CFTypeBridgeFromRawPointer(const void *v) {
 
 id withAlloca(NSInteger size, const id context, id (*body)(void * ptr, const id context)) {
     UInt8 buffer[size];
-    body(buffer, context);
+    return body(buffer, context);
 }

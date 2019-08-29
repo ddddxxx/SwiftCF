@@ -4,10 +4,10 @@ import CoreText
 
 public extension CFAttributedString.Key {
     /// Value must be a CFNumberRef, Default is 0.5.
-    static let rubySizeFactor = Self("CTRubyAnnotationSizeFactor")
+    static let rubySizeFactor = CFAttributedString.Key("CTRubyAnnotationSizeFactor")
     /// Value must be a CFBooleanRef, Default is false.
     @available(macOS 10.12, iOS 10.0, tvOS 10.0, *, watchOS 3.0)
-    static let rubyScaleToFit = Self(kCTRubyAnnotationScaleToFitAttributeName.asSwift)
+    static let rubyScaleToFit = CFAttributedString.Key(kCTRubyAnnotationScaleToFitAttributeName.asSwift)
 }
 
 public extension CTRubyAnnotation {
