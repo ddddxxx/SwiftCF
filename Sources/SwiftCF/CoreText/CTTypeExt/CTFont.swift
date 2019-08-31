@@ -16,7 +16,7 @@ public extension CTFont {
         }
     }
     
-    @inlinable static func uiFont(type: CTFontUIFontType, size: CGFloat = 0, language: CFString?) -> CTFont? {
+    @inlinable static func uiFont(type: CTFontUIFontType, size: CGFloat = 0, language: CFString? = nil) -> CTFont? {
         return CTFontCreateUIFontForLanguage(type, size, language)
     }
     
