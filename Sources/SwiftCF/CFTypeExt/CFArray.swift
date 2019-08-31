@@ -41,17 +41,10 @@ public extension CFArray {
         guard range.length > 0 else {
             return []
         }
-        #if swift(>=5.1)
         return Array(unsafeUninitializedCapacity: range.length) { p, count in
             CFArrayGetValues(self, range, UnsafeMutablePointer(OpaquePointer(p.baseAddress)))
             count = range.length
         }
-        #else
-        return UnsafeMutableBufferPointer<UnsafeRawPointer?>.withAutoAllocate(capacity: range.length) { p in
-            CFArrayGetValues(self, range, p.baseAddress)
-            return p.map { bridge($0!) }
-        }
-        #endif
     }
 }
 

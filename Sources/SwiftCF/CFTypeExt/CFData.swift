@@ -24,17 +24,13 @@ public extension CFData {
     }
     
     @inlinable subscript(range: CFRange) -> [UInt8] {
-        #if swift(>=5.1)
+        guard range.length > 0 else {
+            return []
+        }
         return Array(unsafeUninitializedCapacity: range.length) { p, count in
             CFDataGetBytes(self, range, p.baseAddress)
             count = range.length
         }
-        #else
-        return UnsafeMutableBufferPointer<UInt8>.withAutoAllocate(capacity: range.length) { p in
-            CFDataGetBytes(self, range, p.baseAddress)
-            return Array(p)
-        }
-        #endif
     }
 }
 
