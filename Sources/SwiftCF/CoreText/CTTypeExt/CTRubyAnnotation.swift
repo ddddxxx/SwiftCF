@@ -22,12 +22,10 @@ public extension CTRubyAnnotation {
                 CFNumber.cast($0)!.cgFloatValue
                 } ?? CTRubyAnnotation.defaultSizeFactor
             let count = Int(CTRubyPosition.count.rawValue)
-            return UnsafeMutableBufferPointer<Unmanaged<CFString>?>.withAutoAllocate(capacity: count) { textBuffer in
-                textBuffer.initialize(repeating: nil)
-                let pos = Int(position.rawValue)
-                textBuffer[pos] = Unmanaged.passUnretained(string)
-                return CTRubyAnnotationCreate(alignment, overhang, sizeFactor, textBuffer.baseAddress!)
-            }
+            var textArr: [Unmanaged<CFString>?] = Array(repeating: nil, count: count)
+            let pos = Int(position.rawValue)
+            textArr[pos] = Unmanaged.passUnretained(string)
+            return CTRubyAnnotationCreate(alignment, overhang, sizeFactor, &textArr)
         }
     }
     
