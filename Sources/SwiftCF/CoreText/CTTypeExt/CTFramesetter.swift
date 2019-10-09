@@ -17,7 +17,7 @@ public extension CTFramesetter {
         return CTFramesetterCreateFrame(self, stringRange, path, .from(frameAttributes))
     }
     
-    @inlinable func suggestFrameSize(constraints: CGSize, stringRange: CFRange = .zero, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> (size: CGSize, fitRange: CFRange) {
+    @inlinable func suggestFrameSize(constraints: CGSize = CGSize(width: CGFloat.infinity, height: .infinity), stringRange: CFRange = .zero, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> (size: CGSize, fitRange: CFRange) {
         var fitRange = CFRange()
         let size = CTFramesetterSuggestFrameSizeWithConstraints(self, stringRange, .from(frameAttributes), constraints, &fitRange)
         return (size, fitRange)
