@@ -66,6 +66,10 @@ public extension CFStringTokenizer {
         CFStringTokenizerGetCurrentSubTokens(self, nil, maxRangeLength, arr)
         return arr as! [CFStringTokenizerTokenType]
     }
+    
+    @inlinable static func bestLanguage(for str: CFString, range: CFRange = .zero) -> CFString? {
+        return CFStringTokenizerCopyBestStringLanguage(str, range)
+    }
 }
 
 extension CFStringTokenizer: IteratorProtocol {
