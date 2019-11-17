@@ -1,5 +1,7 @@
 # SwiftCF
 
+[![Github CI Status](https://github.com/ddddxxx/SwiftCF/workflows/CI/badge.svg)](https://github.com/ddddxxx/SwiftCF/actions)
+
 Using CoreFoundation in Swift painlessly.
 
 ## Usage
