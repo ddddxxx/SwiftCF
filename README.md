@@ -27,7 +27,7 @@ let s3 = CFString.cast(str)
 ```
 let cfStr: CFString = .from("foo")
 let nsStr: NSString = cfStr.asNS
-let str: NSString = cfStr.asSwift
+let str: String = cfStr.asSwift
 ```
 
 ### Convenient Extensions
@@ -55,3 +55,7 @@ for item in arr {
 ## Requirements
 
 - Swift 5.0+
+
+## License
+
+SwiftyCF is available under the MIT license. See the [LICENSE file](LICENSE).
