@@ -8,7 +8,7 @@ Using CoreFoundation in Swift painlessly.
 
 ### Dynamic casting to CoreFoundation types via the type-id mechanism.
 
-```
+```swift
 import SwiftCF
 
 let str: Any = "foo" as CFString
@@ -24,7 +24,7 @@ let s3 = CFString.cast(str)
 
 ### Toll-Free-Bridging
 
-```
+```swift
 let cfStr: CFString = .from("foo")
 let nsStr: NSString = cfStr.asNS
 let str: String = cfStr.asSwift
@@ -32,7 +32,7 @@ let str: String = cfStr.asSwift
 
 ### Convenient Extensions
 
-```
+```swift
 let str = "foo" as CFString
 
 str.length
@@ -44,7 +44,7 @@ CFStringTokenizer.create(string: str)
 
 ### Swift Protocol Conformance
 
-```
+```swift
 let arr = [1, 3.14, "foo"] as CFArray
 
 for item in arr {
