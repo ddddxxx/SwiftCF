@@ -58,4 +58,4 @@ for item in arr {
 
 ## License
 
-SwiftyCF is available under the MIT license. See the [LICENSE file](LICENSE).
+SwiftCF is available under the MIT license. See the [LICENSE file](LICENSE).
