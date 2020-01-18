@@ -25,7 +25,20 @@ final class SwiftCFTests: XCTestCase {
         }
     }
     
+    func testCFArrayCallBacks() {
+        let arr = CFMutableArray.create()
+        weak var weakObj: AnyObject?
+        do {
+            let data = CFData.create(bytes: nil, length: 0)
+            arr.append(data)
+            weakObj = data
+        }
+        XCTAssertNotNil(weakObj)
+    }
+    
     static var allTests = [
         ("testTypeCasting", testTypeCasting),
+        ("testCollectionProtocolConformance", testCollectionProtocolConformance),
+        ("testCFArrayCallBacks", testCFArrayCallBacks),
     ]
 }

@@ -11,10 +11,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "SwiftCF",
-            dependencies: ["cswiftcf"]),
-        .target(
-            name: "cswiftcf"),
+            name: "SwiftCF"),
         .testTarget(
             name: "SwiftCFTests",
             dependencies: ["SwiftCF"]),

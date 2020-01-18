@@ -1,5 +1,4 @@
 import CoreFoundation
-import cswiftcf
 
 public extension CFDictionary {
     
