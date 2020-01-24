@@ -15,6 +15,7 @@ extension CGImageSource {
 }
 
 public extension CGImageSource.Option {
+    static let typeIdentifierHint = kCGImageSourceTypeIdentifierHint as CGImageSource.Option
     static let shouldCache = kCGImageSourceShouldCache as CGImageSource.Option
     static let shouldCacheImmediately = kCGImageSourceShouldCacheImmediately as CGImageSource.Option
     static let shouldAllowFloat = kCGImageSourceShouldAllowFloat as CGImageSource.Option
