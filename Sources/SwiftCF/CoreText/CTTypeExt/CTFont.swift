@@ -20,7 +20,7 @@ public extension CTFont {
         return CTFontCreateUIFontForLanguage(type, size, language)
     }
     
-    @inlinable var fontDescriptor: CTFontDescriptor {
+    @inlinable func fontDescriptor() -> CTFontDescriptor {
         return CTFontCopyFontDescriptor(self)
     }
     
@@ -32,11 +32,11 @@ public extension CTFont {
         return CTFontGetMatrix(self)
     }
     
-    @inlinable var characterSet: CFCharacterSet {
+    @inlinable func characterSet() -> CFCharacterSet {
         return CTFontCopyCharacterSet(self)
     }
     
-    @inlinable var supportedLanguages: [CFString] {
+    @inlinable func supportedLanguages() -> [CFString] {
         return CTFontCopySupportedLanguages(self) as! [CFString]
     }
     
