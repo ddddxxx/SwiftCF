@@ -45,6 +45,11 @@ public extension CGImageDestination {
             throw error!.takeRetainedValue()
         }
     }
+    
+    @available(macOS 10.13, iOS 11.0, tvOS 11.0, watchOS 4.0, *)
+    @inlinable func addAuxiliaryDataInfo(_ auxiliaryDataInfo: [CGImage.AuxiliaryDataInfoKey: Any], type: CGImage.AuxiliaryDataType) {
+        CGImageDestinationAddAuxiliaryDataInfo(self, type.rawValue, .from(auxiliaryDataInfo))
+    }
 }
 
 extension CGImageDestination {

@@ -70,10 +70,9 @@ public extension CGImageSource {
         return CGImageSourceGetPrimaryImageIndex(self)
     }
     
-    // TODO: wrap result
     @available(macOS 10.13, iOS 11.0, tvOS 11.0, watchOS 4.0, *)
-    @inlinable func auxiliaryDataInfo(at index: Int, type: CFString) -> CFDictionary? {
-        return CGImageSourceCopyAuxiliaryDataInfoAtIndex(self, index, type)
+    @inlinable func auxiliaryDataInfo(at index: Int, type: CGImage.AuxiliaryDataType) -> [CGImage.AuxiliaryDataInfoKey: Any] {
+        return CGImageSourceCopyAuxiliaryDataInfoAtIndex(self, index, type.rawValue) as! [CGImage.AuxiliaryDataInfoKey: Any]? ?? [:]
     }
 }
 
