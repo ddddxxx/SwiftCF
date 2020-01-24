@@ -35,8 +35,8 @@ public extension CGImageMetadata {
         return CGImageMetadataCopyTagWithPath(self, parent, path)
     }
     
-    @inlinable func tag(matching imagePropertyName: CFString, dictionary: FormatSpecificDictionary) -> CGImageMetadataTag? {
-        return CGImageMetadataCopyTagMatchingImageProperty(self, dictionary.rawValue, imagePropertyName)
+    @inlinable func tag(matching imagePropertyName: CGImage.PropertyName, dictionary: FormatSpecificDictionary) -> CGImageMetadataTag? {
+        return CGImageMetadataCopyTagMatchingImageProperty(self, dictionary.rawValue, imagePropertyName.rawValue)
     }
     
     @inlinable func stringValue(for path: CFString, parent: CGImageMetadataTag? = nil) -> CFString? {
@@ -62,8 +62,8 @@ public extension CGMutableImageMetadata {
         return CGImageMetadataSetValueWithPath(self, parent, path, value)
     }
     
-    @inlinable func setValue(_ value: CFTypeRef, matching imagePropertyName: CFString, dictionary: FormatSpecificDictionary) -> Bool {
-        return CGImageMetadataSetValueMatchingImageProperty(self, dictionary.rawValue, imagePropertyName, value)
+    @inlinable func setValue(_ value: CFTypeRef, matching imagePropertyName: CGImage.PropertyName, dictionary: FormatSpecificDictionary) -> Bool {
+        return CGImageMetadataSetValueMatchingImageProperty(self, dictionary.rawValue, imagePropertyName.rawValue, value)
     }
 }
 
