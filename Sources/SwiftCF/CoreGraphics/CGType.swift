@@ -29,21 +29,3 @@ extension CGPSConverter: CFType {}
 #endif // os(macOS)
 
 #endif // canImport(CoreGraphics)
-
-#if canImport(ImageIO)
-
-import ImageIO
-
-extension CGImageMetadata: CFType {
-    public static let typeID = CGImageMetadataGetTypeID()
-}
-
-extension CGImageMetadataTag: CFType {
-    public static let typeID = CGImageMetadataTagGetTypeID()
-}
-
-extension CGImageSource: CFType {
-    public static let typeID = CGImageSourceGetTypeID()
-}
-
-#endif // canImport(ImageIO)
