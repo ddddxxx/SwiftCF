@@ -67,7 +67,9 @@ public extension CGImage.PropertyName {
     static let tiffCopyright = kCGImagePropertyTIFFCopyright as CGImage.PropertyName
     static let tiffWhitePoint = kCGImagePropertyTIFFWhitePoint as CGImage.PropertyName
     static let tiffPrimaryChromaticities = kCGImagePropertyTIFFPrimaryChromaticities as CGImage.PropertyName
+    @available(macOS 10.11, iOS 9.0, tvOS 9.0, watchOS 2.0, *)
     static let tiffTileWidth = kCGImagePropertyTIFFTileWidth as CGImage.PropertyName
+    @available(macOS 10.11, iOS 9.0, tvOS 9.0, watchOS 2.0, *)
     static let tiffTileLength = kCGImagePropertyTIFFTileLength as CGImage.PropertyName
 }
 
@@ -81,6 +83,7 @@ public extension CGImage.PropertyName {
 }
 
 /// For kCGImagePropertyHEICSDictionary
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 public extension CGImage.PropertyName {
     static let heicsLoopCount = kCGImagePropertyHEICSLoopCount as CGImage.PropertyName
     static let heicsDelayTime = kCGImagePropertyHEICSDelayTime as CGImage.PropertyName
@@ -107,8 +110,11 @@ public extension CGImage.PropertyName {
     static let exifVersion = kCGImagePropertyExifVersion as CGImage.PropertyName
     static let exifDateTimeOriginal = kCGImagePropertyExifDateTimeOriginal as CGImage.PropertyName
     static let exifDateTimeDigitized = kCGImagePropertyExifDateTimeDigitized as CGImage.PropertyName
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     static let exifOffsetTime = kCGImagePropertyExifOffsetTime as CGImage.PropertyName
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     static let exifOffsetTimeOriginal = kCGImagePropertyExifOffsetTimeOriginal as CGImage.PropertyName
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     static let exifOffsetTimeDigitized = kCGImagePropertyExifOffsetTimeDigitized as CGImage.PropertyName
     static let exifComponentsConfiguration = kCGImagePropertyExifComponentsConfiguration as CGImage.PropertyName
     static let exifCompressedBitsPerPixel = kCGImagePropertyExifCompressedBitsPerPixel as CGImage.PropertyName
@@ -126,6 +132,7 @@ public extension CGImage.PropertyName {
     static let exifMakerNote = kCGImagePropertyExifMakerNote as CGImage.PropertyName
     static let exifUserComment = kCGImagePropertyExifUserComment as CGImage.PropertyName
     static let exifSubsecTime = kCGImagePropertyExifSubsecTime as CGImage.PropertyName
+    @available(macOS 10.11, iOS 9.0, tvOS 9.0, watchOS 2.0, *)
     static let exifSubsecTimeOriginal = kCGImagePropertyExifSubsecTimeOriginal as CGImage.PropertyName
     static let exifSubsecTimeDigitized = kCGImagePropertyExifSubsecTimeDigitized as CGImage.PropertyName
     static let exifFlashPixVersion = kCGImagePropertyExifFlashPixVersion as CGImage.PropertyName
@@ -164,8 +171,11 @@ public extension CGImage.PropertyName {
     static let exifLensModel = kCGImagePropertyExifLensModel as CGImage.PropertyName
     static let exifLensSerialNumber = kCGImagePropertyExifLensSerialNumber as CGImage.PropertyName
     static let exifGamma = kCGImagePropertyExifGamma as CGImage.PropertyName
+    @available(macOS 10.15.1, iOS 13.1, tvOS 13.1, watchOS 6.1, *)
     static let exifCompositeImage = kCGImagePropertyExifCompositeImage as CGImage.PropertyName
+    @available(macOS 10.15.1, iOS 13.1, tvOS 13.1, watchOS 6.1, *)
     static let exifSourceImageNumberOfCompositeImage = kCGImagePropertyExifSourceImageNumberOfCompositeImage as CGImage.PropertyName
+    @available(macOS 10.15.1, iOS 13.1, tvOS 13.1, watchOS 6.1, *)
     static let exifSourceExposureTimesOfCompositeImage = kCGImagePropertyExifSourceExposureTimesOfCompositeImage as CGImage.PropertyName
 }
 
@@ -189,8 +199,11 @@ public extension CGImage.PropertyName {
     static let gifImageColorMap = kCGImagePropertyGIFImageColorMap as CGImage.PropertyName
     static let gifHasGlobalColorMap = kCGImagePropertyGIFHasGlobalColorMap as CGImage.PropertyName
     static let gifUnclampedDelayTime = kCGImagePropertyGIFUnclampedDelayTime as CGImage.PropertyName
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     static let gifCanvasPixelWidth = kCGImagePropertyGIFCanvasPixelWidth as CGImage.PropertyName
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     static let gifCanvasPixelHeight = kCGImagePropertyGIFCanvasPixelHeight as CGImage.PropertyName
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     static let gifFrameInfoArray = kCGImagePropertyGIFFrameInfoArray as CGImage.PropertyName
 }
 
@@ -198,18 +211,22 @@ public extension CGImage.PropertyName {
 public extension CGImage.PropertyName {
     static let pngAuthor = kCGImagePropertyPNGAuthor as CGImage.PropertyName
     static let pngChromaticities = kCGImagePropertyPNGChromaticities as CGImage.PropertyName
+    @available(macOS 10.14, iOS 12.0, tvOS 12.0, watchOS 5.0, *)
     static let pngComment = kCGImagePropertyPNGComment as CGImage.PropertyName
     static let pngCopyright = kCGImagePropertyPNGCopyright as CGImage.PropertyName
     static let pngCreationTime = kCGImagePropertyPNGCreationTime as CGImage.PropertyName
     static let pngDescription = kCGImagePropertyPNGDescription as CGImage.PropertyName
+    @available(macOS 10.14, iOS 12.0, tvOS 12.0, watchOS 5.0, *)
     static let pngDisclaimer = kCGImagePropertyPNGDisclaimer as CGImage.PropertyName
     static let pngGamma = kCGImagePropertyPNGGamma as CGImage.PropertyName
     static let pngInterlaceType = kCGImagePropertyPNGInterlaceType as CGImage.PropertyName
     static let pngModificationTime = kCGImagePropertyPNGModificationTime as CGImage.PropertyName
     static let pngSoftware = kCGImagePropertyPNGSoftware as CGImage.PropertyName
+    @available(macOS 10.14, iOS 12.0, tvOS 12.0, watchOS 5.0, *)
     static let pngSource = kCGImagePropertyPNGSource as CGImage.PropertyName
     static let pngsRGBIntent = kCGImagePropertyPNGsRGBIntent as CGImage.PropertyName
     static let pngTitle = kCGImagePropertyPNGTitle as CGImage.PropertyName
+    @available(macOS 10.14, iOS 12.0, tvOS 12.0, watchOS 5.0, *)
     static let pngWarning = kCGImagePropertyPNGWarning as CGImage.PropertyName
     static let pngXPixelsPerMeter = kCGImagePropertyPNGXPixelsPerMeter as CGImage.PropertyName
     static let pngYPixelsPerMeter = kCGImagePropertyPNGYPixelsPerMeter as CGImage.PropertyName
@@ -217,8 +234,11 @@ public extension CGImage.PropertyName {
     static let apngLoopCount = kCGImagePropertyAPNGLoopCount as CGImage.PropertyName
     static let apngDelayTime = kCGImagePropertyAPNGDelayTime as CGImage.PropertyName
     static let apngUnclampedDelayTime = kCGImagePropertyAPNGUnclampedDelayTime as CGImage.PropertyName
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     static let apngFrameInfoArray = kCGImagePropertyAPNGFrameInfoArray as CGImage.PropertyName
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     static let apngCanvasPixelWidth = kCGImagePropertyAPNGCanvasPixelWidth as CGImage.PropertyName
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     static let apngCanvasPixelHeight = kCGImagePropertyAPNGCanvasPixelHeight as CGImage.PropertyName
 }
 
@@ -311,7 +331,11 @@ public extension CGImage.PropertyName {
     static let iptcCreatorContactInfo = kCGImagePropertyIPTCCreatorContactInfo as CGImage.PropertyName
     static let iptcRightsUsageTerms = kCGImagePropertyIPTCRightsUsageTerms as CGImage.PropertyName
     static let iptcScene = kCGImagePropertyIPTCScene as CGImage.PropertyName
+}
 
+/// For kCGImagePropertyIPTCDictionary
+@available(macOS 10.13.4, iOS 11.3, tvOS 11.3, watchOS 4.3, *)
+public extension CGImage.PropertyName {
     static let iptcExtAboutCvTerm = kCGImagePropertyIPTCExtAboutCvTerm as CGImage.PropertyName
     static let iptcExtAboutCvTermCvId = kCGImagePropertyIPTCExtAboutCvTermCvId as CGImage.PropertyName
     static let iptcExtAboutCvTermId = kCGImagePropertyIPTCExtAboutCvTermId as CGImage.PropertyName
@@ -430,10 +454,10 @@ public extension CGImage.PropertyName {
     static let iptcExtProductInImageDescription = kCGImagePropertyIPTCExtProductInImageDescription as CGImage.PropertyName
     static let iptcExtProductInImageGTIN = kCGImagePropertyIPTCExtProductInImageGTIN as CGImage.PropertyName
     static let iptcExtProductInImageName = kCGImagePropertyIPTCExtProductInImageName as CGImage.PropertyName
-    static let iptcExtstaticationEvent = kCGImagePropertyIPTCExtstaticationEvent as CGImage.PropertyName
-    static let iptcExtstaticationEventDate = kCGImagePropertyIPTCExtstaticationEventDate as CGImage.PropertyName
-    static let iptcExtstaticationEventIdentifier = kCGImagePropertyIPTCExtstaticationEventIdentifier as CGImage.PropertyName
-    static let iptcExtstaticationEventName = kCGImagePropertyIPTCExtstaticationEventName as CGImage.PropertyName
+    static let iptcExtPublicationEvent = kCGImagePropertyIPTCExtPublicationEvent as CGImage.PropertyName
+    static let iptcExtPublicationEventDate = kCGImagePropertyIPTCExtPublicationEventDate as CGImage.PropertyName
+    static let iptcExtPublicationEventIdentifier = kCGImagePropertyIPTCExtPublicationEventIdentifier as CGImage.PropertyName
+    static let iptcExtPublicationEventName = kCGImagePropertyIPTCExtPublicationEventName as CGImage.PropertyName
     static let iptcExtRating = kCGImagePropertyIPTCExtRating as CGImage.PropertyName
     static let iptcExtRatingRatingRegion = kCGImagePropertyIPTCExtRatingRatingRegion as CGImage.PropertyName
     static let iptcExtRatingRegionCity = kCGImagePropertyIPTCExtRatingRegionCity as CGImage.PropertyName
@@ -508,6 +532,11 @@ public extension CGImage.PropertyName {
     static let dngLocalizedCameraModel = kCGImagePropertyDNGLocalizedCameraModel as CGImage.PropertyName
     static let dngCameraSerialNumber = kCGImagePropertyDNGCameraSerialNumber as CGImage.PropertyName
     static let dngLensInfo = kCGImagePropertyDNGLensInfo as CGImage.PropertyName
+}
+
+/// For kCGImagePropertyDNGDictionary
+@available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
+public extension CGImage.PropertyName {
     static let dngBlackLevel = kCGImagePropertyDNGBlackLevel as CGImage.PropertyName
     static let dngWhiteLevel = kCGImagePropertyDNGWhiteLevel as CGImage.PropertyName
     static let dngCalibrationIlluminant1 = kCGImagePropertyDNGCalibrationIlluminant1 as CGImage.PropertyName
@@ -528,7 +557,11 @@ public extension CGImage.PropertyName {
     static let dngWarpRectilinear = kCGImagePropertyDNGWarpRectilinear as CGImage.PropertyName
     static let dngWarpFisheye = kCGImagePropertyDNGWarpFisheye as CGImage.PropertyName
     static let dngFixVignetteRadial = kCGImagePropertyDNGFixVignetteRadial as CGImage.PropertyName
+}
 
+/// For kCGImagePropertyDNGDictionary
+@available(macOS 10.14, iOS 12.0, tvOS 12.0, watchOS 5.0, *)
+public extension CGImage.PropertyName {
     static let dngActiveArea = kCGImagePropertyDNGActiveArea as CGImage.PropertyName
     static let dngAnalogBalance = kCGImagePropertyDNGAnalogBalance as CGImage.PropertyName
     static let dngAntiAliasStrength = kCGImagePropertyDNGAntiAliasStrength as CGImage.PropertyName

@@ -20,6 +20,10 @@ public extension CGImageSource {
         return CGImageSourceCreateIncremental(.from(options))
     }
     
+    @inlinable var type: CFString? {
+        return CGImageSourceGetType(self)
+    }
+    
     @inlinable var count: Int {
         return CGImageSourceGetCount(self)
     }
