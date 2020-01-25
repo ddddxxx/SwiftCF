@@ -2,7 +2,22 @@
 
 [![Github CI Status](https://github.com/ddddxxx/SwiftCF/workflows/CI/badge.svg)](https://github.com/ddddxxx/SwiftCF/actions)
 
-Using CoreFoundation in Swift painlessly.
+Using CoreFoundation based framework in Swift painlessly.
+
+Wrapped frameworks:
+
+- [x] CoreFoundation
+- [x] CoreGraphics
+- [x] CoreText
+- [x] ImageIO
+- [ ] CoreMedia
+- [ ] CoreVideo
+- [ ] CFNetwork
+- [ ] Security
+- [ ] CoreServices
+- [ ] ApplicationServices
+- [ ] VideoToolbox
+- [ ] SystemConfiguration
 
 ## Usage
 
