@@ -25,7 +25,7 @@ public extension CGImageMetadata {
     }
     
     @inlinable func enumerateTags(rootPath: CFString? = nil, recursive: Bool, body: CGImageMetadataTagBlock) {
-        let options: CFDictionary? = recursive ? .from([kCGImageMetadataEnumerateRecursively: true]) : nil
+        let options: CFDictionary? = recursive ? [kCGImageMetadataEnumerateRecursively: true]  as CFDictionary : nil
         withoutActuallyEscaping(body) { escapingBody in
             CGImageMetadataEnumerateTagsUsingBlock(self, rootPath, options, escapingBody)
         }

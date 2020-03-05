@@ -17,7 +17,7 @@ public extension CTRubyAnnotation {
     
     @inlinable static func create(_ string: CFString, position: CTRubyPosition = .before, alignment: CTRubyAlignment = .auto, overhang: CTRubyOverhang = .auto, attributes: [CFAttributedString.Key: Any] = [:]) -> CTRubyAnnotation {
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *, watchOS 3.0) {
-            return CTRubyAnnotationCreateWithAttributes(alignment, overhang, position, string, .from(attributes))
+            return CTRubyAnnotationCreateWithAttributes(alignment, overhang, position, string, attributes as CFDictionary)
         } else {
             let sizeFactor = attributes[.rubySizeFactor].map {
                 CFNumber.cast($0)!.cgFloatValue

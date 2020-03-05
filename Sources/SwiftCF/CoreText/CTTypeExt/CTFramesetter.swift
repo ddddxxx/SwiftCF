@@ -14,12 +14,12 @@ public extension CTFramesetter {
     }
     
     @inlinable func frame(stringRange: CFRange = .zero, path: CGPath, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> CTFrame {
-        return CTFramesetterCreateFrame(self, stringRange, path, .from(frameAttributes))
+        return CTFramesetterCreateFrame(self, stringRange, path, frameAttributes as CFDictionary)
     }
     
     @inlinable func suggestFrameSize(constraints: CGSize = CGSize(width: CGFloat.infinity, height: .infinity), stringRange: CFRange = .zero, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> (size: CGSize, fitRange: CFRange) {
         var fitRange = CFRange()
-        let size = CTFramesetterSuggestFrameSizeWithConstraints(self, stringRange, .from(frameAttributes), constraints, &fitRange)
+        let size = CTFramesetterSuggestFrameSizeWithConstraints(self, stringRange, frameAttributes as CFDictionary, constraints, &fitRange)
         return (size, fitRange)
     }
     

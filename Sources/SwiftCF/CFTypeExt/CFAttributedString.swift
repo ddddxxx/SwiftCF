@@ -5,7 +5,7 @@ public extension CFAttributedString {
     typealias Key = NSAttributedString.Key
     
     @inlinable static func create(allocator: CFAllocator = .default, string: CFString, attributes: [Key: Any] = [:]) -> CFAttributedString {
-        return CFAttributedStringCreate(allocator, string, .from(attributes))
+        return CFAttributedStringCreate(allocator, string, attributes as CFDictionary)
     }
     
     @inlinable var string: CFString {

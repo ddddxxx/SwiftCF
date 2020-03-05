@@ -39,7 +39,7 @@ public extension CGImageDestination {
     @inlinable func copy(from source: CGImageSource, options: [CopyOptions: Any]) throws {
         var error: Unmanaged<CFError>?
         let success = withUnsafeMutablePointer(to: &error) { ptr in
-            CGImageDestinationCopyImageSource(self, source, .from(options), ptr)
+            CGImageDestinationCopyImageSource(self, source, options as CFDictionary, ptr)
         }
         if !success {
             throw error!.takeRetainedValue()
@@ -48,7 +48,7 @@ public extension CGImageDestination {
     
     @available(macOS 10.13, iOS 11.0, tvOS 11.0, watchOS 4.0, *)
     @inlinable func addAuxiliaryDataInfo(_ auxiliaryDataInfo: [CGImage.AuxiliaryDataInfoKey: Any], type: CGImage.AuxiliaryDataType) {
-        CGImageDestinationAddAuxiliaryDataInfo(self, type.rawValue, .from(auxiliaryDataInfo))
+        CGImageDestinationAddAuxiliaryDataInfo(self, type.rawValue, auxiliaryDataInfo as CFDictionary)
     }
 }
 

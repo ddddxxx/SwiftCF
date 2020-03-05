@@ -25,7 +25,7 @@ extension CTRubyAnnotation: CFCopying {
 extension CTFontCollection: CFCopying {
     
     @inlinable public func copy(queryDescriptors: [CTFontDescriptor] = [], options: CFDictionary = .empty) -> CTFontCollection {
-        return CTFontCollectionCreateCopyWithFontDescriptors(self, .from(queryDescriptors), options)
+        return CTFontCollectionCreateCopyWithFontDescriptors(self, queryDescriptors as CFArray, options)
     }
     
     @inlinable public func copy(allocator: CFAllocator) -> CTFontCollection {

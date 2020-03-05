@@ -5,19 +5,19 @@ import ImageIO
 public extension CGImageSource {
     
     @inlinable static func create(dataProvider: CGDataProvider, options: [Option: Any] = [:]) -> CGImageSource? {
-        return CGImageSourceCreateWithDataProvider(dataProvider, .from(options))
+        return CGImageSourceCreateWithDataProvider(dataProvider, options as CFDictionary)
     }
     
     @inlinable static func create(data: CFData, options: [Option: Any] = [:]) -> CGImageSource? {
-        return CGImageSourceCreateWithData(data, .from(options))
+        return CGImageSourceCreateWithData(data, options as CFDictionary)
     }
     
     @inlinable static func create(url: CFURL, options: [Option: Any] = [:]) -> CGImageSource? {
-        return CGImageSourceCreateWithURL(url, .from(options))
+        return CGImageSourceCreateWithURL(url, options as CFDictionary)
     }
     
     @inlinable static func createIncremental(options: [Option: Any] = [:]) -> CGImageSource {
-        return CGImageSourceCreateIncremental(.from(options))
+        return CGImageSourceCreateIncremental(options as CFDictionary)
     }
     
     @inlinable var type: CFString? {
@@ -30,19 +30,19 @@ public extension CGImageSource {
     
     // TODO: wrap result
     @inlinable func properties(options: [Option: Any] = [:]) -> CFDictionary? {
-        return CGImageSourceCopyProperties(self, .from(options))
+        return CGImageSourceCopyProperties(self, options as CFDictionary)
     }
     
     @inlinable func properties(at index: Int, options: [Option: Any] = [:]) -> CFDictionary? {
-        return CGImageSourceCopyPropertiesAtIndex(self, index, .from(options))
+        return CGImageSourceCopyPropertiesAtIndex(self, index, options as CFDictionary)
     }
     
     @inlinable func metadata(at index: Int, options: [Option: Any] = [:]) -> CGImageMetadata? {
-        return CGImageSourceCopyMetadataAtIndex(self, index, .from(options))
+        return CGImageSourceCopyMetadataAtIndex(self, index, options as CFDictionary)
     }
     
     @inlinable func image(at index: Int, options: [Option: Any] = [:]) -> CGImage? {
-        return CGImageSourceCreateImageAtIndex(self, index, .from(options))
+        return CGImageSourceCreateImageAtIndex(self, index, options as CFDictionary)
     }
     
     @inlinable func removeCache(at index: Int) {
@@ -50,7 +50,7 @@ public extension CGImageSource {
     }
     
     @inlinable func thumbnail(at index: Int, options: [Option: Any]) -> CGImage? {
-        return CGImageSourceCreateThumbnailAtIndex(self, index, .from(options))
+        return CGImageSourceCreateThumbnailAtIndex(self, index, options as CFDictionary)
     }
     
     @inlinable func update(data: CFData, final: Bool = false) {
