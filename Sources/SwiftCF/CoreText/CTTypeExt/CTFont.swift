@@ -1,9 +1,15 @@
 #if canImport(CoreText)
 
+import Foundation
 import CoreText
 
 public extension CTFont {
     
+    typealias Options = CTFontOptions
+    typealias UIFontType = CTFontUIFontType
+    typealias SymbolicTraits = CTFontSymbolicTraits
+    
+    // MARK: create
     
     /// Returns a new font reference for the given name.
     ///
@@ -19,7 +25,7 @@ public extension CTFont {
     ///   - matrix: The transformation matrix for the font. In most cases, set this parameter to be
     ///   NULL. If NULL is specified, the identity matrix is used. This parameter is optional.
     ///   - options: Options flags. See CTFontOptions for values. This parameter is optional.
-    @inlinable static func create(name: CFString, size: CGFloat = 0, matrix: CGAffineTransform = .identity, options: CTFontOptions = []) -> CTFont {
+    @inlinable static func create(name: CFString, size: CGFloat = 0, matrix: CGAffineTransform = .identity, options: Options = []) -> CTFont {
         return withUnsafePointer(to: matrix) { mtx in
             return CTFontCreateWithNameAndOptions(name, size, mtx, options)
         }
@@ -38,7 +44,7 @@ public extension CTFont {
     ///   - matrix: The transformation matrix for the font. In most cases, set this parameter to be
     ///   NULL. If NULL is specified, the identity matrix is used. This parameter is optional.
     ///   - options: Options flags. See CTFontOptions for values. This parameter is optional.
-    @inlinable static func create(descriptor: CTFontDescriptor, size: CGFloat = 0, matrix: CGAffineTransform = .identity, options: CTFontOptions = []) -> CTFont {
+    @inlinable static func create(descriptor: CTFontDescriptor, size: CGFloat = 0, matrix: CGAffineTransform = .identity, options: Options = []) -> CTFont {
         return withUnsafePointer(to: matrix) { mtx in
             return CTFontCreateWithFontDescriptorAndOptions(descriptor, size, mtx, options)
         }
@@ -53,9 +59,11 @@ public extension CTFont {
     ///   - language: Language specifier string to select a font for a particular localization. If NULL is
     ///   specified, the current system language is used. The format of the language identifier should
     ///   conform to the RFC 3066bis standard.
-    @inlinable static func uiFont(type: CTFontUIFontType, size: CGFloat = 0, language: CFString? = nil) -> CTFont? {
+    @inlinable static func uiFont(type: UIFontType, size: CGFloat = 0, language: CFString? = nil) -> CTFont? {
         return CTFontCreateUIFontForLanguage(type, size, language)
     }
+    
+    // MARK: accessor
     
     /// Returns the normalized font descriptor for the given font reference.
     ///
@@ -63,6 +71,16 @@ public extension CTFont {
     /// time.
     @inlinable func fontDescriptor() -> CTFontDescriptor {
         return CTFontCopyFontDescriptor(self)
+    }
+    
+    /// Returns the value associated with an arbitrary attribute of the given font.
+    ///
+    /// Refer to the attribute definitions documentation for information as to how each attribute is packaged
+    /// as a CFType.
+    ///
+    /// - Parameter attribute: The requested attribute.
+    @inlinable func attribute(key: AttributeKey) -> CFTypeRef? {
+        return CTFontCopyAttribute(self, key.rawValue)
     }
     
     /// Returns the point size of the given font.
@@ -80,34 +98,41 @@ public extension CTFont {
         return CTFontGetMatrix(self)
     }
     
-    @inlinable func characterSet() -> CFCharacterSet {
-        return CTFontCopyCharacterSet(self)
-    }
-    
-    /// Returns an array of languages supported by the font.
+    /// Returns the symbolic traits of the given font.
     ///
-    /// A retained reference to an array of languages supported by the font. The array contains language
-    /// identifier strings as CFStringRef objects. The format of the language identifier conforms to the RFC
-    /// 3066bis standard.
-    @inlinable func supportedLanguages() -> [CFString] {
-        return CTFontCopySupportedLanguages(self) as! [CFString]
+    /// The symbolic traits of the font. This is equivalent to the kCTFontSymbolicTrait value of the traits
+    /// dictionary.
+    @inlinable var symbolicTraits: SymbolicTraits {
+        return CTFontGetSymbolicTraits(self)
     }
     
-    /// Returns the number of glyphs of the given font.
-    @inlinable var glyphCount: CFIndex {
-        return CTFontGetGlyphCount(self)
-    }
-    
-    /// Returns the value associated with an arbitrary attribute of the given font.
+    /// Returns the traits dictionary of the given font.
     ///
-    /// Refer to the attribute definitions documentation for information as to how each attribute is packaged
-    /// as a CFType.
-    ///
-    /// - Parameter attribute: The requested attribute.
-    @inlinable func attribute(_ attribute: CFString) -> CFTypeRef? {
-        return CTFontCopyAttribute(self, attribute)
+    /// A retained reference to the font traits dictionary. Individual traits can be accessed with the trait key constants.
+    @inlinable func traits() -> [TraitKey: Any] {
+        return CTFontCopyTraits(self) as! [TraitKey: Any]
     }
     
+    // MARK: name
+    
+    /// Returns the PostScript name of the given font.
+    @inlinable func postScriptName() -> CFString { return CTFontCopyPostScriptName(self) }
+    
+    /// Returns the family name of the given font.
+    @inlinable func familyName() -> CFString { return CTFontCopyFamilyName(self) }
+    
+    /// Returns the full name of the given font.
+    @inlinable func fullName() -> CFString { return CTFontCopyFullName(self) }
+    
+    /// Returns the display name of the given font.
+    @inlinable func displayName() -> CFString { return CTFontCopyDisplayName(self) }
+    
+    /// Returns a reference to the requested name of the given font.
+    ///
+    /// The requested name for the font, or NULL if the font does not have an entry for the requested name.
+    /// The Unicode version of the name is preferred, otherwise the first available version is returned.
+    ///
+    /// - Parameter key: The name specifier.
     @inlinable func name(key: NameKey) -> CFString? {
         return CTFontCopyName(self, key.rawValue)
     }
@@ -133,7 +158,45 @@ public extension CTFont {
         return (name, lan!.takeUnretainedValue())
     }
     
-    // MARK: -
+    // MARK: encoding
+    
+    /// Returns the Unicode character set of the font.
+    ///
+    /// The returned character set covers the nominal referenced by the font's Unicode 'cmap’ table.
+    @inlinable func characterSet() -> CFCharacterSet { return CTFontCopyCharacterSet(self) }
+    
+    /// Returns the best string encoding for legacy format support.
+    @inlinable var stringEncoding: CFStringEncoding { return CTFontGetStringEncoding(self) }
+    
+    /// Returns an array of languages supported by the font.
+    ///
+    /// A retained reference to an array of languages supported by the font. The array contains language
+    /// identifier strings as CFStringRef objects. The format of the language identifier conforms to the RFC
+    /// 3066bis standard.
+    @inlinable func supportedLanguages() -> [CFString] { return CTFontCopySupportedLanguages(self) as! [CFString] }
+    
+    /// Provides basic Unicode encoding for the given font, returning by reference an array of CGGlyph
+    /// values corresponding to a given array of Unicode characters for the given font.
+    ///
+    /// If a glyph could not be encoded, a value of 0 is passed back at the corresponding index in the glyphs
+    /// array and the function returns False. It is the responsibility of the caller to handle the Unicode
+    /// properties of the input characters.
+    ///
+    /// - Parameter characters: An array of Unicode characters.
+    /// - Returns:
+    ///   - glyphs: On output, points to an array of glyph values.
+    ///   - allMapped: True if the font could encode all Unicode characters; otherwise False.
+    @inlinable func glyphsForCharacters(_ characters: [unichar]) -> (glyphs: [CGGlyph], allMapped: Bool) {
+        guard !characters.isEmpty else { return ([], true) }
+        var allMapped = false
+        let glyphs = Array<CGGlyph>(unsafeUninitializedCapacity: characters.count) { p, count in
+            allMapped = CTFontGetGlyphsForCharacters(self, characters, p.baseAddress!, p.count)
+            count = p.count
+        }
+        return (glyphs, allMapped)
+    }
+    
+    // MARK: metrics
     
     /// The font-ascent metric scaled according to the point size and matrix of the font reference.
     @inlinable var ascent: CGFloat { return CTFontGetAscent(self) }
@@ -146,6 +209,9 @@ public extension CTFont {
     
     /// The units per em of the font.
     @inlinable var unitsPerEm: UInt32 { return CTFontGetUnitsPerEm(self) }
+    
+    /// The number of glyphs in the font.
+    @inlinable var glyphCount: CFIndex { return CTFontGetGlyphCount(self) }
     
     /// The design bounding box of the font, which is the rectangle defined by xMin, yMin, xMax, and yMax
     /// values for the font. Returns null on error.
@@ -167,7 +233,7 @@ public extension CTFont {
     /// The font x-height metric scaled according to the point size and matrix of the font reference.
     @inlinable var xHeight: CGFloat { return CTFontGetXHeight(self) }
     
-    // MARK: -
+    // MARK: glyph
     
     /// Returns the CGGlyph value for the specified glyph name in the given font.
     ///

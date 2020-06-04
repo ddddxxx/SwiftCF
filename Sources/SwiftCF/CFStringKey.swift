@@ -11,7 +11,7 @@ public extension CFStringKey {
     }
     
     init(stringLiteral value: String) {
-        self.init(value as CFString)
+        self.init(.from(value))
     }
     
     var description: String {

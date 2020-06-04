@@ -67,3 +67,7 @@ public extension CFTollFreeBridgingNSType where Self: CFMutableType {
         return cfCast(v, to: Self.self)
     }
 }
+
+@inlinable public func cfUnwrap(_ v: CFTypeRef) -> CFTypeRef? {
+    return kCFNull.cfEqual(to: v) ? nil : v
+}

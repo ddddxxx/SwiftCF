@@ -13,7 +13,7 @@ public extension CATransform3D {
         }
     }
     
-    // MAKE: creat
+    // MARK: create
     
     @inlinable init() {
         self = .identity
@@ -77,7 +77,7 @@ public extension CATransform3D {
     
     // MARK: mutate
     
-    @inlinable mutating func inverte() {
+    @inlinable mutating func invert() {
         self = inverse
     }
     

@@ -24,8 +24,8 @@ public extension CFCopying {
         return copy(allocator: allocator)
     }
     
-    @inlinable func copy(allocator: CFAllocator = .default) -> CopyType {
-        return copy(allocator: allocator)
+    @inlinable func copy() -> CopyType {
+        return copy(allocator: .default)
     }
 }
 

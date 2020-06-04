@@ -11,7 +11,7 @@ public extension CTFramesetter {
     /// constructed using specific options.
     ///
     /// - Parameter typesetter: The typesetter to be used by the newly created framesetter.
-    @available(macOS 10.14, iOS 12.0, tvOS 12.0, *, watchOS 5.0)
+    @available(macOS 10.14, iOS 12.0, tvOS 12.0, watchOS 5.0, *)
     @inlinable static func create(typesetter: CTTypesetter) -> CTFramesetter {
         return CTFramesetterCreateWithTypesetter(typesetter)
     }

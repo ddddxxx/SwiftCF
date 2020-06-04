@@ -4,6 +4,13 @@ import CoreText
 
 public extension CTLine {
     
+    /// Options for getting the bounds of a line of text.
+    typealias BoundsOptions = CTLineBoundsOptions
+    
+    /// Truncation types required by the CTLine.truncated(width:type:token:) function to tell the truncation
+    /// engine which type of truncation is being requested.
+    typealias TruncationType = CTLineTruncationType
+    
     /// Creates a single immutable line object directly from an attributed string.
     ///
     /// This function allows clients who need very simple line generation to create a line without creating a
@@ -29,7 +36,7 @@ public extension CTLine {
     ///   - token: This token is added at the point where truncation took place, to indicate that the line
     ///   was truncated. Usually, the truncation token is the ellipsis character (U+2026). If this parameter is
     ///   set to NULL, then no truncation token is used and the line is simply cut off.
-    @inlinable func truncated(width: Double, type: CTLineTruncationType, token: CTLine?) -> CTLine? {
+    @inlinable func truncated(width: Double, type: TruncationType, token: CTLine?) -> CTLine? {
         return CTLineCreateTruncatedLine(self, width, type, token)
     }
     
@@ -73,12 +80,28 @@ public extension CTLine {
     }
     
     /// Calculates the typographic bounds of a line.
-    @inlinable var typographicBounds: (typographicBounds: Double, ascent: CGFloat, descent: CGFloat, leading: CGFloat) {
+    ///
+    /// - width: The typographic width of the line. If the line is invalid, this function returns 0.
+    /// - ascent: On output, the ascent of the line.
+    /// - descent: On output, the descent of the line.
+    /// - leading: On output, the leading of the line.
+    @inlinable var typographicBounds: (width: Double, ascent: CGFloat, descent: CGFloat, leading: CGFloat) {
         var ascent: CGFloat = 0
         var descent: CGFloat = 0
         var leading: CGFloat = 0
-        let typographicBounds = CTLineGetTypographicBounds(self, &ascent, &descent, &leading)
-        return (typographicBounds, ascent, descent, leading)
+        let width = CTLineGetTypographicBounds(self, &ascent, &descent, &leading)
+        return (width, ascent, descent, leading)
+    }
+    
+    /// Calculates the bounds for a line.
+    ///
+    /// The bounds of the line as specified by the type and options, such that the coordinate origin is
+    /// coincident with the line origin and the rect origin is at the bottom left. If the line is invalid, this function
+    /// will return null.
+    ///
+    /// - Parameter options: Desired options or 0 if none.
+    @inlinable func bounds(options: BoundsOptions = []) -> CGRect {
+        return CTLineGetBoundsWithOptions(self, options)
     }
     
     /// Returns the trailing whitespace width for a line.
@@ -90,17 +113,15 @@ public extension CTLine {
         return CTLineGetTrailingWhitespaceWidth(self)
     }
     
-    /// Calculates the bounds for a line.
-    /// - Parameter options: Desired options or 0 if none.
-    @inlinable func bounds(options: CTLineBoundsOptions = []) -> CGRect {
-        return CTLineGetBoundsWithOptions(self, options)
-    }
-    
     /// Calculates the image bounds for a line.
+    ///
+    /// A rectangle that tightly encloses the paths of the line's glyphs, or, if the line or context is invalid, null.
+    ///
     /// - Parameter context: The context for which the image bounds are calculated. This is required
     /// because the context could have settings in it that would cause changes in the image bounds.
-    @inlinable func imageBounds(context: CGContext) -> CGRect {
-        return CTLineGetImageBounds(self, context)
+    @inlinable func imageBounds(context: CGContext) -> CGRect? {
+        let bounds = CTLineGetImageBounds(self, context)
+        return bounds.isNull ? nil : bounds
     }
     
     /// Performs hit testing.
@@ -133,7 +154,7 @@ public extension CTLine {
     ///   caret is sufficient for a string index, this value will be the same as the primary offset, which is the
     ///   return value of this function. May be NULL.
     @inlinable func offset(charIndex: CFIndex) -> (primary: CGFloat, secondary: CGFloat) {
-        var secondary = CGFloat()
+        var secondary: CGFloat = 0
         let primary = CTLineGetOffsetForStringIndex(self, charIndex, &secondary)
         return (primary, secondary)
     }
@@ -144,10 +165,12 @@ public extension CTLine {
     /// 
     /// - Parameter block: The offset parameter is relative to the line origin. The leadingEdge
     /// parameter of this block refers to logical order.
-    @available(macOS 10.11, iOS 9.0, tvOS 9.0, *, watchOS 2.0)
-    @inlinable func enumerateCaretOffsets(_ block: (_ offset: Double, _ charIndex: CFIndex, _ leadingEdge: Bool, _ stop: UnsafeMutablePointer<Bool>) -> Void) {
+    @available(macOS 10.11, iOS 9.0, tvOS 9.0, watchOS 2.0, *)
+    @inlinable func enumerateCaretOffsets(_ block: (_ offset: Double, _ charIndex: CFIndex, _ leadingEdge: Bool, _ stop: inout Bool) -> Void) {
         withoutActuallyEscaping(block) { block in
-            CTLineEnumerateCaretOffsets(self, block)
+            CTLineEnumerateCaretOffsets(self) { (offset, charIndex, leadingEdge, stop) in
+                block(offset, charIndex, leadingEdge, &stop.pointee)
+            }
         }
     }
     

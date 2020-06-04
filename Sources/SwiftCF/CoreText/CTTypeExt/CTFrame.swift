@@ -5,10 +5,10 @@ import CoreText
 public extension CTFrame {
     
     /// The type for constants that specify a fill rule used by a frame.
-    public typealias PathFillRule = CTFramePathFillRule
+    typealias PathFillRule = CTFramePathFillRule
     
     /// These constants specify frame progression types.
-    public typealias Progression = CTFrameProgression
+    typealias Progression = CTFrameProgression
     
     /// Returns the range of characters originally requested to fill the frame.
     @inlinable var stringRange: CFRange {
