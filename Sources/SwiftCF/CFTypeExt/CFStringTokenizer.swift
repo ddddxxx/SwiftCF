@@ -5,12 +5,10 @@ public extension CFStringTokenizer {
     enum Attribute: CFOptionFlags {
         
         /// `kCFStringTokenizerAttributeLatinTranscription`
-        /// `1 << 16`
-        case latinTranscription = 0b10000000000000000
+        case latinTranscription = 0b1_0000_0000_0000_0000
         
         /// `kCFStringTokenizerAttributeLanguage`
-        /// `1 << 17`
-        case language = 0b100000000000000000
+        case language = 0b10_0000_0000_0000_0000
     }
     
     enum Unit: CFOptionFlags {

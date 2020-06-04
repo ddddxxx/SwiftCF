@@ -4,6 +4,7 @@ import CoreText
 
 extension CTFont {
     
+    /// Name specifier constants provide access to the different names associated with a font.
     public struct NameKey: CFStringKey {
         
         public let rawValue: CFString
