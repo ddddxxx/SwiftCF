@@ -11,11 +11,11 @@ public extension CFStringKey {
     }
     
     init(stringLiteral value: String) {
-        self.init(.from(value))
+        self.init(value as CFString)
     }
     
     var description: String {
-        return rawValue.asSwift
+        return rawValue as String
     }
     
     var debugDescription: String {
@@ -23,11 +23,11 @@ public extension CFStringKey {
     }
     
     func _bridgeToObjectiveC() -> NSString {
-        return rawValue.asNS
+        return rawValue as NSString
     }
     
     static func _forceBridgeFromObjectiveC(_ source: NSString, result: inout Self?) {
-        result = .init(.from(source))
+        result = .init(source as CFString)
     }
     
     static func _conditionallyBridgeFromObjectiveC(_ source: NSString, result: inout Self?) -> Bool {
@@ -36,6 +36,6 @@ public extension CFStringKey {
     }
     
     static func _unconditionallyBridgeFromObjectiveC(_ source: NSString?) -> Self {
-        return .init(.from(source!))
+        return .init(source! as CFString)
     }
 }
