@@ -18,7 +18,8 @@ extension CTFontCollection.OptionKey {
     
     /// Option key to specify filtering of duplicates.
     ///
-    /// Specify this option key in the options dictionary with a non- zero value to enable automatic filtering of duplicate font descriptors.
+    /// Specify this option key in the options dictionary with a non- zero value
+    /// to enable automatic filtering of duplicate font descriptors.
     static let removeDuplicates = kCTFontCollectionRemoveDuplicatesOption as CTFontCollection.OptionKey
 }
 

@@ -17,8 +17,9 @@ public extension CTFrame {
     
     /// Returns the range of characters that actually fit in the frame.
     ///
-    /// This function can be used to cascade frames, because it returns the range of characters that can be
-    /// seen in the frame. The next frame would start where this frame ends.
+    /// This function can be used to cascade frames, because it returns the
+    /// range of characters that can be seen in the frame. The next frame would
+    /// start where this frame ends.
     @inlinable var visibleStringRange: CFRange {
         return CTFrameGetVisibleStringRange(self)
     }
@@ -30,7 +31,9 @@ public extension CTFrame {
     
     /// Returns the frame attributes used to create the frame.
     ///
-    /// You can create a frame with an attributes dictionary to control various aspects of the framing process. These attributes are different from the ones used to create an attributed string.
+    /// You can create a frame with an attributes dictionary to control various
+    /// aspects of the framing process. These attributes are different from the
+    /// ones used to create an attributed string.
     @inlinable var frameAttributes: [AttributeKey: Any] {
         return CTFrameGetFrameAttributes(self) as! [AttributeKey: Any]? ?? [:]
     }
@@ -42,12 +45,22 @@ public extension CTFrame {
     
     /// Copies a range of line origins for a frame.
     ///
-    /// This function copies a range of CGPoint structures into the origins buffer. The maximum number of
-    /// line origins this function will copy into the origins buffer is the count of the array of lines (the length of
-    /// the range parameter).
+    /// This function copies a range of CGPoint structures into the origins
+    /// buffer. The maximum number of line origins this function will copy into
+    /// the origins buffer is the count of the array of lines (the length of the
+    /// range parameter).
     ///
-    /// - Parameter range: The range of line origins you wish to copy. If the length of the range is 0,
-    /// then the copy operation continues from the start index of the range to the last line origin.
+    /// - Parameter range: The range of line origins you wish to copy. If the
+    /// length of the range is 0, then the copy operation continues from the
+    /// start index of the range to the last line origin.
+    /// - Returns: The buffer to which the origins will be copied. When using
+    /// the origins to calculate measurements for a frame's contents, remember
+    /// that line origins do not always correspond to line metrics; paragraph
+    /// style settings can affect line origins, for one. The overall typographic
+    /// bounds of a frame may generally be calculated as the difference between
+    /// the top of the frame and the descent of the last line. This will
+    /// obviously exclude any spacing following the last line, but such spacing
+    /// has no effect on framesetting in the first place.
     @inlinable func lineOrigins(range: CFRange) -> [CGPoint] {
         var arr = [CGPoint](repeating: .zero, count: range.length)
         CTFrameGetLineOrigins(self, range, &arr)
@@ -56,8 +69,9 @@ public extension CTFrame {
     
     /// Draws an entire frame into a context.
     ///
-    /// If both the frame and the context are valid, the frame is drawn in the context. This call can leave the
-    /// context in any state and does not flush it after the draw operation.
+    /// If both the frame and the context are valid, the frame is drawn in the
+    /// context. This call can leave the context in any state and does not flush
+    /// it after the draw operation.
     ///
     /// - Parameter context: The context in which to draw the frame.
     @inlinable func draw(in context: CGContext) {

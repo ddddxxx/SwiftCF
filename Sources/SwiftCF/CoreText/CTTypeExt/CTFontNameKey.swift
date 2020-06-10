@@ -4,7 +4,8 @@ import CoreText
 
 extension CTFont {
     
-    /// Name specifier constants provide access to the different names associated with a font.
+    /// Name specifier constants provide access to the different names
+    /// associated with a font.
     public struct NameKey: CFStringKey {
         
         public let rawValue: CFString
@@ -26,7 +27,8 @@ public extension CTFont.NameKey {
     static let style = kCTFontStyleNameKey as CTFont.NameKey
     /// The name specifier for the unique name.
     ///
-    /// Note that this name is often not unique and should not be assumed to be truly unique.
+    /// Note that this name is often not unique and should not be assumed to be
+    /// truly unique.
     static let unique = kCTFontUniqueNameKey as CTFont.NameKey
     /// The name specifier for the full name.
     static let full = kCTFontFullNameKey as CTFont.NameKey

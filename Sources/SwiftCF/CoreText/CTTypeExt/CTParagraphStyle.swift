@@ -6,8 +6,9 @@ public extension CFAttributedString.Key {
     
     /// The paragraph style of the text to which this attribute applies.
     ///
-    /// A paragraph style object is used to specify things like line alignment, tab rulers, writing direction, and
-    /// so on. Value must be a CTParagraphStyle object. Default is an empty CTParagraphStyle object.
+    /// A paragraph style object is used to specify things like line alignment,
+    /// tab rulers, writing direction, and so on. Value must be a
+    /// CTParagraphStyle object. Default is an empty CTParagraphStyle object.
     static let ctParagraphStyle = kCTParagraphStyleAttributeName as CFAttributedString.Key
 }
 
@@ -18,14 +19,20 @@ public extension CTParagraphStyle {
     
     /// Creates an immutable paragraph style.
     ///
-    /// Using this function is the easiest and most efficient way to create a paragraph style. Paragraph
-    /// styles should be kept immutable for totally lock-free operation. If an invalid paragraph style setting
-    /// specifier is passed into the settings parameter, nothing bad will happen, but you will be unable to
-    /// query for this value. The reason is to allow backward compatibility with style setting specifiers that
-    /// may be introduced in future versions.
+    /// Using this function is the easiest and most efficient way to create a
+    /// paragraph style. Paragraph styles should be kept immutable for totally
+    /// lock-free operation. If an invalid paragraph style setting specifier is
+    /// passed into the settings parameter, nothing bad will happen, but you
+    /// will be unable to query for this value. The reason is to allow backward
+    /// compatibility with style setting specifiers that may be introduced in
+    /// future versions.
     ///
-    /// - Parameter settings: The settings with which to preload the paragraph style. If you want to
-    /// specify the default set of settings, set this parameter to NULL.
+    /// - Parameter settings: The settings with which to preload the paragraph
+    /// style. If you want to specify the default set of settings, set this
+    /// parameter to NULL.
+    /// - Returns: If the paragraph style creation was successful, this function
+    /// will return a valid reference to an immutable CTParagraphStyle object.
+    /// Otherwise, this function will return NULL.
     @inlinable static func create(settings: [Setting]) -> CTParagraphStyle {
         return settings.withUnsafeBufferPointer { buffer in
             CTParagraphStyleCreate(buffer.baseAddress, buffer.count)
@@ -34,11 +41,13 @@ public extension CTParagraphStyle {
     
     /// Obtains the current value for a single setting specifier.
     ///
-    /// This function returns the current value of the specifier whether or not the user actually set it. If the
-    /// user did not set the specifier, this function returns the default value. If an invalid paragraph style
-    /// setting specifier is passed into the spec parameter, nothing bad happens, and the buffer value is
-    /// simply zeroed out. The reason is to allow backward compatibility with style setting specifiers that
-    /// may be introduced in future versions.
+    /// This function returns the current value of the specifier whether or not
+    /// the user actually set it. If the user did not set the specifier, this
+    /// function returns the default value. If an invalid paragraph style
+    /// setting specifier is passed into the spec parameter, nothing bad
+    /// happens, and the buffer value is simply zeroed out. The reason is to
+    /// allow backward compatibility with style setting specifiers that may be
+    /// introduced in future versions.
     ///
     /// - Parameters:
     ///   - specifier: The setting specifier for which to get the value.

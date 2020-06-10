@@ -23,8 +23,8 @@ public extension CTFont.Priority {
     static let computer = CTFont.Priority(rawValue: UInt32(truncatingIfNeeded: kCTFontPriorityComputer))
     /// Priority of local fonts (located in user's Library/Fonts).
     static let user = CTFont.Priority(rawValue: UInt32(truncatingIfNeeded: kCTFontPriorityUser))
-    /// Priority of fonts registered dynamically, not located in a standard location (either
-    /// kCTFontManagerScopeUser, or kCTFontManagerScopeSession).
+    /// Priority of fonts registered dynamically, not located in a standard
+    /// location (either kCTFontManagerScopeUser, or kCTFontManagerScopeSession).
     static let dynamic = CTFont.Priority(rawValue: UInt32(truncatingIfNeeded: kCTFontPriorityDynamic))
     /// Priority of fonts registered for the process (kCTFontManagerScopeProcess).
     static let process = CTFont.Priority(rawValue: UInt32(truncatingIfNeeded: kCTFontPriorityProcess))
