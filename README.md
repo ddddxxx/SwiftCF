@@ -10,6 +10,7 @@ Wrapped frameworks:
 - [x] CoreGraphics
 - [x] CoreText
 - [x] ImageIO
+- [x] IOKit
 - [ ] CoreMedia
 - [ ] CoreVideo
 - [ ] CFNetwork
