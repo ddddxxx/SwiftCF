@@ -257,7 +257,7 @@ public extension IOHIDQueue {
     func registerValueAvailableCallback(_ callback: @escaping HIDCallback<IOHIDQueue>) -> HIDCallbackToken {
         let ctx = HIDCallbackContext<IOHIDQueue>(callback)
         let pctx = Unmanaged.passUnretained(ctx).toOpaque()
-        self.registerValueAvailableCallback(context: pctx) { ctx, result, sender in
+        registerValueAvailableCallback(context: pctx) { ctx, result, sender in
             Unmanaged<HIDCallbackContext<IOHIDQueue>>
                 .fromOpaque(ctx!)
                 .takeUnretainedValue()

@@ -107,4 +107,21 @@ class HIDReportWithTimeStampCallbackContext<Sender>: HIDCallbackToken {
     }
 }
 
+public typealias HIDDeviceCallback<Sender> = (_ device: IOHIDDevice, _ error: IOError?, _ sender: Sender?) -> Void
+
+class HIDDeviceCallbackContext<Sender>: HIDCallbackToken {
+    
+    let callback: HIDDeviceCallback<Sender>
+    
+    init(_ callback: @escaping HIDDeviceCallback<Sender>) {
+        self.callback = callback
+    }
+    
+    func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, device: IOHIDDevice) {
+        let sender = sender?.assumingMemoryBound(to: Sender.self).pointee
+        let error = IOError(rawValue: result)
+        callback(device, error, sender)
+    }
+}
+
 #endif // canImport(IOKit)

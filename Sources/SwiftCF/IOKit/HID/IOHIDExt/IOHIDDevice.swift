@@ -569,7 +569,7 @@ public extension IOHIDDevice {
     func registerRemovalCallback(_ callback: @escaping HIDCallback<IOHIDDevice>) -> HIDCallbackToken {
         let ctx = HIDCallbackContext<IOHIDDevice>(callback)
         let pctx = Unmanaged.passUnretained(ctx).toOpaque()
-        self.registerRemovalCallback(context: pctx) { ctx, result, sender in
+        registerRemovalCallback(context: pctx) { ctx, result, sender in
             Unmanaged<HIDCallbackContext<IOHIDDevice>>
                 .fromOpaque(ctx!)
                 .takeUnretainedValue()
@@ -595,7 +595,7 @@ public extension IOHIDDevice {
     func registerInputValueCallback(_ callback: @escaping HIDValueCallback<IOHIDDevice>) -> HIDCallbackToken {
         let ctx = HIDValueCallbackContext<IOHIDDevice>(callback)
         let pctx = Unmanaged.passUnretained(ctx).toOpaque()
-        self.registerInputValueCallback(context: pctx) { ctx, result, sender, value in
+        registerInputValueCallback(context: pctx) { ctx, result, sender, value in
             Unmanaged<HIDValueCallbackContext<IOHIDDevice>>
                 .fromOpaque(ctx!)
                 .takeUnretainedValue()
@@ -618,7 +618,7 @@ public extension IOHIDDevice {
     /// as long as the callback is registed.
     func registerInputReportCallback(_ callback: @escaping HIDReportCallback<IOHIDDevice>, reportSize: CFIndex) -> HIDCallbackToken {
         let ctx = HIDReportCallbackContext<IOHIDDevice>(reportSize: reportSize, callback)
-        self.registerInputReportCallback(
+        registerInputReportCallback(
             report: ctx.reportBuffer.baseAddress!,
             reportLength: ctx.reportBuffer.count,
             context: Unmanaged.passUnretained(ctx).toOpaque()
@@ -653,7 +653,7 @@ public extension IOHIDDevice {
     /// as long as the callback is registed.
     func registerInputReportWithTimeStampCallback(_ callback: @escaping HIDReportWithTimeStampCallback<IOHIDDevice>, reportSize: CFIndex) -> HIDCallbackToken {
         let ctx = HIDReportWithTimeStampCallbackContext<IOHIDDevice>(reportSize: reportSize, callback)
-        self.registerInputReportWithTimeStampCallback(
+        registerInputReportWithTimeStampCallback(
             report: ctx.reportBuffer.baseAddress!,
             reportLength: ctx.reportBuffer.count,
             context: Unmanaged.passUnretained(ctx).toOpaque()

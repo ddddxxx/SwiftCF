@@ -231,7 +231,73 @@ public extension IOHIDManager {
         return IOHIDManagerCopyDevices(self) as! Set<IOHIDDevice>? ?? []
     }
     
-    // TODO: register callbacks
+    /// Registers a callback to be used a device is enumerated.
+    ///
+    /// Only device matching the set criteria will be enumerated. If a dispatch
+    /// queue is set, this call must occur before activation. Devices provided
+    /// in the callback will be scheduled with the same runloop/dispatch queue
+    /// as the IOHIDManagerRef, and should not be rescheduled.
+    ///
+    /// - Parameters:
+    ///   - context: Pointer to data to be passed to the callback.
+    ///   - callback: Pointer to a callback method of type IOHIDDeviceCallback.
+    @inlinable func registerDeviceMatchingCallback(context: UnsafeMutableRawPointer?, callback: IOHIDDeviceCallback?) {
+        IOHIDManagerRegisterDeviceMatchingCallback(self, callback, context)
+    }
+    
+    /// Registers a callback to be used when any enumerated device is removed.
+    ///
+    /// In most cases this occurs when a device is unplugged. If a dispatch
+    /// queue is set, this call must occur before activation.
+    ///
+    /// - Parameters:
+    ///   - context: Pointer to data to be passed to the callback.
+    ///   - callback: Pointer to a callback method of type IOHIDDeviceCallback.
+    @inlinable func registerDeviceRemovalCallback(context: UnsafeMutableRawPointer?, callback: IOHIDDeviceCallback?) {
+        IOHIDManagerRegisterDeviceRemovalCallback(self, callback, context)
+    }
+    
+    /// Registers a callback to be used when an input report is issued by any
+    /// enumerated device.
+    ///
+    /// An input report is an interrupt driver report issued by a device. If a
+    /// dispatch queue is set, this call must occur before activation.
+    ///
+    /// - Parameters:
+    ///   - context: Pointer to data to be passed to the callback.
+    ///   - callback: Pointer to a callback method of type IOHIDReportCallback.
+    @inlinable func registerInputReportCallback(context: UnsafeMutableRawPointer?, callback: IOHIDReportCallback?) {
+        IOHIDManagerRegisterInputReportCallback(self, callback, context)
+    }
+    
+    /// Registers a callback to be used when an input report is issued by any
+    /// enumerated device.
+    ///
+    /// An input report is an interrupt driver report issued by a device. If a
+    /// dispatch queue is set, this call must occur before activation.
+    ///
+    /// - Parameters:
+    ///   - context: Pointer to data to be passed to the callback.
+    ///   - callback: Pointer to a callback method of type
+    ///   IOHIDReportWithTimeStampCallback.
+    @available(OSX 10.15, *)
+    @inlinable func registerInputReportWithTimeStampCallback(context: UnsafeMutableRawPointer?, callback: @escaping IOHIDReportWithTimeStampCallback) {
+        IOHIDManagerRegisterInputReportWithTimeStampCallback(self, callback, context)
+    }
+    
+    /// Registers a callback to be used when an input value is issued by any
+    /// enumerated device.
+    ///
+    /// An input element refers to any element of type kIOHIDElementTypeInput
+    /// and is usually issued by interrupt driven reports. If a dispatch queue
+    /// is set, this call must occur before activation.
+    ///
+    /// - Parameters:
+    ///   - context: Pointer to data to be passed to the callback.
+    ///   - callback: Pointer to a callback method of type IOHIDValueCallback.
+    @inlinable func registerInputValueCallback(context: UnsafeMutableRawPointer?, callback: @escaping IOHIDValueCallback) {
+        IOHIDManagerRegisterInputValueCallback(self, callback, context)
+    }
     
     /// Sets matching criteria for input values received via
     /// IOHIDManagerRegisterInputValueCallback.
@@ -276,6 +342,137 @@ public extension IOHIDManager {
     /// - parameter options: Reserved for future use.
     @inlinable func saveToPropertyDomain(applicationID: CFString, userName: CFString, hostName: CFString, options: Options = []) {
         IOHIDManagerSaveToPropertyDomain(self, applicationID, userName, hostName, options.rawValue)
+    }
+}
+
+public extension IOHIDManager {
+    
+    /// Registers a callback to be used a device is enumerated.
+    ///
+    /// Only device matching the set criteria will be enumerated. If a dispatch
+    /// queue is set, this call must occur before activation. Devices provided
+    /// in the callback will be scheduled with the same runloop/dispatch queue
+    /// as the IOHIDManagerRef, and should not be rescheduled.
+    ///
+    /// - Parameters:
+    ///   - callback: Pointer to a callback method of type HIDDeviceCallback.
+    /// - Returns: Callback token. You're responsible to keep this object alive
+    /// as long as the callback is registed.
+    func registerDeviceMatchingCallback(callback: @escaping HIDDeviceCallback<IOHIDManager>) -> HIDCallbackToken {
+        let ctx = HIDDeviceCallbackContext<IOHIDManager>(callback)
+        let pctx = Unmanaged.passUnretained(ctx).toOpaque()
+        registerDeviceMatchingCallback(context: pctx) { ctx, result, sender, device in
+            Unmanaged<HIDDeviceCallbackContext<IOHIDManager>>
+                .fromOpaque(ctx!)
+                .takeUnretainedValue()
+                .callAsFunction(result: result, sender: sender, device: device)
+        }
+        return ctx
+    }
+    
+    /// Registers a callback to be used when any enumerated device is removed.
+    ///
+    /// In most cases this occurs when a device is unplugged. If a dispatch
+    /// queue is set, this call must occur before activation.
+    ///
+    /// - Parameters:
+    ///   - callback: Pointer to a callback method of type HIDDeviceCallback.
+    /// - Returns: Callback token. You're responsible to keep this object alive
+    /// as long as the callback is registed.
+    func registerDeviceRemovalCallback(callback: @escaping HIDDeviceCallback<IOHIDManager>) -> HIDCallbackToken {
+        let ctx = HIDDeviceCallbackContext<IOHIDManager>(callback)
+        let pctx = Unmanaged.passUnretained(ctx).toOpaque()
+        registerDeviceRemovalCallback(context: pctx) { ctx, result, sender, device in
+            Unmanaged<HIDDeviceCallbackContext<IOHIDManager>>
+                .fromOpaque(ctx!)
+                .takeUnretainedValue()
+                .callAsFunction(result: result, sender: sender, device: device)
+        }
+        return ctx
+    }
+    
+    /// Registers a callback to be used when an input report is issued by any
+    /// enumerated device.
+    ///
+    /// An input report is an interrupt driver report issued by a device. If a
+    /// dispatch queue is set, this call must occur before activation.
+    ///
+    /// - Parameters:
+    ///   - callback: Pointer to a callback method of type HIDReportCallback.
+    /// - Returns: Callback token. You're responsible to keep this object alive
+    /// as long as the callback is registed.
+    func registerInputReportCallback(callback: @escaping HIDReportCallback<IOHIDManager>) -> HIDCallbackToken {
+        let ctx = HIDReportCallbackContext<IOHIDManager>(reportSize: 0, callback)
+        let pctx = Unmanaged.passUnretained(ctx).toOpaque()
+        registerInputReportCallback(context: pctx) { ctx, result, sender, type, reportID, report, reportLength in
+            Unmanaged<HIDReportCallbackContext<IOHIDManager>>
+                .fromOpaque(ctx!)
+                .takeUnretainedValue()
+                .callAsFunction(
+                    result: result,
+                    sender: sender,
+                    type: type,
+                    reportID: reportID,
+                    report: report,
+                    reportLength: reportLength
+                )
+        }
+        return ctx
+    }
+    
+    /// Registers a callback to be used when an input report is issued by any
+    /// enumerated device.
+    ///
+    /// An input report is an interrupt driver report issued by a device. If a
+    /// dispatch queue is set, this call must occur before activation.
+    ///
+    /// - Parameters:
+    ///   - callback: Pointer to a callback method of type
+    ///   HIDReportWithTimeStampCallback.
+    /// - Returns: Callback token. You're responsible to keep this object alive
+    /// as long as the callback is registed.
+    @available(OSX 10.15, *)
+    func registerInputReportWithTimeStampCallback(callback: @escaping HIDReportWithTimeStampCallback<IOHIDManager>) -> HIDCallbackToken {
+        let ctx = HIDReportWithTimeStampCallbackContext<IOHIDManager>(reportSize: 0, callback)
+        let pctx = Unmanaged.passUnretained(ctx).toOpaque()
+        registerInputReportWithTimeStampCallback(context: pctx) { ctx, result, sender, type, reportID, report, reportLength, timeStamp in
+            Unmanaged<HIDReportWithTimeStampCallbackContext<IOHIDManager>>
+                .fromOpaque(ctx!)
+                .takeUnretainedValue()
+                .callAsFunction(
+                    result: result,
+                    sender: sender,
+                    type: type,
+                    reportID: reportID,
+                    report: report,
+                    reportLength: reportLength,
+                    timeStamp: timeStamp
+                )
+        }
+        return ctx
+    }
+    
+    /// Registers a callback to be used when an input value is issued by any
+    /// enumerated device.
+    ///
+    /// An input element refers to any element of type kIOHIDElementTypeInput
+    /// and is usually issued by interrupt driven reports. If a dispatch queue
+    /// is set, this call must occur before activation.
+    ///
+    /// - Parameters:
+    ///   - callback: Pointer to a callback method of type HIDValueCallback.
+    /// - Returns: Callback token. You're responsible to keep this object alive
+    /// as long as the callback is registed.
+    func registerInputValueCallback(callback: @escaping HIDValueCallback<IOHIDManager>) -> HIDCallbackToken {
+        let ctx = HIDValueCallbackContext<IOHIDManager>(callback)
+        let pctx = Unmanaged.passUnretained(ctx).toOpaque()
+        registerInputValueCallback(context: pctx) { ctx, result, sender, value in
+            Unmanaged<HIDValueCallbackContext<IOHIDManager>>
+                .fromOpaque(ctx!)
+                .takeUnretainedValue()
+                .callAsFunction(result: result, sender: sender, value: value)
+        }
+        return ctx
     }
 }
 
