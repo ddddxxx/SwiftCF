@@ -172,7 +172,6 @@ public extension IOHIDTransaction {
     /// In regards to .output direction, default element values will be
     /// preserved.
     @inlinable func clear() {
-        IOHIDDeviceTransactionInterface
         IOHIDTransactionClear(self)
     }
 }

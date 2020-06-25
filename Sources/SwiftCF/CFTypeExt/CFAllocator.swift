@@ -19,7 +19,7 @@ public extension CFAllocator {
     
     /// Set an allocator as the default in a nested fashion.
     @inlinable func withDefaultAllocator(do body: () throws -> Void) rethrows {
-        var previous = CFAllocator.default
+        let previous = CFAllocator.default
         CFAllocator.default = self
         defer {
             CFAllocator.default = previous
