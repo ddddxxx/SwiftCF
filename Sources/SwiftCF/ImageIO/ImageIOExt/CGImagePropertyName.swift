@@ -132,7 +132,7 @@ public extension CGImage.PropertyName {
     static let exifMakerNote = kCGImagePropertyExifMakerNote as CGImage.PropertyName
     static let exifUserComment = kCGImagePropertyExifUserComment as CGImage.PropertyName
     static let exifSubsecTime = kCGImagePropertyExifSubsecTime as CGImage.PropertyName
-    @available(macOS 10.11, iOS 9.0, tvOS 9.0, watchOS 2.0, *)
+    @available(macOS 10.11, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
     static let exifSubsecTimeOriginal = kCGImagePropertyExifSubsecTimeOriginal as CGImage.PropertyName
     static let exifSubsecTimeDigitized = kCGImagePropertyExifSubsecTimeDigitized as CGImage.PropertyName
     static let exifFlashPixVersion = kCGImagePropertyExifFlashPixVersion as CGImage.PropertyName
@@ -691,6 +691,7 @@ public extension CGImage.PropertyName {
 
 /// For kCGImagePropertyOpenEXRDictionary
 public extension CGImage.PropertyName {
+    @available(iOS 11.3, tvOS 11.3, watchOS 4.3, *)
     static let openEXRAspectRatio = kCGImagePropertyOpenEXRAspectRatio as CGImage.PropertyName
 }
 

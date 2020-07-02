@@ -35,6 +35,7 @@ public extension CGImageMetadata.FormatSpecificDictionary {
     static let _8BIM = kCGImageProperty8BIMDictionary as CGImageMetadata.FormatSpecificDictionary
     static let dng = kCGImagePropertyDNGDictionary as CGImageMetadata.FormatSpecificDictionary
     static let exifAux = kCGImagePropertyExifAuxDictionary as CGImageMetadata.FormatSpecificDictionary
+    @available(iOS 11.3, tvOS 11.3, watchOS 4.3, *)
     static let openEXR = kCGImagePropertyOpenEXRDictionary as CGImageMetadata.FormatSpecificDictionary
     static let makerApple = kCGImagePropertyMakerAppleDictionary as CGImageMetadata.FormatSpecificDictionary
     @available(macOS 10.13, iOS 11.0, tvOS 11.0, watchOS 4.0, *)
