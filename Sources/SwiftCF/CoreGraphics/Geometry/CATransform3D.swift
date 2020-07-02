@@ -13,6 +13,10 @@ public extension CATransform3D {
         }
     }
     
+    @inlinable var isIdentity: Bool {
+        return CATransform3DIsIdentity(self)
+    }
+    
     // MARK: create
     
     @inlinable init() {

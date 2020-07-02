@@ -8,26 +8,21 @@ public extension CGSize {
         return width * height
     }
     
+    @inlinable var aspectRatio: CGFloat {
+        guard height != 0 else { return 0 }
+        return width / height
+    }
+    
     @inlinable func aspectFit(to size: CGSize) -> CGSize {
         let xScale = size.width / width
         let yScale = size.height / height
         return self * min(xScale, yScale)
     }
     
-    @inlinable var aspectFitSquare: CGSize {
-        let minSide = min(width, height)
-        return CGSize(width: minSide, height: minSide)
-    }
-    
     @inlinable func aspectFill(to size: CGSize) -> CGSize {
         let xScale = size.width / width
         let yScale = size.height / height
         return self * max(xScale, yScale)
-    }
-    
-    @inlinable var aspectFillSquare: CGSize {
-        let maxSide = max(width, height)
-        return CGSize(width: maxSide, height: maxSide)
     }
     
     @inlinable static func +(lhs: CGSize, rhs: CGSize) -> CGSize {
