@@ -30,7 +30,7 @@ public extension IOHIDManager {
     /// device.
     /// - Throws: Throws IOError if failed.
     @inlinable func open(options: Options = []) throws {
-        try IOHIDManagerOpen(self, options.rawValue).throwIfError()
+        try IOHIDManagerOpen(self, options.rawValue).throwIfIOError()
     }
     
     /// Closes the IOHIDManager.
@@ -41,7 +41,7 @@ public extension IOHIDManager {
     /// device.
     /// - Throws: Throws IOError if failed.
     @inlinable func close(options: Options = []) throws {
-        try IOHIDManagerClose(self, options.rawValue).throwIfError()
+        try IOHIDManagerClose(self, options.rawValue).throwIfIOError()
     }
     
     /// Obtains a property of an IOHIDManager.

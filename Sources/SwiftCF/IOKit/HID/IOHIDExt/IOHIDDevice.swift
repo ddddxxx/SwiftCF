@@ -38,7 +38,7 @@ public extension IOHIDDevice {
     /// - Parameter options: Option bits to be sent down to the device.
     /// - Throws: Throws IOError if failed.
     @inlinable func open(options: Options = []) throws {
-        try IOHIDDeviceOpen(self, options.rawValue).throwIfError()
+        try IOHIDDeviceOpen(self, options.rawValue).throwIfIOError()
     }
     
     /// Closes communication with a HID device.
@@ -48,7 +48,7 @@ public extension IOHIDDevice {
     /// - Parameter options: Option bits to be sent down to the device.
     /// - Throws: Throws IOError if failed.
     @inlinable func close(options: Options = []) throws {
-        try IOHIDDeviceClose(self, options.rawValue).throwIfError()
+        try IOHIDDeviceClose(self, options.rawValue).throwIfIOError()
     }
     
     /// Convenience function that scans the Application Collection elements to
@@ -342,7 +342,7 @@ public extension IOHIDDevice {
     ///   - value: IOHIDValueRef containing value to be set.
     /// - Throws: Throws IOError if failed.
     @inlinable func setValue(_ value: IOHIDValue, for element: IOHIDElement) throws {
-        try IOHIDDeviceSetValue(self, element, value).throwIfError()
+        try IOHIDDeviceSetValue(self, element, value).throwIfIOError()
     }
     
     /// Sets multiple values for multiple elements.
@@ -380,7 +380,7 @@ public extension IOHIDDevice {
                 .takeRetainedValue()
                 .callAsFunction(result: result, sender: sender, value: value)
             }, Unmanaged.passRetained(ctx).toOpaque()
-        ).throwIfError()
+        ).throwIfIOError()
     }
     
     /// Sets multiple values for multiple elements and returns status via a
@@ -405,7 +405,7 @@ public extension IOHIDDevice {
                 .takeRetainedValue()
                 .callAsFunction(result: result, sender: sender, values: values)
             }, Unmanaged.passRetained(ctx).toOpaque()
-        ).throwIfError()
+        ).throwIfIOError()
     }
     
     /// Gets a value for an element.
@@ -423,7 +423,7 @@ public extension IOHIDDevice {
         // TODO: avoid allocation
         let pValue = UnsafeMutablePointer<Unmanaged<IOHIDValue>>.allocate(capacity: 1)
         defer { pValue.deallocate() }
-        try IOHIDDeviceGetValue(self, element, pValue).throwIfError()
+        try IOHIDDeviceGetValue(self, element, pValue).throwIfIOError()
         return pValue.pointee.takeUnretainedValue()
     }
     
@@ -445,7 +445,7 @@ public extension IOHIDDevice {
         // TODO: avoid allocation
         let pValue = UnsafeMutablePointer<Unmanaged<IOHIDValue>>.allocate(capacity: 1)
         defer { pValue.deallocate() }
-        try IOHIDDeviceGetValueWithOptions(self, element, pValue, options.rawValue).throwIfError()
+        try IOHIDDeviceGetValueWithOptions(self, element, pValue, options.rawValue).throwIfIOError()
         return pValue.pointee.takeUnretainedValue()
     }
     
@@ -462,7 +462,7 @@ public extension IOHIDDevice {
     /// the values are the requested values.
     @inlinable func values(for elements: [IOHIDElement]) throws -> [IOHIDElement: IOHIDValue] {
         var pValue: Unmanaged<CFDictionary>?
-        try IOHIDDeviceCopyValueMultiple(self, elements as CFArray, &pValue).throwIfError()
+        try IOHIDDeviceCopyValueMultiple(self, elements as CFArray, &pValue).throwIfIOError()
         return pValue!.takeUnretainedValue() as! [IOHIDElement: IOHIDValue]
     }
     
@@ -481,7 +481,7 @@ public extension IOHIDDevice {
     ///   - report: The report bytes to be sent to the device. Must not be empty.
     /// - Throws: Throws IOError if failed.
     @inlinable func setReport(type: IOHIDReportType, id: CFIndex, report: UnsafeBufferPointer<UInt8>) throws {
-        try IOHIDDeviceSetReport(self, type, id, report.baseAddress!, report.count).throwIfError()
+        try IOHIDDeviceSetReport(self, type, id, report.baseAddress!, report.count).throwIfIOError()
     }
     
     /// Sends a report to the device.
@@ -513,7 +513,7 @@ public extension IOHIDDevice {
                     reportLength: reportLength
                 )
             }, Unmanaged.passRetained(ctx).toOpaque()
-        ).throwIfError()
+        ).throwIfIOError()
     }
     
     /// Obtains a report from the device.
@@ -532,7 +532,7 @@ public extension IOHIDDevice {
     /// - Returns: the length of the returned report.
     @inlinable func report(type: IOHIDReportType, id: CFIndex, report: UnsafeMutableBufferPointer<UInt8>) throws -> Int {
         var length = report.count
-        try IOHIDDeviceGetReport(self, type, id, report.baseAddress!, &length).throwIfError()
+        try IOHIDDeviceGetReport(self, type, id, report.baseAddress!, &length).throwIfIOError()
         return length
     }
     
@@ -552,7 +552,7 @@ public extension IOHIDDevice {
                     reportLength: reportLength
                 )
             }, Unmanaged.passRetained(ctx).toOpaque()
-        ).throwIfError()
+        ).throwIfIOError()
     }
 }
 

@@ -133,7 +133,7 @@ public extension IOHIDTransaction {
     ///
     /// - Throws: Throws IOError if failed.
     @inlinable func commit() throws {
-        try IOHIDTransactionCommit(self).throwIfError()
+        try IOHIDTransactionCommit(self).throwIfIOError()
     }
     
     /// Commits element transaction to the device.
@@ -164,7 +164,7 @@ public extension IOHIDTransaction {
                     .callAsFunction(result: result, sender: sender)
             }
         }
-        try IOHIDTransactionCommitWithCallback(self, timeout, pCallback, pContext).throwIfError()
+        try IOHIDTransactionCommitWithCallback(self, timeout, pCallback, pContext).throwIfIOError()
     }
     
     /// Clears element transaction values.

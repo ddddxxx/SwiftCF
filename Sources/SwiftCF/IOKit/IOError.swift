@@ -1,11 +1,10 @@
 #if canImport(IOKit)
 
 import IOKit
-import Foundation
 
 extension IOReturn {
     
-    @usableFromInline func throwIfError() throws {
+    @usableFromInline func throwIfIOError() throws {
         if let err = IOError(rawValue: self) {
             throw err
         }
@@ -130,6 +129,8 @@ public extension IOError {
     /// Should never be seen
     static let invalid = IOError(rawValue: kIOReturnInvalid)!
 }
+
+import Foundation
 
 extension IOError: CustomNSError {
     
