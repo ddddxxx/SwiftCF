@@ -13,13 +13,22 @@ extension kern_return_t {
 
 public struct KernelError: Error, RawRepresentable, Equatable, Hashable {
     
+    public static let errorDomain = "ddddxxx.SwiftCF.KernelError"
+    
     public var rawValue: kern_return_t
     
     public init?(rawValue: kern_return_t) {
-        guard rawValue != KERN_SUCCESS, rawValue < KERN_RETURN_MAX else {
+        guard rawValue != KERN_SUCCESS else {
             return nil
         }
         self.rawValue = rawValue
+    }
+    
+    public var errorDescription: String? {
+        guard let cstr = mach_error_string(rawValue) else {
+            return "Unknown kernel error \(rawValue)"
+        }
+        return String(cString: cstr)
     }
 }
 
@@ -159,80 +168,8 @@ public extension KernelError {
 
 import Foundation
 
-extension KernelError: CustomNSError {
-    
-    public static let errorDomain = "ddddxxx.SwiftCF.Mach"
-    
-    public var errorCode: Int {
-        return Int(rawValue)
-    }
-    
-    public var errorUserInfo: [String: Any] {
-        guard let desc = errorDescription else { return [:] }
-        return [NSLocalizedDescriptionKey: desc]
-    }
-}
+extension KernelError: CustomNSError {}
 
-extension KernelError: LocalizedError {
-    public var localizedDescription: String {
-        switch self.rawValue {
-        case KERN_SUCCESS: return "KERN_SUCCESS"
-        case KERN_INVALID_ADDRESS: return "KERN_INVALID_ADDRESS"
-        case KERN_PROTECTION_FAILURE: return "KERN_PROTECTION_FAILURE"
-        case KERN_NO_SPACE: return "KERN_NO_SPACE"
-        case KERN_INVALID_ARGUMENT: return "KERN_INVALID_ARGUMENT"
-        case KERN_FAILURE: return "KERN_FAILURE"
-        case KERN_RESOURCE_SHORTAGE: return "KERN_RESOURCE_SHORTAGE"
-        case KERN_NOT_RECEIVER: return "KERN_NOT_RECEIVER"
-        case KERN_NO_ACCESS: return "KERN_NO_ACCESS"
-        case KERN_MEMORY_FAILURE: return "KERN_MEMORY_FAILURE"
-        case KERN_MEMORY_ERROR: return "KERN_MEMORY_ERROR"
-        case KERN_ALREADY_IN_SET: return "KERN_ALREADY_IN_SET"
-        case KERN_NOT_IN_SET: return "KERN_NOT_IN_SET"
-        case KERN_NAME_EXISTS: return "KERN_NAME_EXISTS"
-        case KERN_ABORTED: return "KERN_ABORTED"
-        case KERN_INVALID_NAME: return "KERN_INVALID_NAME"
-        case KERN_INVALID_TASK: return "KERN_INVALID_TASK"
-        case KERN_INVALID_RIGHT: return "KERN_INVALID_RIGHT"
-        case KERN_INVALID_VALUE: return "KERN_INVALID_VALUE"
-        case KERN_UREFS_OVERFLOW: return "KERN_UREFS_OVERFLOW"
-        case KERN_INVALID_CAPABILITY: return "KERN_INVALID_CAPABILITY"
-        case KERN_RIGHT_EXISTS: return "KERN_RIGHT_EXISTS"
-        case KERN_INVALID_HOST: return "KERN_INVALID_HOST"
-        case KERN_MEMORY_PRESENT: return "KERN_MEMORY_PRESENT"
-        case KERN_MEMORY_DATA_MOVED: return "KERN_MEMORY_DATA_MOVED"
-        case KERN_MEMORY_RESTART_COPY: return "KERN_MEMORY_RESTART_COPY"
-        case KERN_INVALID_PROCESSOR_SET: return "KERN_INVALID_PROCESSOR_SET"
-        case KERN_POLICY_LIMIT: return "KERN_POLICY_LIMIT"
-        case KERN_INVALID_POLICY: return "KERN_INVALID_POLICY"
-        case KERN_INVALID_OBJECT: return "KERN_INVALID_OBJECT"
-        case KERN_ALREADY_WAITING: return "KERN_ALREADY_WAITING"
-        case KERN_DEFAULT_SET: return "KERN_DEFAULT_SET"
-        case KERN_EXCEPTION_PROTECTED: return "KERN_EXCEPTION_PROTECTED"
-        case KERN_INVALID_LEDGER: return "KERN_INVALID_LEDGER"
-        case KERN_INVALID_MEMORY_CONTROL: return "KERN_INVALID_MEMORY_CONTROL"
-        case KERN_INVALID_SECURITY: return "KERN_INVALID_SECURITY"
-        case KERN_NOT_DEPRESSED: return "KERN_NOT_DEPRESSED"
-        case KERN_TERMINATED: return "KERN_TERMINATED"
-        case KERN_LOCK_SET_DESTROYED: return "KERN_LOCK_SET_DESTROYED"
-        case KERN_LOCK_UNSTABLE: return "KERN_LOCK_UNSTABLE"
-        case KERN_LOCK_OWNED: return "KERN_LOCK_OWNED"
-        case KERN_LOCK_OWNED_SELF: return "KERN_LOCK_OWNED_SELF"
-        case KERN_SEMAPHORE_DESTROYED: return "KERN_SEMAPHORE_DESTROYED"
-        case KERN_RPC_SERVER_TERMINATED: return "KERN_RPC_SERVER_TERMINATED"
-        case KERN_RPC_TERMINATE_ORPHAN: return "KERN_RPC_TERMINATE_ORPHAN"
-        case KERN_RPC_CONTINUE_ORPHAN: return "KERN_RPC_CONTINUE_ORPHAN"
-        case KERN_NOT_SUPPORTED: return "KERN_NOT_SUPPORTED"
-        case KERN_NODE_DOWN: return "KERN_NODE_DOWN"
-        case KERN_NOT_WAITING: return "KERN_NOT_WAITING"
-        case KERN_OPERATION_TIMED_OUT: return "KERN_OPERATION_TIMED_OUT"
-        case KERN_CODESIGN_ERROR: return "KERN_CODESIGN_ERROR"
-        case KERN_POLICY_STATIC: return "KERN_POLICY_STATIC"
-        case KERN_INSUFFICIENT_BUFFER_SIZE: return "KERN_INSUFFICIENT_BUFFER_SIZE"
-        case KERN_RETURN_MAX: return "KERN_RETURN_MAX"
-        default: return "Unknown kernel return code"
-        }
-    }
-}
+extension KernelError: LocalizedError {}
 
 #endif
