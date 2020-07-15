@@ -164,6 +164,8 @@ public extension KernelError {
     static let policyStatic = KernelError(rawValue: KERN_POLICY_STATIC)!
     /// The provided buffer is of insufficient size for the requested data.
     static let insufficientBufferSize = KernelError(rawValue: KERN_INSUFFICIENT_BUFFER_SIZE)!
+    /// Denied by security policy
+    static let denied = KernelError(rawValue: KERN_DENIED)!
 }
 
 import Foundation
