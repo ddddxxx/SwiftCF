@@ -11,12 +11,14 @@ Wrapped frameworks:
 - [x] CoreText
 - [x] ImageIO
 - [x] IOKit
+    - [x] HID
+- [x] ApplicationServices
+    - [x] Accessibility (`AXUIElement`)
 - [ ] CoreMedia
 - [ ] CoreVideo
 - [ ] CFNetwork
 - [ ] Security
 - [ ] CoreServices
-- [ ] ApplicationServices
 - [ ] VideoToolbox
 - [ ] SystemConfiguration
 
