@@ -12,7 +12,7 @@ public struct HIDElementKey: CFStringKey {
 }
 
 private func key(_ key: String) -> HIDElementKey {
-    return HIDElementKey(key as CFString)
+    return key as CFString as HIDElementKey
 }
 
 public extension HIDElementKey {

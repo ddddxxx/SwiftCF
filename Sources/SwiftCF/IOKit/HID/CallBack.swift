@@ -5,7 +5,7 @@ import IOKit.hid
 public protocol HIDCallbackToken: AnyObject {}
 
 /// Convenient wrapper of IOHIDCallback in which you can capture other variables.
-public typealias HIDCallback<Sender> = (_ error: IOError?, _ sender: Sender?) -> Void
+public typealias HIDCallback<Sender> = (_ error: KernelError?, _ sender: Sender?) -> Void
 
 class HIDCallbackContext<Sender>: HIDCallbackToken {
     
@@ -17,13 +17,13 @@ class HIDCallbackContext<Sender>: HIDCallbackToken {
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?) {
         let sender = sender?.assumingMemoryBound(to: Sender.self).pointee
-        let error = IOError(rawValue: result)
+        let error = KernelError(rawValue: result)
         callback(error, sender)
     }
 }
 
 /// Convenient wrapper of IOHIDValueCallback in which you can capture other variables.
-public typealias HIDValueCallback<Sender> = (_ value: IOHIDValue, _ error: IOError?, _ sender: Sender?) -> Void
+public typealias HIDValueCallback<Sender> = (_ value: IOHIDValue, _ error: KernelError?, _ sender: Sender?) -> Void
 
 class HIDValueCallbackContext<Sender>: HIDCallbackToken {
     
@@ -35,12 +35,13 @@ class HIDValueCallbackContext<Sender>: HIDCallbackToken {
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, value: IOHIDValue) {
         let sender = sender?.assumingMemoryBound(to: Sender.self).pointee
-        let error = IOError(rawValue: result)
+        let error = KernelError(rawValue: result)
         callback(value, error, sender)
     }
 }
 
-public typealias HIDValueMultipleCallback<Sender> = (_ values: [IOHIDElement: IOHIDValue], _ error: IOError?, _ sender: Sender?) -> Void
+/// Convenient wrapper of IOHIDValueMultipleCallback in which you can capture other variables.
+public typealias HIDValueMultipleCallback<Sender> = (_ values: [IOHIDElement: IOHIDValue], _ error: KernelError?, _ sender: Sender?) -> Void
 
 class HIDValueMultipleCallbackContext<Sender>: HIDCallbackToken {
     
@@ -52,12 +53,13 @@ class HIDValueMultipleCallbackContext<Sender>: HIDCallbackToken {
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, values: CFDictionary) {
         let sender = sender?.assumingMemoryBound(to: Sender.self).pointee
-        let error = IOError(rawValue: result)
+        let error = KernelError(rawValue: result)
         callback(values as! [IOHIDElement: IOHIDValue], error, sender)
     }
 }
 
-public typealias HIDReportCallback<Sender> = (_ type: IOHIDReportType, _ reportID: UInt32, _ report: UnsafeBufferPointer<UInt8>, _ error: IOError?, _ sender: Sender?) -> Void
+/// Convenient wrapper of IOHIDReportCallback in which you can capture other variables.
+public typealias HIDReportCallback<Sender> = (_ type: IOHIDReportType, _ reportID: UInt32, _ report: UnsafeBufferPointer<UInt8>, _ error: KernelError?, _ sender: Sender?) -> Void
 
 class HIDReportCallbackContext<Sender>: HIDCallbackToken {
     
@@ -76,13 +78,14 @@ class HIDReportCallbackContext<Sender>: HIDCallbackToken {
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, type: IOHIDReportType, reportID: UInt32, report: UnsafeMutablePointer<UInt8>, reportLength: CFIndex) {
         let sender = sender?.assumingMemoryBound(to: Sender.self).pointee
-        let error = IOError(rawValue: result)
+        let error = KernelError(rawValue: result)
         let report = UnsafeBufferPointer(start: report, count: reportLength)
         callback(type, reportID, report, error, sender)
     }
 }
 
-public typealias HIDReportWithTimeStampCallback<Sender> = (_ type: IOHIDReportType, _ reportID: UInt32, _ report: UnsafeBufferPointer<UInt8>, _ timeStamp: UInt64, _ error: IOError?, _ sender: Sender?) -> Void
+/// Convenient wrapper of IOHIDReportWithTimeStampCallback in which you can capture other variables.
+public typealias HIDReportWithTimeStampCallback<Sender> = (_ type: IOHIDReportType, _ reportID: UInt32, _ report: UnsafeBufferPointer<UInt8>, _ timeStamp: UInt64, _ error: KernelError?, _ sender: Sender?) -> Void
 
 class HIDReportWithTimeStampCallbackContext<Sender>: HIDCallbackToken {
     
@@ -101,13 +104,14 @@ class HIDReportWithTimeStampCallbackContext<Sender>: HIDCallbackToken {
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, type: IOHIDReportType, reportID: UInt32, report: UnsafeMutablePointer<UInt8>, reportLength: CFIndex, timeStamp: UInt64) {
         let sender = sender?.assumingMemoryBound(to: Sender.self).pointee
-        let error = IOError(rawValue: result)
+        let error = KernelError(rawValue: result)
         let report = UnsafeBufferPointer(start: report, count: reportLength)
         callback(type, reportID, report, timeStamp, error, sender)
     }
 }
 
-public typealias HIDDeviceCallback<Sender> = (_ device: IOHIDDevice, _ error: IOError?, _ sender: Sender?) -> Void
+/// Convenient wrapper of IOHIDDeviceCallback in which you can capture other variables.
+public typealias HIDDeviceCallback<Sender> = (_ device: IOHIDDevice, _ error: KernelError?, _ sender: Sender?) -> Void
 
 class HIDDeviceCallbackContext<Sender>: HIDCallbackToken {
     
@@ -119,7 +123,7 @@ class HIDDeviceCallbackContext<Sender>: HIDCallbackToken {
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, device: IOHIDDevice) {
         let sender = sender?.assumingMemoryBound(to: Sender.self).pointee
-        let error = IOError(rawValue: result)
+        let error = KernelError(rawValue: result)
         callback(device, error, sender)
     }
 }

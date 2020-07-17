@@ -12,7 +12,7 @@ public struct HIDPropertyKey: CFStringKey {
 }
 
 private func key(_ key: String) -> HIDPropertyKey {
-    return HIDPropertyKey(key as CFString)
+    return key as CFString as HIDPropertyKey
 }
 
 public extension HIDPropertyKey {
