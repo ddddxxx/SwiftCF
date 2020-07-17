@@ -77,11 +77,6 @@ public extension AXValue {
     @inlinable static func axError(_ value: AXError) -> AXValue {
         return AXValue.create(type: .axError, value: value)!
     }
-    
-    @inlinable static func illegal() -> AXValue {
-        let value: Void = ()
-        return AXValue.create(type: .illegal, value: value)!
-    }
 }
 
 #endif // canImport(ApplicationServices)

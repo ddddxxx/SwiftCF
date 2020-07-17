@@ -457,4 +457,11 @@ public extension AXUIElement {
     }
 }
 
+public extension AXUIElement {
+    
+    func element(at point: CGPoint) throws -> AXUIElement? {
+        return try elementAt(x: Float(point.x), y: Float(point.y))
+    }
+}
+
 #endif // canImport(ApplicationServices)
