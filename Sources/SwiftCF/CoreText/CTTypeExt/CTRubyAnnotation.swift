@@ -2,32 +2,6 @@
 
 import CoreText
 
-public extension CFAttributedString.Key {
-    
-    /// Key to reference a CTRubyAnnotation.
-    ///
-    /// Value must be a CTRubyAnnotationRef. See CTRubyAnnotation.h for more
-    /// information.
-    static let ctRubyAnnotation = kCTRubyAnnotationAttributeName as CFAttributedString.Key
-    
-    /// Specifies the size of the annotation text as a percent of the size of
-    /// the base text.
-    ///
-    /// Value must be a CFNumberRef, Default is 0.5.
-    static let ctRubySizeFactor = CFAttributedString.Key("CTRubyAnnotationSizeFactor")
-    
-    /// Treat the size specified in kCTRubyAnnotationSizeFactorAttributeName as
-    /// the maximum scale factor, when the base text size is smaller than
-    /// annotation text size, we will try to scale the annotation font size down
-    /// so that it will fit the base text without overhang or adding extra
-    /// padding between base
-    /// text.
-    ///
-    /// Value must be a CFBooleanRef, Default is false.
-    @available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
-    static let ctRubyScaleToFit = kCTRubyAnnotationScaleToFitAttributeName as CFAttributedString.Key
-}
-
 public extension CTRubyAnnotation {
     
     typealias Alignment = CTRubyAlignment

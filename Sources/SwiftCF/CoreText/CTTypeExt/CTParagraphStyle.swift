@@ -2,16 +2,6 @@
 
 import CoreText
 
-public extension CFAttributedString.Key {
-    
-    /// The paragraph style of the text to which this attribute applies.
-    ///
-    /// A paragraph style object is used to specify things like line alignment,
-    /// tab rulers, writing direction, and so on. Value must be a
-    /// CTParagraphStyle object. Default is an empty CTParagraphStyle object.
-    static let ctParagraphStyle = kCTParagraphStyleAttributeName as CFAttributedString.Key
-}
-
 public extension CTParagraphStyle {
     
     typealias Setting = CTParagraphStyleSetting
