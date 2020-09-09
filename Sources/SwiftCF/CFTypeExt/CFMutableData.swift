@@ -1,6 +1,6 @@
 import CoreFoundation
 
-extension CFMutableData {
+public extension CFMutableData {
     
     @inlinable static func create(allocator: CFAllocator = .default, capacity: CFIndex = 0) -> CFMutableData {
         return CFDataCreateMutable(allocator, capacity)
