@@ -462,6 +462,22 @@ public extension AXUIElement {
     func element(at point: CGPoint) throws -> AXUIElement? {
         return try elementAt(x: Float(point.x), y: Float(point.y))
     }
+    
+    func role() throws -> AXRole {
+        return try attributeValue(for: .role) as! AXRole
+    }
+    
+    func subrole() throws -> AXSubrole {
+        return try attributeValue(for: .subrole) as! AXSubrole
+    }
+    
+    func parent() throws -> AXUIElement? {
+        return try attributeValue(for: .parent) as! AXUIElement?
+    }
+    
+    func children() throws -> [AXUIElement] {
+        return try attributeValue(for: .children) as! [AXUIElement]? ?? []
+    }
 }
 
 #endif // canImport(ApplicationServices)
