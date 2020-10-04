@@ -65,8 +65,8 @@ public extension CFStringTokenizer {
         return arr as! [CFStringTokenizerTokenType]
     }
     
-    @inlinable static func bestLanguage(for str: CFString, range: CFRange = .zero) -> CFString? {
-        return CFStringTokenizerCopyBestStringLanguage(str, range)
+    @inlinable static func bestLanguage(for string: CFString, range: CFRange? = nil) -> CFString? {
+        return CFStringTokenizerCopyBestStringLanguage(string, range ?? string.fullRange)
     }
 }
 
