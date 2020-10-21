@@ -30,9 +30,9 @@ public extension CTRubyAnnotation {
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
             return CTRubyAnnotationCreateWithAttributes(alignment, overhang, position, string, attributes as CFDictionary)
         } else {
-            let sizeFactor = attributes[.ctRubySizeFactor].map {
-                CFNumber.cast($0)!.cgFloatValue
-                } ?? CTRubyAnnotation.defaultSizeFactor
+            let sizeFactor = attributes[.ctRubySizeFactor].flatMap {
+                CFNumber.cast($0)?.value() as CGFloat?
+            } ?? CTRubyAnnotation.defaultSizeFactor
             let count = Int(Position.count.rawValue)
             var textArr: [Unmanaged<CFString>?] = Array(repeating: nil, count: count)
             let pos = Int(position.rawValue)
