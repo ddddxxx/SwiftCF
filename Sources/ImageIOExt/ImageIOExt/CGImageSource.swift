@@ -5,6 +5,8 @@ import ImageIO
 
 public extension CGImageSource {
     
+    typealias Status = CGImageSourceStatus
+    
     /// Creates an image source that reads data from the specified data provider.
     ///
     /// - Parameters:
@@ -162,7 +164,7 @@ public extension CGImageSource {
     /// Return the overall status of the image source 'isrc'. The status is
     /// particularly informative for incremental image sources, but may be used
     /// by clients providing non-incremental data as well. */
-    @inlinable var status: CGImageSourceStatus {
+    @inlinable var status: Status {
         return CGImageSourceGetStatus(self)
     }
     
@@ -170,7 +172,7 @@ public extension CGImageSource {
     /// 'isrc'. The index is zero-based. The returned status is particularly
     /// informative for incremental image sources but may used by clients
     /// providing non-incremental data as well. */
-    @inlinable func status(at index: Int) -> CGImageSourceStatus {
+    @inlinable func status(at index: Int) -> Status {
         return CGImageSourceGetStatusAtIndex(self, index)
     }
     
