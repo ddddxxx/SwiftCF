@@ -60,3 +60,33 @@ public extension CFString {
 }
 
 #endif
+
+// MARK: - CFMutableString
+
+public extension CFMutableString {
+    
+    /// Perform in-place transliteration on a mutable string.
+    ///
+    /// The transformation represented by transform is applied to the given
+    /// range of string, modifying it in place. Only the specified range is
+    /// modified, but the transform may look at portions of the string outside
+    /// that range for context. Reasons that the transform may be unsuccessful
+    /// include an invalid transform identifier, and attempting to reverse an
+    /// irreversible transform.
+    ///
+    /// - Parameters:
+    ///   - transform: The transformation to apply.
+    ///   - range: The range over which the transformation is applied. `nil`
+    ///   causes the whole string to be transformed.
+    ///   - reverse: A Boolean that, if true, specifies that the inverse
+    ///   transform should be used (if it exists).
+    /// - Returns: The new range corresponding to the original range. Or nil if
+    /// unsuccessful.
+    @inlinable func transform(_ transform: Transform, range: CFRange? = nil, reverse: Bool = false) -> CFRange? {
+        var range = range ?? fullRange
+        guard CFStringTransform(self, &range, transform.rawValue, reverse) else {
+            return nil
+        }
+        return range
+    }
+}
