@@ -20,13 +20,13 @@ public extension CFAttributedString {
         return CFRange(location: 0, length: count)
     }
     
-    @inlinable func attributes(loc: CFIndex) -> (attributes: [Key: Any], effectiveRange: CFRange) {
+    @inlinable func attributes(at loc: CFIndex) -> (attributes: [Key: Any], effectiveRange: CFRange) {
         var effectiveRange = CFRange()
         let attr = CFAttributedStringGetAttributes(self, loc, &effectiveRange)! as! [Key: Any]
         return (attr, effectiveRange)
     }
     
-    @inlinable func attribute(loc: CFIndex, name: Key) -> (attribute: CFTypeRef, effectiveRange: CFRange) {
+    @inlinable func attribute(at loc: CFIndex, name: Key) -> (attribute: CFTypeRef, effectiveRange: CFRange) {
         var effectiveRange = CFRange()
         let attr = CFAttributedStringGetAttribute(self, loc, .from(name.rawValue), &effectiveRange)!
         return (attr, effectiveRange)
