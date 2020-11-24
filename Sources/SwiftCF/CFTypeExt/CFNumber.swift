@@ -1,3 +1,4 @@
+import Foundation
 import CoreFoundation
 
 public extension CFNumber {
@@ -46,6 +47,9 @@ public extension CFNumberRepresentable where Self: FloatingPoint {
     }
 }
 
+// TODO: CFNumberType on Linux
+#if canImport(Darwin)
+
 extension Int8: CFNumberRepresentable {
     public static let cfNumberType = CFNumberType.sInt8Type
 }
@@ -83,3 +87,5 @@ extension CGFloat: CFNumberRepresentable {
 }
 
 #endif // canImport(CoreGraphics)
+
+#endif

@@ -1,58 +1,73 @@
-import Foundation
+#if canImport(Darwin)
+
+import CoreFoundation
 import SwiftCF
 
-let allCFTypes: [CFType.Type] = [
-    CFAllocator.self,
-    CFArray.self,
-    CFAttributedString.self,
-    CFBag.self,
-    CFBinaryHeap.self,
-    CFBitVector.self,
-    CFBoolean.self,
-    CFBundle.self,
-    CFCalendar.self,
-    CFCharacterSet.self,
-    CFData.self,
-    CFDate.self,
-    CFDateFormatter.self,
-    CFDictionary.self,
-    CFError.self,
-    CFFileDescriptor.self,
-    CFLocale.self,
-    CFMachPort.self,
-    CFMessagePort.self,
-    CFMutableArray.self,
-    CFMutableAttributedString.self,
-    CFMutableBag.self,
-    CFMutableBitVector.self,
-    CFMutableCharacterSet.self,
-    CFMutableData.self,
-    CFMutableDictionary.self,
-    CFMutableSet.self,
-    CFMutableString.self,
-    CFNotificationCenter.self,
-    CFNull.self,
-    CFNumber.self,
-    CFNumberFormatter.self,
-    CFPlugIn.self,
-    CFPlugInInstance.self,
-    CFReadStream.self,
-    CFRunLoop.self,
-    CFRunLoopObserver.self,
-    CFRunLoopSource.self,
-    CFRunLoopTimer.self,
-    CFSet.self,
-    CFSocket.self,
-    CFString.self,
-    CFStringTokenizer.self,
-    CFTimeZone.self,
-    CFTree.self,
-    CFURL.self,
-    // FIXME: CFUserNotification only available on macOS
-    // CFUserNotification.self,
-    CFUUID.self,
-    CFWriteStream.self,
-]
+var allCFTypes: [CFType.Type] = {
+    var allCFTypes: [CFType.Type] = [
+        CFAllocator.self,
+        CFArray.self,
+        CFAttributedString.self,
+        CFBag.self,
+        CFBinaryHeap.self,
+        CFBitVector.self,
+        CFBoolean.self,
+        CFBundle.self,
+        CFCalendar.self,
+        CFCharacterSet.self,
+        CFData.self,
+        CFDate.self,
+        CFDateFormatter.self,
+        CFDictionary.self,
+        CFError.self,
+        CFLocale.self,
+        CFMessagePort.self,
+        CFMutableArray.self,
+        CFMutableAttributedString.self,
+        CFMutableBag.self,
+        CFMutableBitVector.self,
+        CFMutableCharacterSet.self,
+        CFMutableData.self,
+        CFMutableDictionary.self,
+        CFMutableSet.self,
+        CFMutableString.self,
+        CFNotificationCenter.self,
+        CFNull.self,
+        CFNumber.self,
+        CFNumberFormatter.self,
+        CFPlugIn.self,
+        CFPlugInInstance.self,
+        CFReadStream.self,
+        CFRunLoop.self,
+        CFRunLoopObserver.self,
+        CFRunLoopSource.self,
+        CFRunLoopTimer.self,
+        CFSet.self,
+        CFSocket.self,
+        CFString.self,
+        CFTimeZone.self,
+        CFTree.self,
+        CFURL.self,
+        CFUUID.self,
+        CFWriteStream.self,
+    ]
+    
+    #if os(macOS)
+    allCFTypes += [
+        CFUserNotification.self,
+    ]
+    #endif
+
+    #if canImport(Darwin)
+    allCFTypes += [
+        CFFileDescriptor.self,
+        CFMachPort.self,
+        CFStringTokenizer.self,
+    ]
+    #endif
+    
+    return allCFTypes
+}()
 
 enum CFTestData {
     
@@ -88,3 +103,5 @@ extension CFTypeTestDataSource {
         return values
     }
 }
+
+#endif

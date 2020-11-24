@@ -75,4 +75,19 @@ public extension CGAffineTransform {
     }
 }
 
+public protocol CGAffineTransformApplying {
+    func applying(_ t: CGAffineTransform) -> Self
+}
+
+extension CGPoint: CGAffineTransformApplying {}
+extension CGSize: CGAffineTransformApplying {}
+extension CGRect: CGAffineTransformApplying {}
+
+public extension CGAffineTransformApplying {
+    
+    mutating func apply(t: CGAffineTransform) {
+        self = applying(t)
+    }
+}
+
 #endif // canImport(CoreGraphics)

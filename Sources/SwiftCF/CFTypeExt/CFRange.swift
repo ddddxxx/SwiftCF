@@ -1,4 +1,5 @@
 import Foundation
+import CoreFoundation
 
 public extension CFRange {
     

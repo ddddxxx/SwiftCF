@@ -3,11 +3,11 @@ import CoreFoundation
 public extension CFError {
     
     @inlinable static func create(allocator: CFAllocator = .default, domain: Domain, code: CFIndex, userInfo: [UserInfoKey: Any] = [:]) -> CFError {
-        return CFErrorCreate(allocator, domain as CFErrorDomain, code, userInfo as CFDictionary)
+        return CFErrorCreate(allocator, domain.asCF(), code, userInfo.asCF())
     }
     
     @inlinable var domain: Domain {
-        return CFErrorGetDomain(self) as Domain
+        return Domain(CFErrorGetDomain(self))
     }
     
     @inlinable var code: CFIndex {
@@ -15,7 +15,7 @@ public extension CFError {
     }
     
     @inlinable func userInfo() -> [UserInfoKey: Any] {
-        return CFErrorCopyUserInfo(self) as! [UserInfoKey: Any]? ?? [:]
+        return CFErrorCopyUserInfo(self)?.asSwift() ?? [:]
     }
     
     @inlinable func description() -> CFString? {
@@ -46,10 +46,10 @@ extension CFError {
 }
 
 public extension CFError.Domain {
-    static let posix = kCFErrorDomainPOSIX as CFError.Domain
-    static let osStatus = kCFErrorDomainOSStatus as CFError.Domain
-    static let mach = kCFErrorDomainMach as CFError.Domain
-    static let cocoa = kCFErrorDomainCocoa as CFError.Domain
+    static let posix = CFError.Domain(kCFErrorDomainPOSIX)
+    static let osStatus = CFError.Domain(kCFErrorDomainOSStatus)
+    static let mach = CFError.Domain(kCFErrorDomainMach)
+    static let cocoa = CFError.Domain(kCFErrorDomainCocoa)
 }
 
 // MARK: - UserInfoKey
@@ -67,13 +67,13 @@ extension CFError {
 }
 
 public extension CFError.UserInfoKey {
-    static let localizedDescription = kCFErrorLocalizedDescriptionKey as CFError.UserInfoKey
+    static let localizedDescription = CFError.UserInfoKey(kCFErrorLocalizedDescriptionKey)
     @available(macOS 10.13, iOS 11.0, tvOS 11.0, watchOS 4.0, *)
-    static let localizedFailure = kCFErrorLocalizedFailureKey as CFError.UserInfoKey
-    static let localizedFailureReason = kCFErrorLocalizedFailureReasonKey as CFError.UserInfoKey
-    static let localizedRecoverySuggestion = kCFErrorLocalizedRecoverySuggestionKey as CFError.UserInfoKey
-    static let description = kCFErrorDescriptionKey as CFError.UserInfoKey
-    static let underlyingError = kCFErrorUnderlyingErrorKey as CFError.UserInfoKey
-    static let url = kCFErrorURLKey as CFError.UserInfoKey
-    static let filePath = kCFErrorFilePathKey as CFError.UserInfoKey
+    static let localizedFailure = CFError.UserInfoKey(kCFErrorLocalizedFailureKey)
+    static let localizedFailureReason = CFError.UserInfoKey(kCFErrorLocalizedFailureReasonKey)
+    static let localizedRecoverySuggestion = CFError.UserInfoKey(kCFErrorLocalizedRecoverySuggestionKey)
+    static let description = CFError.UserInfoKey(kCFErrorDescriptionKey)
+    static let underlyingError = CFError.UserInfoKey(kCFErrorUnderlyingErrorKey)
+    static let url = CFError.UserInfoKey(kCFErrorURLKey)
+    static let filePath = CFError.UserInfoKey(kCFErrorFilePathKey)
 }

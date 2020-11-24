@@ -1,4 +1,5 @@
 import Foundation
+import CoreFoundation
 
 // MARK: NSBridged
 
@@ -17,18 +18,28 @@ public extension CFTollFreeBridgingNSType {
     }
     
     @inlinable static func from(_ v: BridgedNSType) -> Self {
+        #if canImport(Darwin)
         return v as! Self
+        #else
+        return unsafeBitCast(v, to: Self.self)
+        #endif
     }
     
     @inlinable var asNS: BridgedNSType {
+        #if canImport(Darwin)
         return self as! BridgedNSType
+        #else
+        return unsafeBitCast(self, to: BridgedNSType.self)
+        #endif
     }
 }
 
 // MARK: SwiftBridged
 
 public protocol _CFTollFreeBridgingSwiftType: CFType {
+    #if canImport(Darwin)
     static var bridgedSwiftType: Any.Type { get }
+    #endif
 }
 
 public protocol CFTollFreeBridgingSwiftType: _CFTollFreeBridgingSwiftType {
@@ -38,6 +49,8 @@ public protocol CFTollFreeBridgingSwiftType: _CFTollFreeBridgingSwiftType {
 public extension CFTollFreeBridgingSwiftType where BridgedSwiftType: ReferenceConvertible {
     typealias BridgedNSType = BridgedSwiftType.ReferenceType
 }
+
+#if canImport(Darwin)
 
 public extension CFTollFreeBridgingSwiftType {
     
@@ -69,6 +82,8 @@ public extension CFTollFreeBridgingSwiftType where Self: CFMutableTypeWithImmuta
         return (v as! ImmutableType).mutableCopy() as! Self
     }
 }
+
+#endif
 
 // MARK: BridgedMutable
 

@@ -3,11 +3,20 @@ name: CI
 on: [push]
 
 jobs:
-  build:
 
+  macOS:
     runs-on: macOS-latest
-    
     steps:
     - uses: actions/checkout@v1
-    - run: |
-        swift test
+    - run: swift test
+
+  Linux:
+    strategy:
+      matrix:
+        swift_version: ['5.0', '5.1', '5.2']
+    runs-on: ubuntu-latest
+    container:
+      image: swift:${{ matrix.swift_version }}
+    steps:
+      - uses: actions/checkout@v1
+      - run: swift build

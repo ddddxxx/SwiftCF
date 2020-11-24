@@ -1,8 +1,10 @@
+import CoreFoundation
 import XCTest
-import CoreText
-@testable import SwiftCF
+import SwiftCF
 
 final class SwiftCFTests: XCTestCase {
+    
+    #if canImport(Darwin)
     
     func testTypeCasting() {
         for type in CFTestData.dataSourceTypesExceptMutable {
@@ -25,6 +27,8 @@ final class SwiftCFTests: XCTestCase {
         }
     }
     
+    #endif
+    
     func testCFArrayCallBacks() {
         let arr = CFMutableArray.create()
         weak var weakObj: AnyObject?
@@ -37,8 +41,6 @@ final class SwiftCFTests: XCTestCase {
     }
     
     static var allTests = [
-        ("testTypeCasting", testTypeCasting),
-        ("testCollectionProtocolConformance", testCollectionProtocolConformance),
         ("testCFArrayCallBacks", testCFArrayCallBacks),
     ]
 }

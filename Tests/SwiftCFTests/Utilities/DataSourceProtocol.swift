@@ -1,3 +1,6 @@
+#if canImport(Darwin)
+
+import CoreFoundation
 import SwiftCF
 
 protocol CFTypeTestDataSource: CFType {
@@ -40,3 +43,5 @@ extension CFTollFreeBridgingSwiftTestDataSource where Self: CFTollFreeBridgingSw
         return testValue as! BridgedSwiftType
     }
 }
+
+#endif

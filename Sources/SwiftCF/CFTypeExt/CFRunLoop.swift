@@ -23,7 +23,7 @@ public extension CFRunLoop {
     }
     
     @inlinable func allModes() -> [Mode] {
-        return (CFRunLoopCopyAllModes(self) as! [CFString]).map(Mode.init(_:))
+        return CFRunLoopCopyAllModes(self).asNS.map { Mode._from(raw: $0 as! CFString ) }
     }
     
     @inlinable func addCommonMode(_ mode: Mode) {
@@ -55,11 +55,12 @@ public extension CFRunLoop {
     }
     
     @inlinable func perform(mode: Mode, block: @escaping () -> Void) {
-        CFRunLoopPerformBlock(self, mode.rawValue, block)
+        CFRunLoopPerformBlock(self, mode._raw, block)
     }
     
     @inlinable func perform(modes: [Mode], block: @escaping () -> Void) {
-        CFRunLoopPerformBlock(self, modes.map { $0.rawValue } as CFArray, block)
+        let arr = CFArray.from(.init(array: modes.map { $0._raw }))
+        CFRunLoopPerformBlock(self, arr, block)
     }
     
     @inlinable func contains(source: Source, mode: Mode) {
@@ -97,13 +98,6 @@ public extension CFRunLoop {
     @inlinable func remove(timer: Timer, mode: Mode) {
         CFRunLoopRemoveTimer(self, timer, mode)
     }
-}
-
-// MARK: - Mode
-
-public extension CFRunLoop.Mode {
-    
-    
 }
 
 // MARK: - Source
@@ -150,16 +144,16 @@ public extension CFRunLoop.Observer {
     
     @inlinable static func create(allocator: CFAllocator = .default, activities: CFRunLoop.Activity, repeats: Bool, order: CFIndex, callout: @escaping CallBack, context: Context) -> CFRunLoopObserver {
         var ctx = context
-        return CFRunLoopObserverCreate(allocator, activities.rawValue, repeats, order, callout, &ctx)
+        return CFRunLoopObserverCreate(allocator, activities._raw, repeats, order, callout, &ctx)
     }
     
     @inlinable static func create(allocator: CFAllocator = .default, activities: CFRunLoop.Activity, repeats: Bool, order: CFIndex, block: @escaping (CFRunLoop.Observer?, CFRunLoop.Activity) -> Void) -> CFRunLoopObserver {
-        return CFRunLoopObserverCreateWithHandler(allocator, activities.rawValue, repeats, order, block)
+        return CFRunLoopObserverCreateWithHandler(allocator, activities._raw, repeats, order, block)
     }
     
     @inlinable var activity: CFRunLoop.Activity {
         let raw = CFRunLoopObserverGetActivities(self)
-        return CFRunLoop.Activity(rawValue: raw)
+        return CFRunLoop.Activity._from(raw: raw)
     }
     
     @inlinable var doesRepeat: Bool {
@@ -243,5 +237,49 @@ public extension CFRunLoop.Timer {
         set {
             CFRunLoopTimerSetTolerance(self, newValue)
         }
+    }
+}
+
+// MARK: -
+
+extension CFRunLoop.Mode {
+    
+    @usableFromInline
+    var _raw: CFString {
+        #if canImport(Darwin)
+        return rawValue
+        #else
+        return self
+        #endif
+    }
+    
+    @usableFromInline
+    static func _from(raw: CFString) -> CFRunLoop.Mode {
+        #if canImport(Darwin)
+        return .init(rawValue: raw)
+        #else
+        return raw
+        #endif
+    }
+}
+
+extension CFRunLoop.Activity {
+    
+    @usableFromInline
+    var _raw: CFOptionFlags {
+        #if canImport(Darwin)
+        return rawValue
+        #else
+        return self
+        #endif
+    }
+    
+    @usableFromInline
+    static func _from(raw: CFOptionFlags) -> CFRunLoop.Activity {
+        #if canImport(Darwin)
+        return .init(rawValue: raw)
+        #else
+        return raw
+        #endif
     }
 }

@@ -1,6 +1,4 @@
-#if canImport(CoreGraphics)
-
-import CoreGraphics
+import Foundation
 
 public extension CGRect {
     
@@ -83,10 +81,4 @@ public extension CGRect {
     @inlinable mutating func formExtendBy(minX: CGFloat = 0, minY: CGFloat = 0, maxX: CGFloat = 0, maxY: CGFloat = 0) {
         self = extendBy(minX: minX, minY: minY, maxX: maxX, maxY: maxY)
     }
-    
-    @inlinable mutating func apply(t: CGAffineTransform) {
-        self = applying(t)
-    }
 }
-
-#endif // canImport(CoreGraphics)

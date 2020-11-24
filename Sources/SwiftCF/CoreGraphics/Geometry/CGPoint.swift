@@ -1,15 +1,9 @@
-#if canImport(CoreGraphics)
-
-import CoreGraphics
+import Foundation
 
 public extension CGPoint {
     
-    @inlinable init(_ vector: CGVector) {
-        self.init(x: vector.dx, y: vector.dy)
-    }
-    
     @inlinable func distance(to point: CGPoint) -> CGFloat {
-        return CGVector(from: self, to: point).length
+        return hypot(point.x - x, point.y - y)
     }
     
     @inlinable static func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
@@ -20,27 +14,11 @@ public extension CGPoint {
         lhs = lhs + rhs
     }
     
-    @inlinable static func +(lhs: CGPoint, rhs: CGVector) -> CGPoint {
-        return CGPoint(x: lhs.x + rhs.dx, y: lhs.y + rhs.dy)
-    }
-    
-    @inlinable static func +=(lhs: inout CGPoint, rhs: CGVector) {
-        lhs = lhs + rhs
-    }
-    
     @inlinable static func -(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
         return CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
     }
     
     @inlinable static func -=(lhs: inout CGPoint, rhs: CGPoint) {
-        lhs = lhs - rhs
-    }
-    
-    @inlinable static func -(lhs: CGPoint, rhs: CGVector) -> CGPoint {
-        return CGPoint(x: lhs.x - rhs.dx, y: lhs.y - rhs.dy)
-    }
-    
-    @inlinable static func -=(lhs: inout CGPoint, rhs: CGVector) {
         lhs = lhs - rhs
     }
     
@@ -59,9 +37,32 @@ public extension CGPoint {
     @inlinable static func /=(point: inout CGPoint, scalar: CGFloat) {
         point = point / scalar
     }
+}
+#if canImport(CoreGraphics)
+
+import CoreGraphics
+
+
+public extension CGPoint {
     
-    @inlinable mutating func apply(t: CGAffineTransform) {
-        self = applying(t)
+    @inlinable init(_ vector: CGVector) {
+        self.init(x: vector.dx, y: vector.dy)
+    }
+    
+    @inlinable static func +(lhs: CGPoint, rhs: CGVector) -> CGPoint {
+        return CGPoint(x: lhs.x + rhs.dx, y: lhs.y + rhs.dy)
+    }
+    
+    @inlinable static func +=(lhs: inout CGPoint, rhs: CGVector) {
+        lhs = lhs + rhs
+    }
+    
+    @inlinable static func -(lhs: CGPoint, rhs: CGVector) -> CGPoint {
+        return CGPoint(x: lhs.x - rhs.dx, y: lhs.y - rhs.dy)
+    }
+    
+    @inlinable static func -=(lhs: inout CGPoint, rhs: CGVector) {
+        lhs = lhs - rhs
     }
 }
 

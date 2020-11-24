@@ -18,9 +18,11 @@ public extension CFType /* _CFObject */ {
         return CFHash(self)
     }
     
+    #if canImport(Darwin)
     @inlinable var cfRetainCount: CFIndex {
         return CFGetRetainCount(self)
     }
+    #endif
     
     @inlinable var cfAllocator: CFAllocator {
         return CFGetAllocator(self)

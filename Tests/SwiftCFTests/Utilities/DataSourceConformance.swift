@@ -1,4 +1,6 @@
-import Foundation
+#if canImport(Darwin)
+
+import CoreFoundation
 import SwiftCF
 
 extension CFAllocator: CFTypeTestDataSource {
@@ -18,7 +20,7 @@ extension CFData: CFTollFreeBridgingNSTestDataSource, CFTollFreeBridgingSwiftTes
 }
 
 extension CFDictionary: CFTollFreeBridgingNSTestDataSource, CFTollFreeBridgingSwiftTestDataSource {
-    static let testValue: Any = [1: "foo", "foo": true]
+    static let testValue: Any = [1: "foo", "foo": true] as CFDictionary
 }
 
 extension CFNumber: CFTollFreeBridgingNSTestDataSource {
@@ -28,3 +30,5 @@ extension CFNumber: CFTollFreeBridgingNSTestDataSource {
 extension CFString: CFTollFreeBridgingNSTestDataSource, CFTollFreeBridgingSwiftTestDataSource {
     static let testValue: Any = "foo" as CFString
 }
+
+#endif
