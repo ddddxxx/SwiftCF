@@ -22,7 +22,7 @@ extension CFTypeTestDataSource {
     }
 }
 
-extension CFTollFreeBridgingNSTestDataSource where Self: CFTollFreeBridgingNSType {
+extension CFTollFreeBridgingNSTestDataSource where Self: CFTollFreeBridging {
     
     static var testBridgedNSValue: Any {
         return testBridgedNSValueTyped
@@ -30,17 +30,6 @@ extension CFTollFreeBridgingNSTestDataSource where Self: CFTollFreeBridgingNSTyp
     
     static var testBridgedNSValueTyped: BridgedNSType {
         return testValue as! BridgedNSType
-    }
-}
-
-extension CFTollFreeBridgingSwiftTestDataSource where Self: CFTollFreeBridgingSwiftType {
-    
-    static var testBridgedSwiftValue: Any {
-        return testBridgedSwiftValueTyped
-    }
-    
-    static var testBridgedSwiftValueTyped: BridgedSwiftType {
-        return testValue as! BridgedSwiftType
     }
 }
 

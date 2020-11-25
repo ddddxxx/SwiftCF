@@ -25,7 +25,7 @@ public extension CTFontCollection {
     /// font descriptors. The contents of this collection is defined by matching
     /// the provided descriptors against all available font descriptors.
     @inlinable static func create(queryDescriptors: [CTFontDescriptor] = [], options: [OptionKey: Any] = [:]) -> CTFontCollection {
-        return CTFontCollectionCreateWithFontDescriptors(.from(queryDescriptors), options as CFDictionary)
+        return CTFontCollectionCreateWithFontDescriptors(queryDescriptors as CFArray, options as CFDictionary)
     }
     
     #if os(macOS)

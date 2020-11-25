@@ -25,7 +25,7 @@ public extension CFAttributedString {
     #if canImport(Darwin)
     
     @inlinable static func create(allocator: CFAllocator = .default, string: CFString, attributes: [Key: Any] = [:]) -> CFAttributedString {
-        return CFAttributedStringCreate(allocator, string, .from(attributes))
+        return CFAttributedStringCreate(allocator, string, attributes._bridgeToCoreFoundation())
     }
     
     @inlinable func attributes(at loc: CFIndex) -> (attributes: [Key: Any], effectiveRange: CFRange) {
@@ -36,7 +36,7 @@ public extension CFAttributedString {
     
     @inlinable func attribute(at loc: CFIndex, name: Key) -> (attribute: CFTypeRef, effectiveRange: CFRange) {
         var effectiveRange = CFRange()
-        let attr = CFAttributedStringGetAttribute(self, loc, .from(name.rawValue), &effectiveRange)!
+        let attr = CFAttributedStringGetAttribute(self, loc, name.rawValue._bridgeToCoreFoundation(), &effectiveRange)!
         return (attr, effectiveRange)
     }
     

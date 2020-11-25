@@ -23,7 +23,7 @@ import CoreFoundation
     fatalError("Cast '\(v)' to CoreFoundation mutable type '\(type)' is not supported.")
 }
 
-@inlinable public func cfCast<T: CFTollFreeBridgingNSType>(_ v: Any, to type: T.Type = T.self) -> T? {
+@inlinable public func cfCast<T: CFTollFreeBridging>(_ v: Any, to type: T.Type = T.self) -> T? {
     if let nsValue = v as? T.BridgedNSType {
         return (nsValue as! T)
     } else {
@@ -55,14 +55,14 @@ public extension CFMutableType {
     }
 }
 
-public extension CFTollFreeBridgingNSType {
+public extension CFTollFreeBridging {
     @inlinable static func cast(_ v: Any) -> Self? {
         return cfCast(v, to: Self.self)
     }
 }
 
 // CFTollFreeBridgingMutableType
-public extension CFTollFreeBridgingNSType where Self: CFMutableType {
+public extension CFTollFreeBridging where Self: CFMutableType {
     @inlinable static func cast(_ v: Any) -> Self? {
         return cfCast(v, to: Self.self)
     }

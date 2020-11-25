@@ -1,17 +1,17 @@
 import Foundation
 import CoreFoundation
 
-// MARK: NSBridged
+// MARK: CFTollFreeBridging
 
-public protocol _CFTollFreeBridgingNSType: CFType {
+public protocol _CFTollFreeBridging: CFType {
     static var bridgedNSType: NSObject.Type { get }
 }
 
-public protocol CFTollFreeBridgingNSType: _CFTollFreeBridgingNSType {
+public protocol CFTollFreeBridging: _CFTollFreeBridging {
     associatedtype BridgedNSType where BridgedNSType: NSObject
 }
 
-public extension CFTollFreeBridgingNSType {
+public extension CFTollFreeBridging {
     
     @inlinable static var bridgedNSType: NSObject.Type {
         return BridgedNSType.self
@@ -26,114 +26,60 @@ public extension CFTollFreeBridgingNSType {
     }
 }
 
-// MARK: SwiftBridged
-
-public protocol _CFTollFreeBridgingSwiftType: CFType {
-    static var bridgedSwiftType: Any.Type { get }
-}
-
-public protocol CFTollFreeBridgingSwiftType: _CFTollFreeBridgingSwiftType {
-    associatedtype BridgedSwiftType
-}
-
-public extension CFTollFreeBridgingSwiftType where BridgedSwiftType: ReferenceConvertible {
-    typealias BridgedNSType = BridgedSwiftType.ReferenceType
-}
-
-public extension CFTollFreeBridgingSwiftType {
-    @inlinable static var bridgedSwiftType: Any.Type {
-        return BridgedSwiftType.self
-    }
-}
-
-#if canImport(Darwin)
-
-public extension CFTollFreeBridgingSwiftType {
-    
-    @inlinable static func from(_ v: BridgedSwiftType) -> Self {
-        return v as! Self
-    }
-    
-    @inlinable var asSwift: BridgedSwiftType {
-        return self as! BridgedSwiftType
-    }
-}
-
-public extension CFTollFreeBridgingSwiftType where Self: CFMutableType {
-    
-    // FIXME: Cannot make it unavailable or obsoleted
-    @available(*, deprecated, message: "Cast CoreFoundation mutable type from bridged Swift type is not supported. Use `copyFrom(:)` instead.", renamed: "copyFrom(_:)")
-    @inlinable static func from(_ v: BridgedSwiftType) -> Self {
-        fatalError("Cast CoreFoundation mutable type '\(self)' from bridged Swift type '\(BridgedSwiftType.self)' is not supported. Use `copyFrom(:)` instead.")
-    }
-}
-
-public extension CFTollFreeBridgingSwiftType where Self: CFMutableTypeWithImmutablePair , ImmutableType: CFMutableCopying {
-    
-    @inlinable static func copyFrom(_ v: BridgedSwiftType) -> Self {
-        return (v as! ImmutableType).mutableCopy() as! Self
-    }
-}
-
-#endif
-
 // MARK: BridgedMutable
 
-public typealias _CFTollFreeBridgingMutableType = _CFMutableCopying & _CFTollFreeBridgingNSType
+public typealias _CFTollFreeBridgingMutableType = _CFMutableCopying & _CFTollFreeBridging
 
-public typealias CFTollFreeBridgingMutableType = CFMutableType & CFTollFreeBridgingNSType
+public typealias CFTollFreeBridgingMutableType = CFMutableType & CFTollFreeBridging
 
 // MARK: - Conformance
 
-extension CFArray: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
+extension CFArray: CFTollFreeBridging {
     public typealias BridgedNSType = NSArray
-    public typealias BridgedSwiftType = Array<Any>
 }
 
-extension CFAttributedString: CFTollFreeBridgingNSType {
+extension CFAttributedString: CFTollFreeBridging {
     public typealias BridgedNSType = NSAttributedString
 }
 
-extension CFBoolean: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
+extension CFBoolean: CFTollFreeBridging {
     public typealias BridgedNSType = NSNumber
-    public typealias BridgedSwiftType = Bool
 }
 
-extension CFBundle: CFTollFreeBridgingNSType {
+extension CFBundle: CFTollFreeBridging {
     public typealias BridgedNSType = Bundle
 }
 
-extension CFCalendar: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
-    public typealias BridgedSwiftType = Calendar
+extension CFCalendar: CFTollFreeBridging {
+    public typealias BridgedNSType = NSCalendar
 }
 
-extension CFCharacterSet: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
-    public typealias BridgedSwiftType = CharacterSet
+extension CFCharacterSet: CFTollFreeBridging {
+    public typealias BridgedNSType = NSCharacterSet
 }
 
-extension CFData: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
-    public typealias BridgedSwiftType = Data
+extension CFData: CFTollFreeBridging {
+    public typealias BridgedNSType = NSData
 }
 
-extension CFDate: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
-    public typealias BridgedSwiftType = Date
+extension CFDate: CFTollFreeBridging {
+    public typealias BridgedNSType = NSDate
 }
 
-extension CFDateFormatter: CFTollFreeBridgingNSType {
+extension CFDateFormatter: CFTollFreeBridging {
     public typealias BridgedNSType = DateFormatter
 }
 
-extension CFDictionary: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
+extension CFDictionary: CFTollFreeBridging {
     public typealias BridgedNSType = NSDictionary
-    public typealias BridgedSwiftType = Dictionary<AnyHashable, Any>
 }
 
-extension CFError: CFTollFreeBridgingNSType {
+extension CFError: CFTollFreeBridging {
     public typealias BridgedNSType = NSError
 }
 
-extension CFLocale: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
-    public typealias BridgedSwiftType = Locale
+extension CFLocale: CFTollFreeBridging {
+    public typealias BridgedNSType = NSLocale
 }
 
 extension CFMutableArray {
@@ -164,42 +110,41 @@ extension CFMutableString {
     public typealias BridgedNSType = NSMutableString
 }
 
-extension CFNull: CFTollFreeBridgingNSType {
+extension CFNull: CFTollFreeBridging {
     public typealias BridgedNSType = NSNull
 }
 
-extension CFNumber: CFTollFreeBridgingNSType {
+extension CFNumber: CFTollFreeBridging {
     public typealias BridgedNSType = NSNumber
 }
 
-extension CFReadStream: CFTollFreeBridgingNSType {
+extension CFReadStream: CFTollFreeBridging {
     public typealias BridgedNSType = InputStream
 }
 
-extension CFRunLoopTimer: CFTollFreeBridgingNSType {
+extension CFRunLoopTimer: CFTollFreeBridging {
     public typealias BridgedNSType = Timer
 }
 
-extension CFSet: CFTollFreeBridgingNSType {
+extension CFSet: CFTollFreeBridging {
     public typealias BridgedNSType = NSSet
 }
 
-extension CFString: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
+extension CFString: CFTollFreeBridging {
     public typealias BridgedNSType = NSString
-    public typealias BridgedSwiftType = String
 }
 
-extension CFTimeZone: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
-    public typealias BridgedSwiftType = TimeZone
+extension CFTimeZone: CFTollFreeBridging {
+    public typealias BridgedNSType = NSTimeZone
 }
 
-extension CFURL: CFTollFreeBridgingNSType, CFTollFreeBridgingSwiftType {
-    public typealias BridgedSwiftType = URL
+extension CFURL: CFTollFreeBridging {
+    public typealias BridgedNSType = NSURL
 }
 
 // Not Toll Free Bridged
 // extension CFUUID: CFType {}
 
-extension CFWriteStream: CFTollFreeBridgingNSType {
+extension CFWriteStream: CFTollFreeBridging {
     public typealias BridgedNSType = OutputStream
 }

@@ -9,7 +9,7 @@ import CoreText
 
 import AppKit
 
-extension CTFont: CFTollFreeBridgingNSType {
+extension CTFont: CFTollFreeBridging {
     public typealias BridgedNSType = NSFont
 }
 
@@ -17,7 +17,7 @@ extension CTFont: CFTollFreeBridgingNSType {
 
 import UIKit
 
-extension CTFont: CFTollFreeBridgingNSType {
+extension CTFont: CFTollFreeBridging {
     public typealias BridgedNSType = UIFont
 }
 
