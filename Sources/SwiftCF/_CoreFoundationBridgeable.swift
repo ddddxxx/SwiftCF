@@ -69,9 +69,11 @@ extension String: _CoreFoundationBridgeable {
     public typealias BridgedCFType = CFString
 }
 
+#if canImport(Darwin)
 extension TimeZone: _CoreFoundationBridgeable {
     public typealias BridgedCFType = CFTimeZone
 }
+#endif
 
 extension URL: _CoreFoundationBridgeable {
     public typealias BridgedCFType = CFURL
