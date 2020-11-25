@@ -2,27 +2,12 @@ import CoreFoundation
 
 // MARK: CFCopying
 
-public protocol _CFCopying: CFType {
-    static var copyType: CFType.Type { get }
-    func _copy(allocator: CFAllocator) -> Any
-}
-
-public protocol CFCopying: _CFCopying {
-    associatedtype CopyType
+public protocol CFCopying: CFType {
+    associatedtype CopyType: CFType
     func copy(allocator: CFAllocator) -> CopyType
 }
 
-extension CFCopying where CopyType: CFType {
-    @inlinable public static var copyType: CFType.Type {
-        return CopyType.self
-    }
-}
-
 public extension CFCopying {
-    
-    @inlinable func _copy(allocator: CFAllocator) -> Any {
-        return copy(allocator: allocator)
-    }
     
     @inlinable func copy() -> CopyType {
         return copy(allocator: .default)
@@ -31,12 +16,7 @@ public extension CFCopying {
 
 // MARK: - CFMutableCopying
 
-public protocol _CFMutableCopying: CFType {
-    static var mutableCopyType: CFType.Type { get }
-    func _mutableCopy(allocator: CFAllocator) -> Any
-}
-
-public protocol CFMutableCopying: _CFMutableCopying {
+public protocol CFMutableCopying: CFType {
     associatedtype MutableCopyType
     func mutableCopy(allocator: CFAllocator) -> MutableCopyType
 }
@@ -47,17 +27,7 @@ public protocol CFMutableCopyingWithCapacity: CFMutableCopying {
     func mutableCopy(allocator: CFAllocator, capacity: CFIndex) -> MutableCopyType
 }
 
-public extension CFMutableCopying where MutableCopyType: CFType {
-    @inlinable static var mutableCopyType: CFType.Type {
-        return MutableCopyType.self
-    }
-}
-
 public extension CFMutableCopying {
-    @inlinable func _mutableCopy(allocator: CFAllocator) -> Any {
-        return mutableCopy(allocator: allocator)
-    }
-    
     @inlinable func mutableCopy(allocator: CFAllocator = .default) -> MutableCopyType {
         return mutableCopy(allocator: allocator)
     }
@@ -71,27 +41,17 @@ public extension CFMutableCopyingWithCapacity {
 
 // MARK: - CFImmutableType
 
-public protocol _CFImmutableTypeWithMutablePair: CFType {
-    var mutableType: CFType.Type { get }
-}
-
-public protocol CFImmutableTypeWithMutablePair: _CFImmutableTypeWithMutablePair, CFCopying, CFMutableCopying where CopyType == Self {
+public protocol CFImmutableTypeWithMutablePair: CFCopying, CFMutableCopying where CopyType == Self {
     typealias MutableType = MutableCopyType
-}
-
-extension CFImmutableTypeWithMutablePair where MutableType: CFType {
-    @inlinable public var mutableType: CFType.Type {
-        return MutableType.self
-    }
 }
 
 // MARK: - CFMutableType
 
-public protocol _CFMutableType: _CFMutableCopying {}
+public protocol _CFMutableType: CFType {}
 
 public protocol CFMutableType: _CFMutableType, CFMutableCopying where MutableCopyType == Self {}
 
-public protocol _CFMutableTypeWithImmutablePair: CFType {
+public protocol _CFMutableTypeWithImmutablePair: _CFMutableType {
     var immutableType: CFType.Type { get }
 }
 

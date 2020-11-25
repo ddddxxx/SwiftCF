@@ -3,19 +3,11 @@ import CoreFoundation
 
 // MARK: CFTollFreeBridging
 
-public protocol _CFTollFreeBridging: CFType {
-    static var bridgedNSType: NSObject.Type { get }
-}
-
-public protocol CFTollFreeBridging: _CFTollFreeBridging {
+public protocol CFTollFreeBridging: CFType {
     associatedtype BridgedNSType where BridgedNSType: NSObject
 }
 
 public extension CFTollFreeBridging {
-    
-    @inlinable static var bridgedNSType: NSObject.Type {
-        return BridgedNSType.self
-    }
     
     @inlinable static func from(_ v: BridgedNSType) -> Self {
         return unsafeDowncast(v, to: Self.self)
@@ -27,8 +19,6 @@ public extension CFTollFreeBridging {
 }
 
 // MARK: BridgedMutable
-
-public typealias _CFTollFreeBridgingMutableType = _CFMutableCopying & _CFTollFreeBridging
 
 public typealias CFTollFreeBridgingMutableType = CFMutableType & CFTollFreeBridging
 
