@@ -12,19 +12,11 @@ public extension CFStringKey {
     }
     
     init(stringLiteral value: String) {
-        #if canImport(Darwin)
-        self.init(value as CFString)
-        #else
         self.init(.from(value._bridgeToObjectiveC()))
-        #endif
     }
     
     var description: String {
-        #if canImport(Darwin)
-        return rawValue as String
-        #else
-        return String(describing: rawValue.asNS)
-        #endif
+        return String._unconditionallyBridgeFromObjectiveC(rawValue.asNS)
     }
     
     var debugDescription: String {

@@ -8,38 +8,28 @@ public protocol _CFTollFreeBridgingNSType: CFType {
 }
 
 public protocol CFTollFreeBridgingNSType: _CFTollFreeBridgingNSType {
-    associatedtype BridgedNSType
+    associatedtype BridgedNSType where BridgedNSType: NSObject
 }
 
 public extension CFTollFreeBridgingNSType {
     
     @inlinable static var bridgedNSType: NSObject.Type {
-        return BridgedNSType.self as! NSObject.Type
+        return BridgedNSType.self
     }
     
     @inlinable static func from(_ v: BridgedNSType) -> Self {
-        #if canImport(Darwin)
-        return v as! Self
-        #else
-        return unsafeBitCast(v, to: Self.self)
-        #endif
+        return unsafeDowncast(v, to: Self.self)
     }
     
     @inlinable var asNS: BridgedNSType {
-        #if canImport(Darwin)
-        return self as! BridgedNSType
-        #else
-        return unsafeBitCast(self, to: BridgedNSType.self)
-        #endif
+        return unsafeDowncast(self, to: BridgedNSType.self)
     }
 }
 
 // MARK: SwiftBridged
 
 public protocol _CFTollFreeBridgingSwiftType: CFType {
-    #if canImport(Darwin)
     static var bridgedSwiftType: Any.Type { get }
-    #endif
 }
 
 public protocol CFTollFreeBridgingSwiftType: _CFTollFreeBridgingSwiftType {
@@ -50,13 +40,15 @@ public extension CFTollFreeBridgingSwiftType where BridgedSwiftType: ReferenceCo
     typealias BridgedNSType = BridgedSwiftType.ReferenceType
 }
 
-#if canImport(Darwin)
-
 public extension CFTollFreeBridgingSwiftType {
-    
     @inlinable static var bridgedSwiftType: Any.Type {
         return BridgedSwiftType.self
     }
+}
+
+#if canImport(Darwin)
+
+public extension CFTollFreeBridgingSwiftType {
     
     @inlinable static func from(_ v: BridgedSwiftType) -> Self {
         return v as! Self

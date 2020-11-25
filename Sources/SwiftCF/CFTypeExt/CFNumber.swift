@@ -47,7 +47,7 @@ public extension CFNumberRepresentable where Self: FloatingPoint {
     }
 }
 
-// TODO: CFNumberType on Linux
+// TODO: Linux: CFNumberType on Linux
 #if canImport(Darwin)
 
 extension Int8: CFNumberRepresentable {
