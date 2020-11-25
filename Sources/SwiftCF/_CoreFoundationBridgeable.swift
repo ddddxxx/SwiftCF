@@ -1,7 +1,11 @@
 import Foundation
 import CoreFoundation
 
-public protocol _CoreFoundationBridgeable: _ObjectiveCBridgeable {
+public protocol __CoreFoundationBridgeable {
+    func __bridgeToCoreFoundation() -> Any
+}
+
+public protocol _CoreFoundationBridgeable: __CoreFoundationBridgeable, _ObjectiveCBridgeable {
     
     associatedtype BridgedCFType: CFType
     
@@ -10,16 +14,24 @@ public protocol _CoreFoundationBridgeable: _ObjectiveCBridgeable {
     static func _bridgeFromCoreFoundation(_ source: BridgedCFType) -> Self
 }
 
+public extension _CoreFoundationBridgeable {
+    func __bridgeToCoreFoundation() -> Any {
+        return _bridgeToCoreFoundation()
+    }
+}
+
 public extension _CoreFoundationBridgeable where BridgedCFType: CFTollFreeBridging, _ObjectiveCType == BridgedCFType.BridgedNSType {
     
     func _bridgeToCoreFoundation() -> BridgedCFType {
-        return BridgedCFType.from(_bridgeToObjectiveC())
+        return BridgedCFType._bridgeFromNS(_bridgeToObjectiveC())
     }
     
     static func _bridgeFromCoreFoundation(_ source: BridgedCFType) -> Self {
-        return _unconditionallyBridgeFromObjectiveC(source.asNS)
+        return _unconditionallyBridgeFromObjectiveC(source._bridgeToNS())
     }
 }
+
+// MARK: -
 
 extension Array: _CoreFoundationBridgeable {
     public typealias BridgedCFType = CFArray
@@ -64,3 +76,27 @@ extension TimeZone: _CoreFoundationBridgeable {
 extension URL: _CoreFoundationBridgeable {
     public typealias BridgedCFType = CFURL
 }
+
+// MARK: CFNumber
+
+extension FixedWidthInteger where Self: _CoreFoundationBridgeable {
+    public typealias BridgedCFType = CFNumber
+}
+
+extension FloatingPoint where Self: _CoreFoundationBridgeable {
+    public typealias BridgedCFType = CFNumber
+}
+
+extension Int: _CoreFoundationBridgeable {}
+extension Int8: _CoreFoundationBridgeable {}
+extension Int16: _CoreFoundationBridgeable {}
+extension Int32: _CoreFoundationBridgeable {}
+extension Int64: _CoreFoundationBridgeable {}
+extension UInt: _CoreFoundationBridgeable {}
+extension UInt8: _CoreFoundationBridgeable {}
+extension UInt16: _CoreFoundationBridgeable {}
+extension UInt32: _CoreFoundationBridgeable {}
+extension UInt64: _CoreFoundationBridgeable {}
+
+extension Float32: _CoreFoundationBridgeable {}
+extension Float64: _CoreFoundationBridgeable {}

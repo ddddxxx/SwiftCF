@@ -3,7 +3,7 @@ import CoreFoundation
 public extension CFError {
     
     @inlinable static func create(allocator: CFAllocator = .default, domain: Domain, code: CFIndex, userInfo: [UserInfoKey: Any] = [:]) -> CFError {
-        return CFErrorCreate(allocator, domain.asCF(), code, userInfo.asCF())
+        return CFErrorCreate(allocator, domain.rawValue, code, _bridge(userInfo))
     }
     
     @inlinable var domain: Domain {
@@ -15,7 +15,8 @@ public extension CFError {
     }
     
     @inlinable func userInfo() -> [UserInfoKey: Any] {
-        return CFErrorCopyUserInfo(self)?.asSwift() ?? [:]
+        guard let info = CFErrorCopyUserInfo(self) else { return [:] }
+        return _bridge(info)
     }
     
     @inlinable func description() -> CFString? {

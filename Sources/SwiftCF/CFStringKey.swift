@@ -12,11 +12,11 @@ public extension CFStringKey {
     }
     
     init(stringLiteral value: String) {
-        self.init(.from(value._bridgeToObjectiveC()))
+        self.init(value._bridgeToCoreFoundation())
     }
     
     var description: String {
-        return String._unconditionallyBridgeFromObjectiveC(rawValue.asNS)
+        return String._bridgeFromCoreFoundation(rawValue)
     }
     
     var debugDescription: String {
@@ -32,11 +32,11 @@ public extension CFStringKey {
     }
     
     func _bridgeToObjectiveC() -> NSString {
-        return rawValue.asNS
+        return rawValue._bridgeToNS()
     }
     
     static func _forceBridgeFromObjectiveC(_ source: NSString, result: inout Self?) {
-        result = Self(.from(source))
+        result = Self(CFString._bridgeFromNS(source))
     }
     
     static func _conditionallyBridgeFromObjectiveC(_ source: NSString, result: inout Self?) -> Bool {
@@ -53,65 +53,38 @@ public extension CFStringKey {
 
 // MARK: -
 
-extension CFStringKey {
-    
-    @inlinable
-    func asCF() -> CFString {
-        return rawValue
-    }
+@inlinable func _bridge<T: CFStringKey>(_ v: [T]) -> CFArray {
+    #if canImport(Darwin)
+    return v as CFArray
+    #else
+    return v.map { $0.rawValue }._bridgeToCoreFoundation()
+    #endif
 }
 
-extension Dictionary where Key: CFStringKey {
-    
-    @inlinable
-    func asCF() -> CFDictionary {
-        #if canImport(Darwin)
-        return self as CFDictionary
-        #else
-        let nsObject = NSDictionary(objects: Array(values), forKeys: Array(keys.map { $0.rawValue.asNS }))
-        return .from(nsObject)
-        #endif
-    }
+@inlinable func _bridge<T: CFStringKey>(_ v: [T: Any]) -> CFDictionary {
+    let keys: [NSString] = v.keys.map { $0._bridgeToObjectiveC() }
+    let values = v.values.map { ($0 as? __CoreFoundationBridgeable)?.__bridgeToCoreFoundation() ?? $0 }
+    let nsObject = NSDictionary(objects: values, forKeys: keys)
+    return CFDictionary._bridgeFromNS(nsObject)
 }
 
-extension CFDictionary {
-    
-    @inlinable
-    func asSwift<Key: CFStringKey>(keyType: Key.Type = Key.self) -> [Key: Any] {
-        #if canImport(Darwin)
-        return self as! [Key: Any]
-        #else
-        var result: [Key: Any] = [:]
-        asNS.enumerateKeysAndObjects(options: []) { key, value, stop in
-            let k = key as! CFString
-            result[Key(k)] = value
-        }
-        return result
-        #endif
-    }
+@inlinable func _bridge<T: CFStringKey>(_ v: CFArray) -> [T] {
+    #if canImport(Darwin)
+    return v as! [T]
+    #else
+    return v._bridgeToNS().map { T($0 as! CFString) }
+    #endif
 }
 
-extension Array where Element: CFStringKey {
-    
-    @inlinable
-    func asCF() -> CFArray {
-        #if canImport(Darwin)
-        return self as CFArray
-        #else
-        let nsObject = NSArray(array: self.map { $0.rawValue })
-        return .from(nsObject)
-        #endif
+@inlinable func _bridge<T: CFStringKey>(_ v: CFDictionary) -> [T: Any] {
+    #if canImport(Darwin)
+    return v as! [T: Any]
+    #else
+    var result: [T: Any] = [:]
+    v._bridgeToNS().enumerateKeysAndObjects(options: []) { key, value, stop in
+        let k = key as! NSString
+        result[T._unconditionallyBridgeFromObjectiveC(k)] = value
     }
-}
-
-extension CFArray {
-    
-    @inlinable
-    func asSwift<Element: CFStringKey>(elementType: Element.Type = Element.self) -> [Element] {
-        #if canImport(Darwin)
-        return self as! [Element]
-        #else
-        return asNS.map { Element($0 as! CFString) }
-        #endif
-    }
+    return result
+    #endif
 }

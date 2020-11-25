@@ -9,11 +9,11 @@ public protocol CFTollFreeBridging: CFType {
 
 public extension CFTollFreeBridging {
     
-    @inlinable static func from(_ v: BridgedNSType) -> Self {
-        return unsafeDowncast(v, to: Self.self)
+    @inlinable static func _bridgeFromNS(_ source: BridgedNSType) -> Self {
+        return unsafeDowncast(source, to: Self.self)
     }
     
-    @inlinable var asNS: BridgedNSType {
+    @inlinable func _bridgeToNS() -> BridgedNSType {
         return unsafeDowncast(self, to: BridgedNSType.self)
     }
 }

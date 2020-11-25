@@ -23,7 +23,7 @@ public extension CFRunLoop {
     }
     
     @inlinable func allModes() -> [Mode] {
-        return CFRunLoopCopyAllModes(self).asNS.map { Mode._from(raw: $0 as! CFString ) }
+        return CFRunLoopCopyAllModes(self)._bridgeToNS().map { Mode._from(raw: $0 as! CFString ) }
     }
     
     @inlinable func addCommonMode(_ mode: Mode) {
@@ -59,7 +59,7 @@ public extension CFRunLoop {
     }
     
     @inlinable func perform(modes: [Mode], block: @escaping () -> Void) {
-        let arr = CFArray.from(.init(array: modes.map { $0._raw }))
+        let arr = CFArray._bridgeFromNS(.init(array: modes.map { $0._raw }))
         CFRunLoopPerformBlock(self, arr, block)
     }
     
