@@ -3,8 +3,8 @@ import CoreFoundation
 
 // TODO: strip it from public API. currently required by `CFStringKey`.
 public protocol __CoreFoundationBridgeable {
-    func __bridgeToCoreFoundation() -> Any
-    static func __bridgeFromCoreFoundation(_ source: Any) -> Self
+    func __bridgeToCoreFoundation() -> CFTypeRef
+    static func __bridgeFromCoreFoundation(_ source: CFTypeRef) -> Self
 }
 
 public protocol _CoreFoundationBridgeable: __CoreFoundationBridgeable, _ObjectiveCBridgeable {
@@ -17,10 +17,10 @@ public protocol _CoreFoundationBridgeable: __CoreFoundationBridgeable, _Objectiv
 }
 
 public extension _CoreFoundationBridgeable {
-    func __bridgeToCoreFoundation() -> Any {
+    func __bridgeToCoreFoundation() -> CFTypeRef {
         return _bridgeToCoreFoundation()
     }
-    static func __bridgeFromCoreFoundation(_ source: Any) -> Self {
+    static func __bridgeFromCoreFoundation(_ source: CFTypeRef) -> Self {
         guard let s = BridgedCFType.cast(source) else {
             preconditionFailure("failed to bridge \(source) to incompatible CoreFoundation type \(BridgedCFType.self)")
         }
@@ -163,7 +163,7 @@ private func _bridgeToCFIfNeeded<T>(_ v: T) -> Any {
 
 private func _bridgeFromCFIfNeeded<T>(_ v: Any) -> T {
     if let t = T.self as? __CoreFoundationBridgeable.Type {
-        return t.__bridgeFromCoreFoundation(v) as! T
+        return t.__bridgeFromCoreFoundation(v as CFTypeRef) as! T
     } else {
         return v as! T
     }
