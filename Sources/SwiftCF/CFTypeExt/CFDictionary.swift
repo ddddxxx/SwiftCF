@@ -36,3 +36,30 @@ public extension CFDictionary {
         return CFDictionaryGetValue(self, .fromCF(key))
     }
 }
+
+public extension CFMutableDictionary {
+    
+    @inlinable public static func create(allocator: CFAllocator = .default, capacity: CFIndex, keyCallBacks: UnsafePointer<CFDictionaryKeyCallBacks>? = pCFTypeDictionaryKeyCallBacks, valueCallBacks: UnsafePointer<CFDictionaryValueCallBacks>? = pCFTypeDictionaryValueCallBacks) -> CFMutableDictionary {
+        return CFDictionaryCreateMutable(allocator, capacity, keyCallBacks, valueCallBacks)
+    }
+    
+    @inlinable func addValue(_ value: CFTypeRef, for key: CFTypeRef) {
+        CFDictionaryAddValue(self, .fromCF(key), .fromCF(value))
+    }
+    
+    @inlinable func setValue(_ value: CFTypeRef, for key: CFTypeRef) {
+        CFDictionarySetValue(self, .fromCF(key), .fromCF(value))
+    }
+    
+    @inlinable func replaceValue(_ value: CFTypeRef, for key: CFTypeRef) {
+        CFDictionaryReplaceValue(self, .fromCF(key), .fromCF(value))
+    }
+    
+    @inlinable func removeValue(for key: CFTypeRef) {
+        CFDictionaryRemoveValue(self, .fromCF(key))
+    }
+    
+    @inlinable func removeAllValues() {
+        CFDictionaryRemoveAllValues(self)
+    }
+}

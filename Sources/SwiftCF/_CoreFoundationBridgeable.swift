@@ -53,7 +53,7 @@ extension Array: _CoreFoundationBridgeable {
     }
     
     // Linux need this to unwrap `CFStringKey`. `as!` is sufficient on Darwin.
-    public static func _bridgeFromCoreFoundation(_ source: CFArray) -> Self {
+    public static func _bridgeFromCoreFoundation(_ source: CFArray) -> [Element] {
         return source._bridgeToNS().map(_bridgeFromCFIfNeeded)
     }
 }
@@ -62,24 +62,16 @@ extension Dictionary: _CoreFoundationBridgeable {
     
     // Prevent Swift bridge value types to _SwiftObject
     public func _bridgeToCoreFoundation() -> CFDictionary {
-        let result = NSMutableDictionary(capacity: count)
-        for (k, v) in self {
-            let key = _bridgeToCFIfNeeded(k)
-            let value = _bridgeToCFIfNeeded(v)
-            if let key = key as? String {
-                result.setValue(value, forKey: key)
-            } else if let key = key as? NSCopying {
-                result.setObject(value, forKey: key)
-            } else {
-                preconditionFailure("failed to convert to CFDictionary with invalid key \(k)")
-            }
+        let result = CFMutableDictionary.create(capacity: count)
+        for (key, value) in self {
+            result.setValue(_bridgeToCFIfNeeded(value), for: _bridgeToCFIfNeeded(key))
         }
-        return CFDictionary._bridgeFromNS(result)
+        return result
     }
     
     // Linux need this to unwrap `CFStringKey`. `as!` is sufficient on Darwin.
-    public static func _bridgeFromCoreFoundation(_ source: CFDictionary) -> Self {
-        var result = Self.init(minimumCapacity: source.count)
+    public static func _bridgeFromCoreFoundation(_ source: CFDictionary) -> [Key: Value] {
+        var result = [Key: Value](minimumCapacity: source.count)
         source._bridgeToNS().enumerateKeysAndObjects { key, value, stop in
             result[_bridgeFromCFIfNeeded(key)] = _bridgeFromCFIfNeeded(value)
         }
@@ -153,7 +145,7 @@ extension Float64: _CoreFoundationBridgeable {}
 
 // MARK: -
 
-private func _bridgeToCFIfNeeded<T>(_ v: T) -> Any {
+private func _bridgeToCFIfNeeded<T>(_ v: T) -> CFTypeRef {
     if let bridgeable = v as? __CoreFoundationBridgeable {
         return bridgeable.__bridgeToCoreFoundation()
     } else {
