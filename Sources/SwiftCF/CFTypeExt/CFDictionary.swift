@@ -39,7 +39,7 @@ public extension CFDictionary {
 
 public extension CFMutableDictionary {
     
-    @inlinable public static func create(allocator: CFAllocator = .default, capacity: CFIndex, keyCallBacks: UnsafePointer<CFDictionaryKeyCallBacks>? = pCFTypeDictionaryKeyCallBacks, valueCallBacks: UnsafePointer<CFDictionaryValueCallBacks>? = pCFTypeDictionaryValueCallBacks) -> CFMutableDictionary {
+    @inlinable static func create(allocator: CFAllocator = .default, capacity: CFIndex, keyCallBacks: UnsafePointer<CFDictionaryKeyCallBacks>? = pCFTypeDictionaryKeyCallBacks, valueCallBacks: UnsafePointer<CFDictionaryValueCallBacks>? = pCFTypeDictionaryValueCallBacks) -> CFMutableDictionary {
         return CFDictionaryCreateMutable(allocator, capacity, keyCallBacks, valueCallBacks)
     }
     

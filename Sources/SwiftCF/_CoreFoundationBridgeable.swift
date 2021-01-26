@@ -149,7 +149,7 @@ private func _bridgeToCFIfNeeded<T>(_ v: T) -> CFTypeRef {
     if let bridgeable = v as? __CoreFoundationBridgeable {
         return bridgeable.__bridgeToCoreFoundation()
     } else {
-        return v
+        return v as CFTypeRef
     }
 }
 
