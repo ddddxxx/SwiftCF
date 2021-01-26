@@ -19,7 +19,7 @@ extension IOHIDElement {
     ///   - dictionary: dictionary containing values in which to create element.
     /// - Returns: Returns a new IOHIDElementRef.
     @inlinable static func create(allocator: CFAllocator = .default, dictionary: [HIDElementKey: Any]) -> IOHIDElement? {
-        return IOHIDElementCreateWithDictionary(allocator, dictionary as CFDictionary)
+        return IOHIDElementCreateWithDictionary(allocator, dictionary._bridgeToCoreFoundation())
     }
     
     /// Obtain the device associated with the element.

@@ -211,7 +211,7 @@ public extension IOHIDManager {
     ///
     /// - Parameter matching: matching CFDictionaryRef containg device matching criteria.
     @inlinable func setDeviceMatching(_ matching: [HIDPropertyKey: Any]) {
-        IOHIDManagerSetDeviceMatching(self, matching as CFDictionary)
+        IOHIDManagerSetDeviceMatching(self, matching._bridgeToCoreFoundation())
     }
     
     /// Sets multiple matching criteria for device enumeration.
@@ -224,7 +224,7 @@ public extension IOHIDManager {
     /// - Parameter multiple: CFArrayRef containing multiple CFDictionaryRef
     /// objects containg device matching criteria.
     @inlinable func setDeviceMatching(multiple: [[HIDPropertyKey: Any]]) {
-        IOHIDManagerSetDeviceMatchingMultiple(self, multiple as CFArray)
+        IOHIDManagerSetDeviceMatchingMultiple(self, multiple._bridgeToCoreFoundation())
     }
     
     /// Obtains currently enumerated devices.
@@ -314,7 +314,7 @@ public extension IOHIDManager {
     ///
     /// - Parameter matching: CFDictionaryRef containg device matching criteria.
     @inlinable func setInputValueMatching(_ matching: [HIDElementKey: Any]) {
-        IOHIDManagerSetInputValueMatching(self, matching as CFDictionary)
+        IOHIDManagerSetInputValueMatching(self, matching._bridgeToCoreFoundation())
     }
     
     /// Sets multiple matching criteria for input values received via
@@ -328,7 +328,7 @@ public extension IOHIDManager {
     /// - Parameter multiple: CFArrayRef containing multiple CFDictionaryRef
     /// objects containing input element matching criteria.
     @inlinable func setInputValueMatching(multiple: [[HIDElementKey: Any]]) {
-        IOHIDManagerSetInputValueMatchingMultiple(self, multiple as CFArray)
+        IOHIDManagerSetInputValueMatchingMultiple(self, multiple._bridgeToCoreFoundation())
     }
     
     /// Used to write out the current properties to a specific domain.

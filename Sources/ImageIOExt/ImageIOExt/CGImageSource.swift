@@ -17,7 +17,7 @@ public extension CGImageSource {
     /// - Returns: An image source. You are responsible for releasing this
     /// object using CFRelease.
     @inlinable static func create(dataProvider: CGDataProvider, options: [Option: Any] = [:]) -> CGImageSource? {
-        return CGImageSourceCreateWithDataProvider(dataProvider, options as CFDictionary)
+        return CGImageSourceCreateWithDataProvider(dataProvider, options._bridgeToCoreFoundation())
     }
     
     /// reates an image source that reads from a Core Foundation data object.
@@ -29,7 +29,7 @@ public extension CGImageSource {
     /// - Returns: An image source. You are responsible for releasing this
     /// object using CFRelease.
     @inlinable static func create(data: CFData, options: [Option: Any] = [:]) -> CGImageSource? {
-        return CGImageSourceCreateWithData(data, options as CFDictionary)
+        return CGImageSourceCreateWithData(data, options._bridgeToCoreFoundation())
     }
     
     /// Creates an image source that reads from a location specified by a URL.
@@ -40,7 +40,7 @@ public extension CGImageSource {
     /// - Returns: An image source. You are responsible for releasing this
     /// object using CFRelease.
     @inlinable static func create(url: CFURL, options: [Option: Any] = [:]) -> CGImageSource? {
-        return CGImageSourceCreateWithURL(url, options as CFDictionary)
+        return CGImageSourceCreateWithURL(url, options._bridgeToCoreFoundation())
     }
     
     /// Create an incremental image source.
@@ -59,7 +59,7 @@ public extension CGImageSource {
     /// - Returns: Returns an image source object. You are responsible for
     /// releasing this object using CFRelease.
     @inlinable static func createIncremental(options: [Option: Any] = [:]) -> CGImageSource {
-        return CGImageSourceCreateIncremental(options as CFDictionary)
+        return CGImageSourceCreateIncremental(options._bridgeToCoreFoundation())
     }
     
     /// Returns the uniform type identifier of the source container.
@@ -98,7 +98,7 @@ public extension CGImageSource {
     /// image source container. See CGImageProperties for a list of properties
     /// that can be in the dictionary.
     @inlinable func properties(options: [Option: Any] = [:]) -> [CGImage.PropertyName: Any] {
-        return CGImageSourceCopyProperties(self, options as CFDictionary) as! [CGImage.PropertyName: Any]? ?? [:]
+        return CGImageSourceCopyProperties(self, options._bridgeToCoreFoundation()) as! [CGImage.PropertyName: Any]? ?? [:]
     }
     
     /// Returns the properties of the image at a specified location in an image
@@ -113,7 +113,7 @@ public extension CGImageSource {
     /// image. See CGImageProperties for a list of properties that can be in the
     /// dictionary.
     @inlinable func properties(at index: Int, options: [Option: Any] = [:]) -> [CGImage.PropertyName: Any] {
-        return CGImageSourceCopyPropertiesAtIndex(self, index, options as CFDictionary) as! [CGImage.PropertyName: Any]? ?? [:]
+        return CGImageSourceCopyPropertiesAtIndex(self, index, options._bridgeToCoreFoundation()) as! [CGImage.PropertyName: Any]? ?? [:]
     }
     
     /// Return the metadata of the image at 'index' in the image source 'isrc'.
@@ -121,14 +121,14 @@ public extension CGImageSource {
     /// additional options; see the list of keys above for more information.
     /// Please refer to CGImageMetadata.h for usage of metadata.
     @inlinable func metadata(at index: Int, options: [Option: Any] = [:]) -> CGImageMetadata? {
-        return CGImageSourceCopyMetadataAtIndex(self, index, options as CFDictionary)
+        return CGImageSourceCopyMetadataAtIndex(self, index, options._bridgeToCoreFoundation())
     }
     
     /// Return the image at 'index' in the image source 'isrc'.  The index is
     /// zero-based. The `options' dictionary may be used to request additional
     /// creation options; see the list of keys above for more information.
     @inlinable func image(at index: Int, options: [Option: Any] = [:]) -> CGImage? {
-        return CGImageSourceCreateImageAtIndex(self, index, options as CFDictionary)
+        return CGImageSourceCreateImageAtIndex(self, index, options._bridgeToCoreFoundation())
     }
     
     /// Remove the cached decoded image data for the image at 'index' in the
@@ -142,7 +142,7 @@ public extension CGImageSource {
     /// additional thumbnail creation options; see the list of keys above for
     /// more information.
     @inlinable func thumbnail(at index: Int, options: [Option: Any]) -> CGImage? {
-        return CGImageSourceCreateThumbnailAtIndex(self, index, options as CFDictionary)
+        return CGImageSourceCreateThumbnailAtIndex(self, index, options._bridgeToCoreFoundation())
     }
     
     /// Update the incremental image source 'isrc' with new data. The new data

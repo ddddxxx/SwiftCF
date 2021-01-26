@@ -50,7 +50,7 @@ extension CTFontCollection: CFCopying {
     ///   the original collection.
     ///   - options: The options dictionary. For possible values, see Constants.
     @inlinable public func copy(queryDescriptors: [CTFontDescriptor] = [], options: [OptionKey: Any] = [:]) -> CTFontCollection {
-        return CTFontCollectionCreateCopyWithFontDescriptors(self, queryDescriptors as CFArray, options as CFDictionary)
+        return CTFontCollectionCreateCopyWithFontDescriptors(self, queryDescriptors._bridgeToCoreFoundation(), options._bridgeToCoreFoundation())
     }
     
     @inlinable public func copy(allocator: CFAllocator) -> CTFontCollection {
