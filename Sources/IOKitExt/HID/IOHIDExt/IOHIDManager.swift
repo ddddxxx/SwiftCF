@@ -296,7 +296,7 @@ public extension IOHIDManager {
     /// - Parameters:
     ///   - context: Pointer to data to be passed to the callback.
     ///   - callback: Pointer to a callback method of type IOHIDValueCallback.
-    @inlinable func registerInputValueCallback(context: UnsafeMutableRawPointer?, callback: @escaping IOHIDValueCallback) {
+    @inlinable func registerInputValueCallback(context: UnsafeMutableRawPointer?, callback: IOHIDValueCallback?) {
         IOHIDManagerRegisterInputValueCallback(self, callback, context)
     }
     
@@ -368,6 +368,9 @@ public extension IOHIDManager {
                 .takeUnretainedValue()
                 .callAsFunction(result: result, sender: sender, device: device)
         }
+        ctx.onDeinit = {
+            self.registerDeviceMatchingCallback(context: nil, callback: nil)
+        }
         return ctx
     }
     
@@ -388,6 +391,9 @@ public extension IOHIDManager {
                 .fromOpaque(ctx!)
                 .takeUnretainedValue()
                 .callAsFunction(result: result, sender: sender, device: device)
+        }
+        ctx.onDeinit = {
+            self.registerDeviceRemovalCallback(context: nil, callback: nil)
         }
         return ctx
     }
@@ -418,6 +424,9 @@ public extension IOHIDManager {
                     reportLength: reportLength
                 )
         }
+        ctx.onDeinit = {
+            self.registerInputReportCallback(context: nil, callback: nil)
+        }
         return ctx
     }
     
@@ -432,6 +441,7 @@ public extension IOHIDManager {
     ///   HIDReportWithTimeStampCallback.
     /// - Returns: Callback token. You're responsible to keep this object alive
     /// as long as the callback is registed.
+    /*
     @available(OSX 10.15, *)
     func registerInputReportWithTimeStampCallback(callback: @escaping HIDReportWithTimeStampCallback<IOHIDManager>) -> HIDCallbackToken {
         let ctx = HIDReportWithTimeStampCallbackContext<IOHIDManager>(reportSize: 0, callback)
@@ -450,8 +460,12 @@ public extension IOHIDManager {
                     timeStamp: timeStamp
                 )
         }
+        ctx.onDeinit = {
+            self.registerInputReportWithTimeStampCallback(context: nil, callback: nil)
+        }
         return ctx
     }
+     */
     
     /// Registers a callback to be used when an input value is issued by any
     /// enumerated device.
@@ -464,14 +478,17 @@ public extension IOHIDManager {
     ///   - callback: Pointer to a callback method of type HIDValueCallback.
     /// - Returns: Callback token. You're responsible to keep this object alive
     /// as long as the callback is registed.
-    func registerInputValueCallback(callback: @escaping HIDValueCallback<IOHIDManager>) -> HIDCallbackToken {
-        let ctx = HIDValueCallbackContext<IOHIDManager>(callback)
+    func registerInputValueCallback(callback: @escaping HIDValueCallback<IOHIDDevice>) -> HIDCallbackToken {
+        let ctx = HIDValueCallbackContext<IOHIDDevice>(callback)
         let pctx = Unmanaged.passUnretained(ctx).toOpaque()
         registerInputValueCallback(context: pctx) { ctx, result, sender, value in
-            Unmanaged<HIDValueCallbackContext<IOHIDManager>>
+            Unmanaged<HIDValueCallbackContext<IOHIDDevice>>
                 .fromOpaque(ctx!)
                 .takeUnretainedValue()
                 .callAsFunction(result: result, sender: sender, value: value)
+        }
+        ctx.onDeinit = {
+            self.registerInputValueCallback(context: nil, callback: nil)
         }
         return ctx
     }

@@ -11,9 +11,14 @@ public typealias HIDCallback<Sender> = (_ error: KernelError?, _ sender: Sender?
 class HIDCallbackContext<Sender>: HIDCallbackToken {
     
     let callback: HIDCallback<Sender>
+    var onDeinit: (() -> Void)? = nil
     
     init(_ callback: @escaping HIDCallback<Sender>) {
         self.callback = callback
+    }
+    
+    deinit {
+        onDeinit?()
     }
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?) {
@@ -29,9 +34,14 @@ public typealias HIDValueCallback<Sender> = (_ value: IOHIDValue, _ error: Kerne
 class HIDValueCallbackContext<Sender>: HIDCallbackToken {
     
     let callback: HIDValueCallback<Sender>
+    var onDeinit: (() -> Void)? = nil
     
     init(_ callback: @escaping HIDValueCallback<Sender>) {
         self.callback = callback
+    }
+    
+    deinit {
+        onDeinit?()
     }
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, value: IOHIDValue) {
@@ -47,9 +57,14 @@ public typealias HIDValueMultipleCallback<Sender> = (_ values: [IOHIDElement: IO
 class HIDValueMultipleCallbackContext<Sender>: HIDCallbackToken {
     
     let callback: HIDValueMultipleCallback<Sender>
+    var onDeinit: (() -> Void)? = nil
     
     init(_ callback: @escaping HIDValueMultipleCallback<Sender>) {
         self.callback = callback
+    }
+    
+    deinit {
+        onDeinit?()
     }
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, values: CFDictionary) {
@@ -65,6 +80,7 @@ public typealias HIDReportCallback<Sender> = (_ type: IOHIDReportType, _ reportI
 class HIDReportCallbackContext<Sender>: HIDCallbackToken {
     
     let callback: HIDReportCallback<Sender>
+    var onDeinit: (() -> Void)? = nil
     
     let reportBuffer: UnsafeMutableBufferPointer<UInt8>
     
@@ -75,6 +91,7 @@ class HIDReportCallbackContext<Sender>: HIDCallbackToken {
     
     deinit {
         reportBuffer.deallocate()
+        onDeinit?()
     }
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, type: IOHIDReportType, reportID: UInt32, report: UnsafeMutablePointer<UInt8>, reportLength: CFIndex) {
@@ -91,6 +108,7 @@ public typealias HIDReportWithTimeStampCallback<Sender> = (_ type: IOHIDReportTy
 class HIDReportWithTimeStampCallbackContext<Sender>: HIDCallbackToken {
     
     let callback: HIDReportWithTimeStampCallback<Sender>
+    var onDeinit: (() -> Void)? = nil
     
     let reportBuffer: UnsafeMutableBufferPointer<UInt8>
     
@@ -101,6 +119,7 @@ class HIDReportWithTimeStampCallbackContext<Sender>: HIDCallbackToken {
     
     deinit {
         reportBuffer.deallocate()
+        onDeinit?()
     }
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, type: IOHIDReportType, reportID: UInt32, report: UnsafeMutablePointer<UInt8>, reportLength: CFIndex, timeStamp: UInt64) {
@@ -117,9 +136,14 @@ public typealias HIDDeviceCallback<Sender> = (_ device: IOHIDDevice, _ error: Ke
 class HIDDeviceCallbackContext<Sender>: HIDCallbackToken {
     
     let callback: HIDDeviceCallback<Sender>
+    var onDeinit: (() -> Void)? = nil
     
     init(_ callback: @escaping HIDDeviceCallback<Sender>) {
         self.callback = callback
+    }
+    
+    deinit {
+        onDeinit?()
     }
     
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, device: IOHIDDevice) {
