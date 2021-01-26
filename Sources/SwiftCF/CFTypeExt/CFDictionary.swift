@@ -13,26 +13,26 @@ public extension CFDictionary {
     }
     
     @inlinable func count(ofKey key: CFTypeRef) -> CFIndex {
-        return CFDictionaryGetCountOfKey(self, bridge(key))
+        return CFDictionaryGetCountOfKey(self, .fromCF(key))
     }
     
     @inlinable func count(ofValue value: CFTypeRef) -> CFIndex {
-        return CFDictionaryGetCountOfValue(self, bridge(value))
+        return CFDictionaryGetCountOfValue(self, .fromCF(value))
     }
     
     @inlinable func contains(key: CFTypeRef) -> Bool {
-        return CFDictionaryContainsValue(self, bridge(key))
+        return CFDictionaryContainsValue(self, .fromCF(key))
     }
     
     @inlinable func contains(value: CFTypeRef) -> Bool {
-        return CFDictionaryContainsValue(self, bridge(value))
+        return CFDictionaryContainsValue(self, .fromCF(value))
     }
     
     @inlinable func value(key: CFTypeRef) -> CFTypeRef? {
-        return rawValue(key: key).map(bridge)
+        return rawValue(key: key)?.asCF()
     }
     
     @inlinable func rawValue(key: CFTypeRef) -> UnsafeRawPointer? {
-        return CFDictionaryGetValue(self, bridge(key))
+        return CFDictionaryGetValue(self, .fromCF(key))
     }
 }

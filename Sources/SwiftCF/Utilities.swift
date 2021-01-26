@@ -1,13 +1,16 @@
 import CoreFoundation
 
-@usableFromInline
-func bridge(_ cf: CFTypeRef) -> UnsafeRawPointer {
-    return UnsafeRawPointer(Unmanaged.passUnretained(cf).toOpaque())
-}
-
-@usableFromInline
-func bridge(_ ptr: UnsafeRawPointer) -> CFTypeRef {
-    return Unmanaged<CFTypeRef>.fromOpaque(ptr).takeUnretainedValue()
+extension UnsafeRawPointer {
+    
+    @inlinable
+    func asCF() -> CFTypeRef {
+        return Unmanaged<CFTypeRef>.fromOpaque(self).takeUnretainedValue()
+    }
+    
+    @inlinable
+    static func fromCF(_ v: CFTypeRef) -> UnsafeRawPointer {
+        return UnsafeRawPointer(Unmanaged.passUnretained(v).toOpaque())
+    }
 }
 
 public let pCFTypeArrayCallBacks = withUnsafePointer(to: kCFTypeArrayCallBacks) { return $0 }
@@ -18,7 +21,8 @@ public let pCFTypeDictionaryValueCallBacks = withUnsafePointer(to: kCFTypeDictio
 
 extension Array {
     
-    @inlinable init(unsafeUninitializedCapacity: Int, initializingWith initializer: (inout UnsafeMutableBufferPointer<Element>, inout Int) throws -> Void) rethrows {
+    @inlinable
+    init(unsafeUninitializedCapacity: Int, initializingWith initializer: (inout UnsafeMutableBufferPointer<Element>, inout Int) throws -> Void) rethrows {
         try self.init(_unsafeUninitializedCapacity: unsafeUninitializedCapacity, initializingWith: initializer)
     }
 }

@@ -21,15 +21,15 @@ public extension CFArray {
     }
     
     @inlinable func count(of value: CFTypeRef, in range: CFRange) -> CFIndex {
-        return CFArrayGetCountOfValue(self, range, bridge(value))
+        return CFArrayGetCountOfValue(self, range, .fromCF(value))
     }
     
     @inlinable func contains(_ value: CFTypeRef, in range: CFRange? = nil) -> Bool {
-        return CFArrayContainsValue(self, range ?? fullRange, bridge(value))
+        return CFArrayContainsValue(self, range ?? fullRange, .fromCF(value))
     }
     
     @inlinable func value(at index: CFIndex) -> CFTypeRef {
-        return bridge(rawValue(at: index))
+        return rawValue(at: index).asCF()
     }
     
     @inlinable func rawValue(at index: CFIndex) -> UnsafeRawPointer {
@@ -71,7 +71,7 @@ public extension CFMutableArray {
     }
     
     @inlinable func append(_ value: CFTypeRef) {
-        append(rawValue: bridge(value))
+        append(rawValue: .fromCF(value))
     }
     
     @inlinable func append(rawValue: UnsafeRawPointer) {
@@ -83,7 +83,7 @@ public extension CFMutableArray {
     }
     
     @inlinable func insert(_ value: CFTypeRef, at index: CFIndex) {
-        insert(rawValue: bridge(value), at: index)
+        insert(rawValue: .fromCF(value), at: index)
     }
     
     @inlinable func insert(rawValue: UnsafeRawPointer, at index: CFIndex) {
@@ -91,7 +91,7 @@ public extension CFMutableArray {
     }
     
     @inlinable func set(_ value: CFTypeRef, at index: CFIndex) {
-        set(rawValue: bridge(value), at: index)
+        set(rawValue: .fromCF(value), at: index)
     }
     
     @inlinable func set(rawValue: UnsafeRawPointer, at index: CFIndex) {
