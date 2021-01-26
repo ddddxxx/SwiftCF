@@ -3,10 +3,10 @@
 import SwiftCF
 import IOKit.hid
 
-extension IOHIDElement {
+public extension IOHIDElement {
     
-    public typealias Cookie = IOHIDElementCookie
-    public typealias CollectionType = IOHIDElementCollectionType
+    typealias Cookie = IOHIDElementCookie
+    typealias CollectionType = IOHIDElementCollectionType
     
     /// Creates an element from a dictionary.
     ///

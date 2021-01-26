@@ -281,4 +281,8 @@ extension IOHIDQueue {
     }
 }
 
+public extension IOHIDQueue.Options {
+    static let enqueueAll = IOHIDQueue.Options(rawValue: IOOptionBits(kIOHIDQueueOptionsTypeEnqueueAll))
+}
+
 #endif // canImport(IOKit)

@@ -477,4 +477,8 @@ public extension IOHIDManager {
     }
 }
 
+public extension IOHIDManager.Options {
+    static let seizeDevice = IOHIDManager.Options(rawValue: IOOptionBits(kIOHIDOptionsTypeSeizeDevice))
+}
+
 #endif // canImport(IOKit)
