@@ -27,6 +27,8 @@ final class SwiftCFTests: XCTestCase {
         }
     }
     
+    #endif
+    
     func testBridgeContainer() {
         let key = CFError.UserInfoKey.description
         let cfdict = [key: 42]._bridgeToCoreFoundation()
@@ -42,8 +44,6 @@ final class SwiftCFTests: XCTestCase {
         XCTAssertNotNil(CFNumber.cast(bridged))
     }
     
-    #endif
-    
     func testCFArrayCallBacks() {
         let arr = CFMutableArray.create()
         weak var weakObj: AnyObject?
@@ -57,5 +57,7 @@ final class SwiftCFTests: XCTestCase {
     
     static var allTests = [
         ("testCFArrayCallBacks", testCFArrayCallBacks),
+        ("testBridgeContainer", testBridgeContainer),
+        ("testBridgeNestedContainer", testBridgeNestedContainer),
     ]
 }
