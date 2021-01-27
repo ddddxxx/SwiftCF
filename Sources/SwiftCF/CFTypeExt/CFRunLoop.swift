@@ -267,7 +267,7 @@ extension CFRunLoop.Activity {
     
     @usableFromInline
     var _raw: CFOptionFlags {
-        #if canImport(Darwin)
+        #if canImport(Darwin) || swift(>=5.3)
         return rawValue
         #else
         return self
@@ -276,7 +276,7 @@ extension CFRunLoop.Activity {
     
     @usableFromInline
     static func _from(raw: CFOptionFlags) -> CFRunLoop.Activity {
-        #if canImport(Darwin)
+        #if canImport(Darwin) || swift(>=5.3)
         return .init(rawValue: raw)
         #else
         return raw
