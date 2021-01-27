@@ -28,6 +28,25 @@ public extension CTFontCollection {
         return CTFontCollectionCreateWithFontDescriptors(queryDescriptors._bridgeToCoreFoundation(), options._bridgeToCoreFoundation())
     }
     
+    /// Returns a copy of the original collection augmented with the given new
+    /// font descriptors.
+    ///
+    /// The new font descriptors are merged with the existing descriptors to
+    /// create a single set.
+    ///
+    /// - Parameters:
+    ///   - queryDescriptors: An array of font descriptors to augment those of
+    ///   the original collection.
+    ///   - options: The options dictionary. For possible values, see Constants.
+    @inlinable func copy(queryDescriptors: [CTFontDescriptor] = [], options: [OptionKey: Any] = [:]) -> CTFontCollection {
+        return CTFontCollectionCreateCopyWithFontDescriptors(self, queryDescriptors._bridgeToCoreFoundation(), options._bridgeToCoreFoundation())
+    }
+    
+    /// Returns a mutable copy of the original collection.
+    @inlinable func mutableCopy() -> CTMutableFontCollection {
+        return CTFontCollectionCreateMutableCopy(self)
+    }
+    
     #if os(macOS)
     
     /// Returns the array of descriptors to match.

@@ -2,11 +2,19 @@ import CoreFoundation
 
 public extension CFArray {
     
+    static let empty: CFArray = CFArray.create(values: nil, count: 0)
+    
     @inlinable static func create(allocator: CFAllocator = .default, values: UnsafeMutablePointer<UnsafeRawPointer?>?, count: CFIndex, pCallBacks: UnsafePointer<CFArrayCallBacks>? = pCFTypeArrayCallBacks) -> CFArray {
         return CFArrayCreate(allocator, values, count, pCallBacks)
     }
     
-    static let empty: CFArray = CFArray.create(values: nil, count: 0)
+    @inlinable func copy(allocator: CFAllocator = .default) -> CFArray {
+        return CFArrayCreateCopy(allocator, self)
+    }
+    
+    @inlinable func mutableCopy(allocator: CFAllocator = .default, capacity: CFIndex = 0) -> CFMutableArray {
+        return CFArrayCreateMutableCopy(allocator, capacity, self)
+    }
     
     @inlinable var count: CFIndex {
         return CFArrayGetCount(self)

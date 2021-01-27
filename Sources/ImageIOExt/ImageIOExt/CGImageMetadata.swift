@@ -3,14 +3,6 @@
 import SwiftCF
 import ImageIO
 
-extension CGImageMetadata: CFMutableCopying {
-    
-    @inlinable public func mutableCopy(allocator: CFAllocator) -> CGMutableImageMetadata {
-        // FIXME: force unwrap
-        return CGImageMetadataCreateMutableCopy(self)!
-    }
-}
-
 public extension CGImageMetadata {
     
     /// Creates a collection of CGImageMetadataTags from a block of XMP data
@@ -24,6 +16,17 @@ public extension CGImageMetadata {
     /// an error occurred.
     @inlinable static func create(xmpData: CFData) -> CGImageMetadata? {
         return CGImageMetadataCreateFromXMPData(xmpData)
+    }
+    
+    /// Creates a deep mutable copy of another CGImageMetadataRef
+    ///
+    /// Before modifying an immutable CGImageMetadataRef (such as metadata from
+    /// CGImageSourceCopyMetadataAtIndex) you must first make a copy.
+    ///
+    /// This function makes a deep copy of all CGImageMetadataTags and their values.
+    @inlinable func mutableCopy() -> CGMutableImageMetadata {
+        // FIXME: force unwrap
+        return CGImageMetadataCreateMutableCopy(self)!
     }
     
     /// Serializes the CGImageMetadataRef to XMP data

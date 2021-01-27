@@ -179,11 +179,11 @@ extension CFStringTokenizer: CFType {
 
 // MARK: - Mutable Type
 
-//extension CFMutableArray: CFType {}
-//extension CFMutableAttributedString: CFType {}
-//extension CFMutableBag: CFType {}
-//extension CFMutableBitVector: CFType {}
-//extension CFMutableCharacterSet: CFType {}
+//extension CFMutableArray: CFMutableType {}
+//extension CFMutableAttributedString: CFMutableType {}
+//extension CFMutableBag: CFMutableType {}
+//extension CFMutableBitVector: CFMutableType {}
+//extension CFMutableCharacterSet: CFMutableType {}
 //extension CFMutableData: CFMutableType {}
 //extension CFMutableDictionary: CFMutableType {}
 //extension CFMutableSet: CFMutableType {}

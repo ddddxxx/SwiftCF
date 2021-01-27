@@ -10,6 +10,14 @@ public extension CFData {
         return CFDataCreateWithBytesNoCopy(allocator, bytes, length, bytesDeallocator)
     }
     
+    @inlinable func copy(allocator: CFAllocator = .default) -> CFData {
+        return CFDataCreateCopy(allocator, self)
+    }
+    
+    @inlinable func mutableCopy(allocator: CFAllocator = .default, capacity: CFIndex = 0) -> CFMutableData {
+        return CFDataCreateMutableCopy(allocator, capacity, self)
+    }
+    
     @inlinable var length: CFIndex {
         return CFDataGetLength(self)
     }

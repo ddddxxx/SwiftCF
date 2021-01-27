@@ -18,10 +18,6 @@ public extension CFTollFreeBridging {
     }
 }
 
-// MARK: BridgedMutable
-
-public typealias CFTollFreeBridgingMutableType = CFMutableType & CFTollFreeBridging
-
 // MARK: - Conformance
 
 extension CFArray: CFTollFreeBridging {

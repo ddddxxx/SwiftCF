@@ -67,6 +67,11 @@ public extension CTRubyAnnotation {
         return CTRubyAnnotationCreate(alignment, overhang, sizeFactor, &textArr)
     }
     
+    /// Creates an immutable copy of a ruby annotation object.
+    @inlinable func copy() -> CTRubyAnnotation {
+        return CTRubyAnnotationCreateCopy(self)
+    }
+    
     /// Get the alignment value of a ruby annotation object.
     @inlinable var alignment: Alignment {
         return CTRubyAnnotationGetAlignment(self)

@@ -18,6 +18,14 @@ public extension CFString {
         return CFStringCreateWithBytesNoCopy(allocator, bytes, length, encoding, isExternalRepresentation, contentsDeallocator)
     }
     
+    @inlinable func copy(allocator: CFAllocator = .default) -> CFString {
+        return CFStringCreateCopy(allocator, self)
+    }
+    
+    @inlinable func mutableCopy(allocator: CFAllocator = .default, capacity: CFIndex = 0) -> CFMutableString {
+        return CFStringCreateMutableCopy(allocator, capacity, self)
+    }
+    
     @inlinable var length: CFIndex {
         return CFStringGetLength(self)
     }

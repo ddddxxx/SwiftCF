@@ -2,11 +2,19 @@ import CoreFoundation
 
 public extension CFDictionary {
     
+    static let empty = CFDictionary.create(keys: nil, values: nil, count: 0)
+    
     @inlinable static func create(allocator: CFAllocator = .default, keys: UnsafeMutablePointer<UnsafeRawPointer?>?, values: UnsafeMutablePointer<UnsafeRawPointer?>?, count: CFIndex, keyCallBacks: UnsafePointer<CFDictionaryKeyCallBacks>? = pCFTypeDictionaryKeyCallBacks, valueCallBacks: UnsafePointer<CFDictionaryValueCallBacks>? = pCFTypeDictionaryValueCallBacks) -> CFDictionary {
         return CFDictionaryCreate(allocator, keys, values, count, keyCallBacks, valueCallBacks)
     }
     
-    static let empty = CFDictionary.create(keys: nil, values: nil, count: 0)
+    @inlinable func copy(allocator: CFAllocator = .default) -> CFDictionary {
+        return CFDictionaryCreateCopy(allocator, self)
+    }
+    
+    @inlinable func mutableCopy(allocator: CFAllocator = .default, capacity: CFIndex = 0) -> CFMutableDictionary {
+        return CFDictionaryCreateMutableCopy(allocator, capacity, self)
+    }
     
     @inlinable var count: CFIndex {
         return CFDictionaryGetCount(self)
