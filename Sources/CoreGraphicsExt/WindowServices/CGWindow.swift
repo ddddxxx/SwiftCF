@@ -1,5 +1,6 @@
 #if os(macOS)
 
+import SwiftCF
 import CoreGraphics
 
 // namespace of CGWindow related functions

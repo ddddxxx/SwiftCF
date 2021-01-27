@@ -1,5 +1,6 @@
 #if canImport(CoreGraphics)
 
+import SwiftCF
 import CoreGraphics
 
 extension CGColor: CFType {}
