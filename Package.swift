@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 
 import PackageDescription
 
@@ -27,8 +27,5 @@ let package = Package(
         .testTarget(
             name: "SwiftCFTests",
             dependencies: ["SwiftCF"]),
-    ],
-    swiftLanguageVersions: [
-        .v5
     ]
 )

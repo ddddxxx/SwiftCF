@@ -13,7 +13,7 @@ jobs:
   Linux:
     strategy:
       matrix:
-        swift_version: ['5.0', '5.1', '5.2']
+        swift_version: [5.1', '5.2', '5.3']
     runs-on: ubuntu-latest
     container:
       image: swift:${{ matrix.swift_version }}
