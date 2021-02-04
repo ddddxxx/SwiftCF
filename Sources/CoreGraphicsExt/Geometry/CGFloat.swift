@@ -1,4 +1,6 @@
-import Foundation
+#if canImport(CoreGraphics)
+
+import CoreGraphics
 
 public extension CGFloat {
     
@@ -12,3 +14,5 @@ public extension CGFloat {
         return self * 180 / .pi
     }
 }
+
+#endif // canImport(CoreGraphics)

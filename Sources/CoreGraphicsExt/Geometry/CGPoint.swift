@@ -1,4 +1,6 @@
-import Foundation
+#if canImport(CoreGraphics)
+
+import CoreGraphics
 
 public extension CGPoint {
     
@@ -38,10 +40,6 @@ public extension CGPoint {
         point = point / scalar
     }
 }
-#if canImport(CoreGraphics)
-
-import CoreGraphics
-
 
 public extension CGPoint {
     

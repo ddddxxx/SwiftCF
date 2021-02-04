@@ -1,4 +1,6 @@
-import Foundation
+#if canImport(CoreGraphics)
+
+import CoreGraphics
 
 public extension CGRect {
     
@@ -82,3 +84,5 @@ public extension CGRect {
         self = extendBy(minX: minX, minY: minY, maxX: maxX, maxY: maxY)
     }
 }
+
+#endif // canImport(CoreGraphics)

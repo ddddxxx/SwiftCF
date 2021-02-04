@@ -42,12 +42,12 @@ public extension CTFontCollection {
         return CTFontCollectionCreateCopyWithFontDescriptors(self, queryDescriptors._bridgeToCoreFoundation(), options._bridgeToCoreFoundation())
     }
     
+    #if os(macOS)
+    
     /// Returns a mutable copy of the original collection.
     @inlinable func mutableCopy() -> CTMutableFontCollection {
         return CTFontCollectionCreateMutableCopy(self)
     }
-    
-    #if os(macOS)
     
     /// Returns the array of descriptors to match.
     ///

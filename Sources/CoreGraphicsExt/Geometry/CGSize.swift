@@ -1,4 +1,6 @@
-import Foundation
+#if canImport(CoreGraphics)
+
+import CoreGraphics
 
 public extension CGSize {
     
@@ -55,3 +57,5 @@ public extension CGSize {
         size = size / scalar
     }
 }
+
+#endif // canImport(CoreGraphics)
