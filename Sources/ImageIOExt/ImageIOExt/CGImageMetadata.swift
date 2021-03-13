@@ -47,7 +47,7 @@ public extension CGImageMetadata {
     /// - Returns: Returns an array with a shallow copy of all top-level
     /// CGImageMetadataTagRefs in a CGImageMetadataRef.
     @inlinable func tags() -> [CGImageMetadataTag] {
-        return CGImageMetadataCopyTags(self) as! [CGImageMetadataTag]? ?? []
+        return CGImageMetadataCopyTags(self)?.asSwift() ?? []
     }
     
     /// Executes a given block using each tag in the metadata
@@ -69,7 +69,7 @@ public extension CGImageMetadata {
     ///   - body: The block that is executed for each tag in metadata.
     @inlinable func enumerateTags(rootPath: CFString? = nil, options: [EnumerateOptions: Any] = [:], body: CGImageMetadataTagBlock) {
         withoutActuallyEscaping(body) { escapingBody in
-            CGImageMetadataEnumerateTagsUsingBlock(self, rootPath, options._bridgeToCF(), escapingBody)
+            CGImageMetadataEnumerateTagsUsingBlock(self, rootPath, .from(options), escapingBody)
         }
     }
     

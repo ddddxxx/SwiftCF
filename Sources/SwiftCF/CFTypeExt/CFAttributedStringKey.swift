@@ -22,6 +22,6 @@ extension CFAttributedString {
 public extension CFAttributedString.Key {
     
     func ns(_ key: NSAttributedString.Key) -> CFAttributedString.Key {
-        return .init(key.rawValue._bridgeToCF())
+        return .init(.from(key.rawValue))
     }
 }

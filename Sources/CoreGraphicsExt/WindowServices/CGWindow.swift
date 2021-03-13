@@ -18,7 +18,7 @@ public extension CGWindow {
     /// GUI session or the window server is disabled. You should release the
     /// array when you are finished using it.
     static func windowInfoList(relativeTo window: ID = kCGNullWindowID, option: ListOption = []) -> [[InfoKey: Any]] {
-        return CGWindowListCopyWindowInfo(option, window) as! [[InfoKey: Any]]? ?? []
+        return CGWindowListCopyWindowInfo(option, window)?.asSwift() ?? []
     }
 }
 

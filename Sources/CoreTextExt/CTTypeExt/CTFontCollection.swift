@@ -12,7 +12,7 @@ public extension CTFontCollection {
     /// - Returns: This function creates a new collection containing all fonts
     /// available to the current application.
     @inlinable static func availableFonts(options: [OptionKey: Any] = [:]) -> CTFontCollection {
-        return CTFontCollectionCreateFromAvailableFonts(options._bridgeToCF())
+        return CTFontCollectionCreateFromAvailableFonts(.from(options))
     }
     
     /// Returns a new collection based on the array of font descriptors.
@@ -25,7 +25,7 @@ public extension CTFontCollection {
     /// font descriptors. The contents of this collection is defined by matching
     /// the provided descriptors against all available font descriptors.
     @inlinable static func create(queryDescriptors: [CTFontDescriptor] = [], options: [OptionKey: Any] = [:]) -> CTFontCollection {
-        return CTFontCollectionCreateWithFontDescriptors(queryDescriptors._bridgeToCF(), options._bridgeToCF())
+        return CTFontCollectionCreateWithFontDescriptors(.from(queryDescriptors), .from(options))
     }
     
     /// Returns a copy of the original collection augmented with the given new
@@ -39,7 +39,7 @@ public extension CTFontCollection {
     ///   the original collection.
     ///   - options: The options dictionary. For possible values, see Constants.
     @inlinable func copy(queryDescriptors: [CTFontDescriptor] = [], options: [OptionKey: Any] = [:]) -> CTFontCollection {
-        return CTFontCollectionCreateCopyWithFontDescriptors(self, queryDescriptors._bridgeToCF(), options._bridgeToCF())
+        return CTFontCollectionCreateCopyWithFontDescriptors(self, .from(queryDescriptors), .from(options))
     }
     
     #if os(macOS)
@@ -56,7 +56,7 @@ public extension CTFontCollection {
     /// return value is undefined if CTFontCollectionCreateFromAvailableFonts
     /// was used to create the collection.
     @inlinable func queryDescriptors() -> [CTFontDescriptor] {
-        return CTFontCollectionCopyQueryDescriptors(self) as! [CTFontDescriptor]? ?? []
+        return CTFontCollectionCopyQueryDescriptors(self)?.asSwift() ?? []
     }
     
     /// Returns the array of descriptors to exclude from the match.
@@ -64,7 +64,7 @@ public extension CTFontCollection {
     /// - Returns: This function returns a retained reference to the array of
     /// descriptors to be used to query (match) the system font database.
     @inlinable func exclusionDescriptors() -> [CTFontDescriptor] {
-        return CTFontCollectionCopyExclusionDescriptors(self) as! [CTFontDescriptor]? ?? []
+        return CTFontCollectionCopyExclusionDescriptors(self)?.asSwift() ?? []
     }
     
     #endif // os(macOS)
@@ -74,7 +74,7 @@ public extension CTFontCollection {
     /// - Returns: An array of CTFontDescriptors matching the collection
     /// definition or NULL if there are none.
     @inlinable func matchingFontDescriptors() -> [CTFontDescriptor] {
-        return CTFontCollectionCreateMatchingFontDescriptors(self)  as! [CTFontDescriptor]? ?? []
+        return CTFontCollectionCreateMatchingFontDescriptors(self)?.asSwift() ?? []
     }
     
     /// Returns an array of font descriptors matching the collection.
@@ -87,7 +87,7 @@ public extension CTFontCollection {
     /// definition or NULL if there are none.
     @available(macOS 10.7, iOS 12.0, tvOS 12.0, watchOS 5.0, *)
     @inlinable func matchingFontDescriptors(options: [OptionKey: Any] = [:]) -> [CTFontDescriptor]? {
-        return CTFontCollectionCreateMatchingFontDescriptorsWithOptions(self, options._bridgeToCF()) as! [CTFontDescriptor]? ?? []
+        return CTFontCollectionCreateMatchingFontDescriptorsWithOptions(self, .from(options))?.asSwift() ?? []
     }
     
     #if os(macOS)
@@ -127,7 +127,8 @@ public extension CTFontCollection {
     /// removed. When kCTFontCollectionCopyStandardSort is set, the values will
     /// be sorted in standard UI order.
     @inlinable func fontAttributes(keys: Set<CTFont.AttributeKey>, options: CopyOptions) -> [[CTFont.AttributeKey: Any?]] {
-        return CTFontCollectionCopyFontAttributes(self, keys as NSSet, options).map { ($0 as! [CTFont.AttributeKey: CFTypeRef]).mapValues(cfUnwrap(_:)) }
+        return CTFontCollectionCopyFontAttributes(self, .from(keys), options)
+            .map { ($0 as! [CTFont.AttributeKey: CFTypeRef]).mapValues(cfUnwrap(_:)) }
     }
     
     #endif // os(macOS)
@@ -142,13 +143,13 @@ extension CTMutableFontCollection {
     /// represent an empty collection, in which case the matching descriptors
     /// will also be NULL.
     @inlinable func setQueryDescriptors(_ descriptors: [CTFontDescriptor]) {
-        return CTFontCollectionSetQueryDescriptors(self, descriptors._bridgeToCF())
+        return CTFontCollectionSetQueryDescriptors(self, .from(descriptors))
     }
     
     /// Replaces the array of descriptors to exclude from the match.
     /// - Parameter descriptors: An array of CTFontDescriptorRef. May be NULL.
     @inlinable func setExclusionDescriptors(_ descriptors: [CTFontDescriptor]) {
-        return CTFontCollectionSetExclusionDescriptors(self, descriptors._bridgeToCF())
+        return CTFontCollectionSetExclusionDescriptors(self, .from(descriptors))
     }
 }
 

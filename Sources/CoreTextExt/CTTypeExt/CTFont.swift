@@ -161,7 +161,7 @@ public extension CTFont {
     /// Individual traits
     /// can be accessed with the trait key constants.
     @inlinable func traits() -> [TraitKey: Any] {
-        return CTFontCopyTraits(self) as! [TraitKey: Any]
+        return CTFontCopyTraits(self).asSwift()
     }
     
     // MARK: name
@@ -236,7 +236,7 @@ public extension CTFont {
     /// the font. The array contains language identifier strings as CFStringRef
     /// objects. The format of the language identifier conforms to the RFC
     /// 3066bis standard.
-    @inlinable func supportedLanguages() -> [CFString] { return CTFontCopySupportedLanguages(self) as! [CFString] }
+    @inlinable func supportedLanguages() -> [CFString] { return CTFontCopySupportedLanguages(self).asSwift() }
     
     /// Provides basic Unicode encoding for the given font, returning by
     /// reference an array of CGGlyph values corresponding to a given array of

@@ -30,7 +30,7 @@ public extension CGImageMetadataTag {
     }
     
     @inlinable func qualifiers() -> [CGImageMetadataTag] {
-        return CGImageMetadataTagCopyQualifiers(self) as! [CGImageMetadataTag]? ?? []
+        return CGImageMetadataTagCopyQualifiers(self)?.asSwift() ?? []
     }
 }
 

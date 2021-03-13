@@ -12,7 +12,7 @@ public extension CFStringKey {
     }
     
     init(stringLiteral value: String) {
-        self.init(value._bridgeToCF())
+        self.init(.from(value))
     }
     
     var description: String {

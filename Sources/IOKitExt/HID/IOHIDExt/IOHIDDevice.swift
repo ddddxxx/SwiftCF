@@ -111,7 +111,7 @@ public extension IOHIDDevice {
     ///   - options: Reserved for future use.
     /// - Returns: Returns CFArrayRef containing multiple IOHIDElement object.
     @inlinable func elements(matching: [HIDElementKey: Any]? = nil, options: Options = []) -> [IOHIDElement] {
-        return IOHIDDeviceCopyMatchingElements(self, matching?._bridgeToCF(), options.rawValue) as! [IOHIDElement]
+        return IOHIDDeviceCopyMatchingElements(self, matching.map(CFDictionary.from), options.rawValue)?.asSwift() ?? []
     }
     
     /// Schedules HID device with run loop.
@@ -314,7 +314,7 @@ public extension IOHIDDevice {
     ///
     /// - Parameter matching: CFDictionaryRef containg device matching criteria.
     @inlinable func setInputValueMatching(_ matching: [HIDElementKey: Any]) {
-        IOHIDDeviceSetInputValueMatching(self, matching._bridgeToCF())
+        IOHIDDeviceSetInputValueMatching(self, .from(matching))
     }
     
     /// Sets multiple matching criteria for input values received via
@@ -328,7 +328,7 @@ public extension IOHIDDevice {
     /// - Parameter multiple: CFArrayRef containing multiple CFDictionaryRef
     /// objects containing input element matching criteria.
     @inlinable func setInputValueMatching(multiple: [[HIDElementKey: Any]]) {
-        IOHIDDeviceSetInputValueMatchingMultiple(self, multiple._bridgeToCF())
+        IOHIDDeviceSetInputValueMatchingMultiple(self, .from(multiple))
     }
     
     /// Sets a value for an element.
@@ -356,7 +356,7 @@ public extension IOHIDDevice {
     /// value is IOHIDValueRef.
     /// - Throws: Throws IOError if failed.
     @inlinable func setValues(_ multiple: [IOHIDElement: IOHIDValue]) throws {
-        IOHIDDeviceSetValueMultiple(self, multiple._bridgeToCF())
+        IOHIDDeviceSetValueMultiple(self, .from(multiple))
     }
     
     /// Sets a value for an element and returns status via a completion callback.
@@ -400,7 +400,7 @@ public extension IOHIDDevice {
     /// - Throws: Throws IOError if failed.
     func setValues(_ multiple: [IOHIDElement: IOHIDValue], timeout: CFTimeInterval, callback: @escaping HIDValueMultipleCallback<IOHIDDevice>) throws {
         let ctx = HIDValueMultipleCallbackContext<IOHIDDevice>(callback)
-        try IOHIDDeviceSetValueMultipleWithCallback(self, multiple._bridgeToCF(), timeout, { ctx, result, sender, values in
+        try IOHIDDeviceSetValueMultipleWithCallback(self, .from(multiple), timeout, { ctx, result, sender, values in
             Unmanaged<HIDValueMultipleCallbackContext<IOHIDDevice>>
                 .fromOpaque(ctx!)
                 .takeRetainedValue()
@@ -463,8 +463,8 @@ public extension IOHIDDevice {
     /// the values are the requested values.
     @inlinable func values(for elements: [IOHIDElement]) throws -> [IOHIDElement: IOHIDValue] {
         var pValue: Unmanaged<CFDictionary>?
-        try IOHIDDeviceCopyValueMultiple(self, elements._bridgeToCF(), &pValue).throwIfIOError()
-        return pValue!.takeUnretainedValue() as! [IOHIDElement: IOHIDValue]
+        try IOHIDDeviceCopyValueMultiple(self, .from(elements), &pValue).throwIfIOError()
+        return pValue!.takeUnretainedValue().asSwift()
     }
     
     // TODO: get value with callback

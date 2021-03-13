@@ -211,7 +211,7 @@ public extension IOHIDManager {
     ///
     /// - Parameter matching: matching CFDictionaryRef containg device matching criteria.
     @inlinable func setDeviceMatching(_ matching: [HIDPropertyKey: Any]) {
-        IOHIDManagerSetDeviceMatching(self, matching._bridgeToCF())
+        IOHIDManagerSetDeviceMatching(self, .from(matching))
     }
     
     /// Sets multiple matching criteria for device enumeration.
@@ -224,12 +224,12 @@ public extension IOHIDManager {
     /// - Parameter multiple: CFArrayRef containing multiple CFDictionaryRef
     /// objects containg device matching criteria.
     @inlinable func setDeviceMatching(multiple: [[HIDPropertyKey: Any]]) {
-        IOHIDManagerSetDeviceMatchingMultiple(self, multiple._bridgeToCF())
+        IOHIDManagerSetDeviceMatchingMultiple(self, .from(multiple))
     }
     
     /// Obtains currently enumerated devices.
     @inlinable func devices() -> Set<IOHIDDevice> {
-        return IOHIDManagerCopyDevices(self) as! Set<IOHIDDevice>? ?? []
+        return IOHIDManagerCopyDevices(self)?.asSwift() ?? []
     }
     
     /// Registers a callback to be used a device is enumerated.
@@ -314,7 +314,7 @@ public extension IOHIDManager {
     ///
     /// - Parameter matching: CFDictionaryRef containg device matching criteria.
     @inlinable func setInputValueMatching(_ matching: [HIDElementKey: Any]) {
-        IOHIDManagerSetInputValueMatching(self, matching._bridgeToCF())
+        IOHIDManagerSetInputValueMatching(self, .from(matching))
     }
     
     /// Sets multiple matching criteria for input values received via
@@ -328,7 +328,7 @@ public extension IOHIDManager {
     /// - Parameter multiple: CFArrayRef containing multiple CFDictionaryRef
     /// objects containing input element matching criteria.
     @inlinable func setInputValueMatching(multiple: [[HIDElementKey: Any]]) {
-        IOHIDManagerSetInputValueMatchingMultiple(self, multiple._bridgeToCF())
+        IOHIDManagerSetInputValueMatchingMultiple(self, .from(multiple))
     }
     
     /// Used to write out the current properties to a specific domain.

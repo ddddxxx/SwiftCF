@@ -70,7 +70,7 @@ class HIDValueMultipleCallbackContext<Sender>: HIDCallbackToken {
     func callAsFunction(result: IOReturn, sender: UnsafeMutableRawPointer?, values: CFDictionary) {
         let sender = sender?.assumingMemoryBound(to: Sender.self).pointee
         let error = KernelError(rawValue: result)
-        callback(values as! [IOHIDElement: IOHIDValue], error, sender)
+        callback(values.asSwift(), error, sender)
     }
 }
 

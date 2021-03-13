@@ -19,7 +19,7 @@ public extension IOHIDElement {
     ///   - dictionary: dictionary containing values in which to create element.
     /// - Returns: Returns a new IOHIDElementRef.
     @inlinable static func create(allocator: CFAllocator = .default, dictionary: [HIDElementKey: Any]) -> IOHIDElement? {
-        return IOHIDElementCreateWithDictionary(allocator, dictionary._bridgeToCF())
+        return IOHIDElementCreateWithDictionary(allocator, .from(dictionary))
     }
     
     /// Obtain the device associated with the element.
@@ -44,7 +44,7 @@ public extension IOHIDElement {
     ///
     /// Returns an CFArrayRef containing element objects of type IOHIDElementRef.
     @inlinable var children: [IOHIDElement] {
-        return IOHIDElementGetChildren(self) as! [IOHIDElement]? ?? []
+        return IOHIDElementGetChildren(self)?.asSwift() ?? []
     }
     
     /// Establish a relationship between one or more elements.
@@ -74,7 +74,7 @@ public extension IOHIDElement {
     ///
     /// - Returns: Returns a copy of the current attached elements.
     @inlinable func attachedElements() -> [IOHIDElement] {
-        return IOHIDElementCopyAttached(self) as! [IOHIDElement]? ?? []
+        return IOHIDElementCopyAttached(self)?.asSwift() ?? []
     }
     
     /// Retrieves the cookie for the element.

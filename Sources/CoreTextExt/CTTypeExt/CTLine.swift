@@ -75,7 +75,7 @@ public extension CTLine {
     
     /// Returns the array of glyph runs that make up the line object.
     @inlinable var glyphRuns: [CTRun] {
-        return CTLineGetGlyphRuns(self) as! [CTRun]
+        return CTLineGetGlyphRuns(self).asSwift()
     }
     
     /// Gets the range of characters that originally spawned the glyphs in the

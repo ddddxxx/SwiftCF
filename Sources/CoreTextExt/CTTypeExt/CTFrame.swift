@@ -36,12 +36,12 @@ public extension CTFrame {
     /// aspects of the framing process. These attributes are different from the
     /// ones used to create an attributed string.
     @inlinable var frameAttributes: [AttributeKey: Any] {
-        return CTFrameGetFrameAttributes(self) as! [AttributeKey: Any]? ?? [:]
+        return CTFrameGetFrameAttributes(self)?.asSwift() ?? [:]
     }
     
     /// Returns an array of lines stored in the frame.
     @inlinable var lines: [CTLine] {
-        return CTFrameGetLines(self) as! [CTLine]
+        return CTFrameGetLines(self).asSwift()
     }
     
     /// Copies a range of line origins for a frame.

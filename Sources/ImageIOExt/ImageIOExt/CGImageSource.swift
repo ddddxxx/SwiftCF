@@ -17,7 +17,7 @@ public extension CGImageSource {
     /// - Returns: An image source. You are responsible for releasing this
     /// object using CFRelease.
     @inlinable static func create(dataProvider: CGDataProvider, options: [Option: Any] = [:]) -> CGImageSource? {
-        return CGImageSourceCreateWithDataProvider(dataProvider, options._bridgeToCF())
+        return CGImageSourceCreateWithDataProvider(dataProvider, .from(options))
     }
     
     /// reates an image source that reads from a Core Foundation data object.
@@ -29,7 +29,7 @@ public extension CGImageSource {
     /// - Returns: An image source. You are responsible for releasing this
     /// object using CFRelease.
     @inlinable static func create(data: CFData, options: [Option: Any] = [:]) -> CGImageSource? {
-        return CGImageSourceCreateWithData(data, options._bridgeToCF())
+        return CGImageSourceCreateWithData(data, .from(options))
     }
     
     /// Creates an image source that reads from a location specified by a URL.
@@ -40,7 +40,7 @@ public extension CGImageSource {
     /// - Returns: An image source. You are responsible for releasing this
     /// object using CFRelease.
     @inlinable static func create(url: CFURL, options: [Option: Any] = [:]) -> CGImageSource? {
-        return CGImageSourceCreateWithURL(url, options._bridgeToCF())
+        return CGImageSourceCreateWithURL(url, .from(options))
     }
     
     /// Create an incremental image source.
@@ -59,7 +59,7 @@ public extension CGImageSource {
     /// - Returns: Returns an image source object. You are responsible for
     /// releasing this object using CFRelease.
     @inlinable static func createIncremental(options: [Option: Any] = [:]) -> CGImageSource {
-        return CGImageSourceCreateIncremental(options._bridgeToCF())
+        return CGImageSourceCreateIncremental(.from(options))
     }
     
     /// Returns the uniform type identifier of the source container.
@@ -98,7 +98,7 @@ public extension CGImageSource {
     /// image source container. See CGImageProperties for a list of properties
     /// that can be in the dictionary.
     @inlinable func properties(options: [Option: Any] = [:]) -> [CGImage.PropertyName: Any] {
-        return CGImageSourceCopyProperties(self, options._bridgeToCF()) as! [CGImage.PropertyName: Any]? ?? [:]
+        return CGImageSourceCopyProperties(self, .from(options))?.asSwift() ?? [:]
     }
     
     /// Returns the properties of the image at a specified location in an image
@@ -113,7 +113,7 @@ public extension CGImageSource {
     /// image. See CGImageProperties for a list of properties that can be in the
     /// dictionary.
     @inlinable func properties(at index: Int, options: [Option: Any] = [:]) -> [CGImage.PropertyName: Any] {
-        return CGImageSourceCopyPropertiesAtIndex(self, index, options._bridgeToCF()) as! [CGImage.PropertyName: Any]? ?? [:]
+        return CGImageSourceCopyPropertiesAtIndex(self, index, .from(options))?.asSwift() ?? [:]
     }
     
     /// Return the metadata of the image at 'index' in the image source 'isrc'.
@@ -121,14 +121,14 @@ public extension CGImageSource {
     /// additional options; see the list of keys above for more information.
     /// Please refer to CGImageMetadata.h for usage of metadata.
     @inlinable func metadata(at index: Int, options: [Option: Any] = [:]) -> CGImageMetadata? {
-        return CGImageSourceCopyMetadataAtIndex(self, index, options._bridgeToCF())
+        return CGImageSourceCopyMetadataAtIndex(self, index, .from(options))
     }
     
     /// Return the image at 'index' in the image source 'isrc'.  The index is
     /// zero-based. The `options' dictionary may be used to request additional
     /// creation options; see the list of keys above for more information.
     @inlinable func image(at index: Int, options: [Option: Any] = [:]) -> CGImage? {
-        return CGImageSourceCreateImageAtIndex(self, index, options._bridgeToCF())
+        return CGImageSourceCreateImageAtIndex(self, index, .from(options))
     }
     
     /// Remove the cached decoded image data for the image at 'index' in the
@@ -142,7 +142,7 @@ public extension CGImageSource {
     /// additional thumbnail creation options; see the list of keys above for
     /// more information.
     @inlinable func thumbnail(at index: Int, options: [Option: Any]) -> CGImage? {
-        return CGImageSourceCreateThumbnailAtIndex(self, index, options._bridgeToCF())
+        return CGImageSourceCreateThumbnailAtIndex(self, index, .from(options))
     }
     
     /// Update the incremental image source 'isrc' with new data. The new data
@@ -194,7 +194,7 @@ public extension CGImageSource {
     /// CGImageSourceCopyAuxiliaryDataInfoAtIndex returns nil if the image did not contain ‘auxiliaryImageDataType’ data.
     @available(macOS 10.13, iOS 11.0, tvOS 11.0, watchOS 4.0, *)
     @inlinable func auxiliaryDataInfo(at index: Int, type: CGImage.AuxiliaryDataType) -> [CGImage.AuxiliaryDataInfoKey: Any] {
-        return CGImageSourceCopyAuxiliaryDataInfoAtIndex(self, index, type.rawValue) as! [CGImage.AuxiliaryDataInfoKey: Any]? ?? [:]
+        return CGImageSourceCopyAuxiliaryDataInfoAtIndex(self, index, type.rawValue)?.asSwift() ?? [:]
     }
 }
 

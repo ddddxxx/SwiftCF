@@ -18,7 +18,7 @@ public extension CTFontManager {
     /// - Returns: An array of CFStrings.
     @available(iOS 10.0, tvOS 10.0, watchOS 3.0, *)
     @inlinable static func availablePostScriptNames() -> [CFString] {
-        return CTFontManagerCopyAvailablePostScriptNames() as! [CFString]
+        return CTFontManagerCopyAvailablePostScriptNames().asSwift()
     }
     
     /// Returns an array of visible font family names sorted for user interface
@@ -27,7 +27,7 @@ public extension CTFontManager {
     /// - Returns: An array of CFStrings.
     @available(iOS 10.0, tvOS 10.0, watchOS 3.0, *)
     @inlinable static func availableFontFamilyNames() -> [CFString] {
-        return CTFontManagerCopyAvailableFontFamilyNames() as! [CFString]
+        return CTFontManagerCopyAvailableFontFamilyNames().asSwift()
     }
     
     #if os(macOS)
@@ -35,7 +35,7 @@ public extension CTFontManager {
     ///
     /// - Returns: An array of CFURLs.
     @inlinable static func availableFontURLs() -> [CFURL] {
-        return CTFontManagerCopyAvailableFontURLs() as! [CFURL]
+        return CTFontManagerCopyAvailableFontURLs().asSwift()
     }
     #endif
     
@@ -46,7 +46,7 @@ public extension CTFontManager {
     /// - Returns: An array of CTFontDescriptors or NULL if there are no valid
     /// fonts.
     @inlinable static func fontDescriptors(from fileURL: CFURL) -> [CTFontDescriptor] {
-        return CTFontManagerCreateFontDescriptorsFromURL(fileURL) as! [CTFontDescriptor]
+        return CTFontManagerCreateFontDescriptorsFromURL(fileURL)?.asSwift() ?? []
     }
     
     /// Creates a font descriptor representing the font in the supplied data.
@@ -88,7 +88,7 @@ public extension CTFontManager {
     /// - Returns: An array of font descriptors.
     @available(OSX 10.13, iOS 11.0, tvOS 11.0, watchOS 4.0, *)
     @inlinable static func fontDescriptors(from data: CFData) -> [CTFontDescriptor] {
-        return CTFontManagerCreateFontDescriptorsFromData(data) as! [CTFontDescriptor]
+        return CTFontManagerCreateFontDescriptorsFromData(data).asSwift()
     }
     
     /// Registers fonts from the specified font URL with the Font Manager. Registered fonts are discoverable through font descriptor matching.
@@ -162,14 +162,14 @@ public extension CTFontManager {
     ///
     /// - Parameter descriptors: Array of font descriptors.
     @inlinable static func enableFontDescriptors(_ descriptors: [CTFontDescriptor]) {
-        CTFontManagerEnableFontDescriptors(descriptors._bridgeToCF(), true)
+        CTFontManagerEnableFontDescriptors(.from(descriptors), true)
     }
     
     /// Disables the matching font descriptors for font descriptor matching.
     ///
     /// - Parameter descriptors: Array of font descriptors.
     @inlinable static func disableFontDescriptors(_ descriptors: [CTFontDescriptor]) {
-        CTFontManagerEnableFontDescriptors(descriptors._bridgeToCF(), false)
+        CTFontManagerEnableFontDescriptors(.from(descriptors), false)
     }
     
     /// Returns the registration scope of the specified URL.

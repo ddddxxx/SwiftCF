@@ -19,7 +19,7 @@ public extension CTRun {
     /// dictionaries can be manufactured in the case of font substitution or if the run is missing critical
     /// attributes.
     @inlinable var attributes: [CFAttributedString.Key: Any] {
-        return CTRunGetAttributes(self) as! [CFAttributedString.Key: Any]
+        return CTRunGetAttributes(self).asSwift()
     }
     
     /// Returns the run's status.

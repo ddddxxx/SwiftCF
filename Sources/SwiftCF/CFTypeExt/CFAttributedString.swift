@@ -4,7 +4,7 @@ import CoreFoundation
 public extension CFAttributedString {
     
     @inlinable static func create(allocator: CFAllocator = .default, string: CFString, attributes: [Key: Any] = [:]) -> CFAttributedString {
-        return CFAttributedStringCreate(allocator, string, attributes._bridgeToCF())
+        return CFAttributedStringCreate(allocator, string, .from(attributes))
     }
     
     @inlinable func copy(allocator: CFAllocator = .default) -> CFAttributedString {
@@ -29,8 +29,7 @@ public extension CFAttributedString {
     
     @inlinable func attributes(at loc: CFIndex) -> (attributes: [Key: Any], effectiveRange: CFRange) {
         var effectiveRange = CFRange()
-        let attr: [Key: Any] = CFAttributedStringGetAttributes(self, loc, &effectiveRange)
-            .map(Dictionary._bridgeFromCF) ?? [:]
+        let attr: [Key: Any] = CFAttributedStringGetAttributes(self, loc, &effectiveRange)?.asSwift() ?? [:]
         return (attr, effectiveRange)
     }
     

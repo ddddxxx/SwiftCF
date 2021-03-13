@@ -82,6 +82,21 @@ extension Dictionary: _CFConvertible {
     }
 }
 
+extension Set: _CFConvertible {
+    
+    public func _bridgeToCF() -> CFSet {
+        return CFSet._bridgeFromNS(NSSet(array: self.map(_bridgeToCFIfNeeded)))
+    }
+    
+    public static func _bridgeFromCF(_ source: CFSet) -> Set<Element> {
+        #if canImport(Darwin)
+        return source as! Set<Element>
+        #else
+        return Set(source._bridgeToNS().map(_bridgeFromCFIfNeeded))
+        #endif
+    }
+}
+
 // MARK: - Value
 
 extension Bool: _CFConvertible {

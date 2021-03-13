@@ -100,7 +100,7 @@ public extension AXUIElement {
     @inlinable func attributeNames() throws -> [Attribute] {
         var names: CFArray?
         switch AXUIElementCopyAttributeNames(self, &names) {
-        case .success: return names! as! [Attribute]
+        case .success: return names!.asSwift()
         case .attributeUnsupported: return []
         case let err: throw err
         }
@@ -285,7 +285,7 @@ public extension AXUIElement {
     /// function will return immediately when it gets an error.
     @inlinable func multipleAttributeValues(for attributes: [Attribute], options: AXCopyMultipleAttributeOptions = []) throws -> [CFTypeRef?] {
         var values: CFArray?
-        try AXUIElementCopyMultipleAttributeValues(self, attributes._bridgeToCF(), options, &values).throwIfError()
+        try AXUIElementCopyMultipleAttributeValues(self, .from(attributes), options, &values).throwIfError()
         return values!.map(cfUnwrap)
     }
     
@@ -311,7 +311,7 @@ public extension AXUIElement {
     @inlinable func parameterizedAttributeNames() throws -> [Attribute] {
         var names: CFArray?
         switch AXUIElementCopyParameterizedAttributeNames(self, &names) {
-        case .success: return names! as! [Attribute]
+        case .success: return names!.asSwift()
         case .noValue, .attributeUnsupported, .parameterizedAttributeUnsupported: return []
         case let err: throw err
         }
@@ -369,7 +369,7 @@ public extension AXUIElement {
     @inlinable func actionNames() throws -> [Action] {
         var names: CFArray?
         try AXUIElementCopyActionNames(self, &names).throwIfError()
-        return names! as! [Action]
+        return names!.asSwift()
     }
     
     /// Returns a localized description of the specified accessibility object's
@@ -465,19 +465,27 @@ public extension AXUIElement {
     }
     
     func role() throws -> AXRole {
-        return try attributeValue(for: .role) as! AXRole
+        let role = try attributeValue(for: .role)
+        return AXRole(cfCast(role)!)
     }
     
     func subrole() throws -> AXSubrole {
-        return try attributeValue(for: .subrole) as! AXSubrole
+        let subrole = try attributeValue(for: .subrole)
+        return AXSubrole(cfCast(subrole)!)
     }
     
     func parent() throws -> AXUIElement? {
-        return try attributeValue(for: .parent) as! AXUIElement?
+        guard let parent = try attributeValue(for: .parent) else {
+            return nil
+        }
+        return AXUIElement.cast(parent)!
     }
     
     func children() throws -> [AXUIElement] {
-        return try attributeValue(for: .children) as! [AXUIElement]? ?? []
+        guard let children = try attributeValue(for: .children) else {
+            return []
+        }
+        return CFArray.cast(children)!.asSwift()
     }
 }
 

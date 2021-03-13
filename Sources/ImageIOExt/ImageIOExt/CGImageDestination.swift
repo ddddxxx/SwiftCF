@@ -61,7 +61,7 @@ public extension CGImageDestination {
     /// apply. You can set any of the properties described in Destination
     /// Properties or the image properties described in CGImageProperties.
     @inlinable func setProperties(_ properties: [CGImage.PropertyName: Any]) {
-        CGImageDestinationSetProperties(self, properties._bridgeToCF())
+        CGImageDestinationSetProperties(self, .from(properties))
     }
     
     /// Adds an image to an image destination.
@@ -76,7 +76,7 @@ public extension CGImageDestination {
     ///   described in Destination Properties or the image properties described
     ///   in CGImageProperties.
     @inlinable func addImage(_ image: CGImage, properties: [CGImage.PropertyName: Any] = [:]) {
-        CGImageDestinationAddImage(self, image, properties._bridgeToCF())
+        CGImageDestinationAddImage(self, image, .from(properties))
     }
     
     /// Adds an image from an image source to an image destination.
@@ -92,7 +92,7 @@ public extension CGImageDestination {
     ///   Destination Properties or the image properties described in
     ///   CGImageProperties.
     @inlinable func addImage(from source: CGImageSource, at index: Int, properties: [CGImage.PropertyName: Any] = [:]) {
-        CGImageDestinationAddImageFromSource(self, source, index, properties._bridgeToCF())
+        CGImageDestinationAddImageFromSource(self, source, index, .from(properties))
     }
     
     /// Set the next image in the image destination `idst' to be `image' with
@@ -130,7 +130,7 @@ public extension CGImageDestination {
     @inlinable func copy(from source: CGImageSource, options: [CopyOptions: Any]) throws {
         var error: Unmanaged<CFError>?
         let success = withUnsafeMutablePointer(to: &error) { ptr in
-            CGImageDestinationCopyImageSource(self, source, options._bridgeToCF(), ptr)
+            CGImageDestinationCopyImageSource(self, source, .from(options), ptr)
         }
         if !success {
             throw error!.takeRetainedValue()
@@ -148,7 +148,7 @@ public extension CGImageDestination {
     /// CGImageDestinationRef.
     @available(macOS 10.13, iOS 11.0, tvOS 11.0, watchOS 4.0, *)
     @inlinable func addAuxiliaryDataInfo(_ auxiliaryDataInfo: [CGImage.AuxiliaryDataInfoKey: Any], type: CGImage.AuxiliaryDataType) {
-        CGImageDestinationAddAuxiliaryDataInfo(self, type.rawValue, auxiliaryDataInfo._bridgeToCF())
+        CGImageDestinationAddAuxiliaryDataInfo(self, type.rawValue, .from(auxiliaryDataInfo))
     }
 }
 
