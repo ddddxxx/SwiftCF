@@ -1,70 +1,72 @@
 import Foundation
 import CoreFoundation
 
-// MARK: CFTollFreeBridging
+// MARK: CFTollFreeBridgeable
 
-public protocol CFTollFreeBridging: CFType {
+public protocol _CFTollFreeBridgeable: CFType {
     associatedtype BridgedNSType where BridgedNSType: NSObject
 }
 
-public extension CFTollFreeBridging {
+public extension _CFTollFreeBridgeable {
     
-    @inlinable static func _bridgeFromNS(_ source: BridgedNSType) -> Self {
+    @inlinable
+    static func _bridgeFromNS(_ source: BridgedNSType) -> Self {
         return unsafeDowncast(source, to: Self.self)
     }
     
-    @inlinable func _bridgeToNS() -> BridgedNSType {
+    @inlinable
+    func _bridgeToNS() -> BridgedNSType {
         return unsafeDowncast(self, to: BridgedNSType.self)
     }
 }
 
 // MARK: - Conformance
 
-extension CFArray: CFTollFreeBridging {
+extension CFArray: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSArray
 }
 
-extension CFAttributedString: CFTollFreeBridging {
+extension CFAttributedString: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSAttributedString
 }
 
-extension CFBoolean: CFTollFreeBridging {
+extension CFBoolean: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSNumber
 }
 
-extension CFBundle: CFTollFreeBridging {
+extension CFBundle: _CFTollFreeBridgeable {
     public typealias BridgedNSType = Bundle
 }
 
-extension CFCalendar: CFTollFreeBridging {
+extension CFCalendar: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSCalendar
 }
 
-extension CFCharacterSet: CFTollFreeBridging {
+extension CFCharacterSet: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSCharacterSet
 }
 
-extension CFData: CFTollFreeBridging {
+extension CFData: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSData
 }
 
-extension CFDate: CFTollFreeBridging {
+extension CFDate: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSDate
 }
 
-extension CFDateFormatter: CFTollFreeBridging {
+extension CFDateFormatter: _CFTollFreeBridgeable {
     public typealias BridgedNSType = DateFormatter
 }
 
-extension CFDictionary: CFTollFreeBridging {
+extension CFDictionary: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSDictionary
 }
 
-extension CFError: CFTollFreeBridging {
+extension CFError: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSError
 }
 
-extension CFLocale: CFTollFreeBridging {
+extension CFLocale: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSLocale
 }
 
@@ -96,41 +98,41 @@ extension CFMutableString {
     public typealias BridgedNSType = NSMutableString
 }
 
-extension CFNull: CFTollFreeBridging {
+extension CFNull: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSNull
 }
 
-extension CFNumber: CFTollFreeBridging {
+extension CFNumber: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSNumber
 }
 
-extension CFReadStream: CFTollFreeBridging {
+extension CFReadStream: _CFTollFreeBridgeable {
     public typealias BridgedNSType = InputStream
 }
 
-extension CFRunLoopTimer: CFTollFreeBridging {
+extension CFRunLoopTimer: _CFTollFreeBridgeable {
     public typealias BridgedNSType = Timer
 }
 
-extension CFSet: CFTollFreeBridging {
+extension CFSet: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSSet
 }
 
-extension CFString: CFTollFreeBridging {
+extension CFString: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSString
 }
 
-extension CFTimeZone: CFTollFreeBridging {
+extension CFTimeZone: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSTimeZone
 }
 
-extension CFURL: CFTollFreeBridging {
+extension CFURL: _CFTollFreeBridgeable {
     public typealias BridgedNSType = NSURL
 }
 
 // Not Toll Free Bridged
 // extension CFUUID: CFType {}
 
-extension CFWriteStream: CFTollFreeBridging {
+extension CFWriteStream: _CFTollFreeBridgeable {
     public typealias BridgedNSType = OutputStream
 }

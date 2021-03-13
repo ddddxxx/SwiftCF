@@ -1,7 +1,7 @@
 import Foundation
 import CoreFoundation
 
-public protocol CFStringKey: RawRepresentable, ReferenceConvertible, ExpressibleByStringLiteral, _CoreFoundationBridgeable where RawValue == CFString, ReferenceType == NSString, BridgedCFType == CFString {
+public protocol CFStringKey: RawRepresentable, ReferenceConvertible, ExpressibleByStringLiteral, _CFConvertible where RawValue == CFString, ReferenceType == NSString, _CFType == CFString {
     init(_ key: CFString)
 }
 
@@ -12,11 +12,11 @@ public extension CFStringKey {
     }
     
     init(stringLiteral value: String) {
-        self.init(value._bridgeToCoreFoundation())
+        self.init(value._bridgeToCF())
     }
     
     var description: String {
-        return String._bridgeFromCoreFoundation(rawValue)
+        return String._bridgeFromCF(rawValue)
     }
     
     var debugDescription: String {
@@ -50,11 +50,11 @@ public extension CFStringKey {
         return result!
     }
     
-    func _bridgeToCoreFoundation() -> CFString {
+    func _bridgeToCF() -> CFString {
         return rawValue
     }
     
-    static func _bridgeFromCoreFoundation(_ source: CFString) -> Self {
+    static func _bridgeFromCF(_ source: CFString) -> Self {
         return self.init(source)
     }
 }

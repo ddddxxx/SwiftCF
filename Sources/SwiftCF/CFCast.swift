@@ -17,7 +17,7 @@ import CoreFoundation
     }
 }
 
-@inlinable public func cfCast<T, Result: CFTollFreeBridging>(_ v: T, to type: Result.Type = Result.self) -> Result? {
+@inlinable public func cfCast<T, Result: _CFTollFreeBridgeable>(_ v: T, to type: Result.Type = Result.self) -> Result? {
     if let nsValue = v as? Result.BridgedNSType {
         return (nsValue as! Result)
     } else {
@@ -33,7 +33,7 @@ public extension CFType {
     }
 }
 
-public extension CFTollFreeBridging {
+public extension _CFTollFreeBridgeable {
     @inlinable static func cast<Source>(_ v: Source) -> Self? {
         return cfCast(v, to: Self.self)
     }

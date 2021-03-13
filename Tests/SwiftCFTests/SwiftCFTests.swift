@@ -6,14 +6,14 @@ final class SwiftCFTests: XCTestCase {
     
     func testBridgeContainer() {
         let key = CFError.UserInfoKey.description
-        let cfdict = [key: 42]._bridgeToCoreFoundation()
+        let cfdict = [key: 42]._bridgeToCF()
         let bridged = cfdict.value(key: key.rawValue)!
         XCTAssertNotNil(CFNumber.cast(bridged))
     }
     
     func testBridgeNestedContainer() throws {
         let key = CFError.UserInfoKey.description
-        let cfarray = [[key: 42]]._bridgeToCoreFoundation()
+        let cfarray = [[key: 42]]._bridgeToCF()
         let cfdict = CFDictionary.cast(cfarray.value(at: 0))!
         let bridged = cfdict.value(key: key.rawValue)!
         XCTAssertNotNil(CFNumber.cast(bridged))

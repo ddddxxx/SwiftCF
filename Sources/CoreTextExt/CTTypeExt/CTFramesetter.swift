@@ -54,7 +54,7 @@ public extension CTFramesetter {
     ///   attributes.
     /// - Returns: This function will return a reference to a new CTFrame object.
     @inlinable func frame(stringRange: CFRange = .zero, path: CGPath, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> CTFrame {
-        return CTFramesetterCreateFrame(self, stringRange, path, frameAttributes._bridgeToCoreFoundation())
+        return CTFramesetterCreateFrame(self, stringRange, path, frameAttributes._bridgeToCF())
     }
     
     /// Determines the frame size needed for a string range.
@@ -80,7 +80,7 @@ public extension CTFramesetter {
     ///   fit in the constrained size.
     @inlinable func suggestFrameSize(constraints: CGSize = CGSize(width: CGFloat.infinity, height: .infinity), stringRange: CFRange = .zero, frameAttributes: [CTFrame.AttributeKey: Any] = [:]) -> (size: CGSize, fitRange: CFRange) {
         var fitRange = CFRange()
-        let size = CTFramesetterSuggestFrameSizeWithConstraints(self, stringRange, frameAttributes._bridgeToCoreFoundation(), constraints, &fitRange)
+        let size = CTFramesetterSuggestFrameSizeWithConstraints(self, stringRange, frameAttributes._bridgeToCF(), constraints, &fitRange)
         return (size, fitRange)
     }
     

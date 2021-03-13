@@ -69,7 +69,7 @@ public extension CGImageMetadata {
     ///   - body: The block that is executed for each tag in metadata.
     @inlinable func enumerateTags(rootPath: CFString? = nil, options: [EnumerateOptions: Any] = [:], body: CGImageMetadataTagBlock) {
         withoutActuallyEscaping(body) { escapingBody in
-            CGImageMetadataEnumerateTagsUsingBlock(self, rootPath, options._bridgeToCoreFoundation(), escapingBody)
+            CGImageMetadataEnumerateTagsUsingBlock(self, rootPath, options._bridgeToCF(), escapingBody)
         }
     }
     

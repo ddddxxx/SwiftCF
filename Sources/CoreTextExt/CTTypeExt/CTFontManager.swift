@@ -162,14 +162,14 @@ public extension CTFontManager {
     ///
     /// - Parameter descriptors: Array of font descriptors.
     @inlinable static func enableFontDescriptors(_ descriptors: [CTFontDescriptor]) {
-        CTFontManagerEnableFontDescriptors(descriptors._bridgeToCoreFoundation(), true)
+        CTFontManagerEnableFontDescriptors(descriptors._bridgeToCF(), true)
     }
     
     /// Disables the matching font descriptors for font descriptor matching.
     ///
     /// - Parameter descriptors: Array of font descriptors.
     @inlinable static func disableFontDescriptors(_ descriptors: [CTFontDescriptor]) {
-        CTFontManagerEnableFontDescriptors(descriptors._bridgeToCoreFoundation(), false)
+        CTFontManagerEnableFontDescriptors(descriptors._bridgeToCF(), false)
     }
     
     /// Returns the registration scope of the specified URL.

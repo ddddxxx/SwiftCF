@@ -285,7 +285,7 @@ public extension AXUIElement {
     /// function will return immediately when it gets an error.
     @inlinable func multipleAttributeValues(for attributes: [Attribute], options: AXCopyMultipleAttributeOptions = []) throws -> [CFTypeRef?] {
         var values: CFArray?
-        try AXUIElementCopyMultipleAttributeValues(self, attributes._bridgeToCoreFoundation(), options, &values).throwIfError()
+        try AXUIElementCopyMultipleAttributeValues(self, attributes._bridgeToCF(), options, &values).throwIfError()
         return values!.map(cfUnwrap)
     }
     
