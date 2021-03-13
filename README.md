@@ -44,8 +44,8 @@ let s3 = CFString.cast(str)
 
 ```swift
 let cfStr: CFString = .from("foo")
-let nsStr: NSString = cfStr.asNS
-let str: String = cfStr.asSwift
+let nsStr: NSString = cfStr.asNS()
+let str: String = cfStr.asSwift()
 ```
 
 ### Convenient Extensions
