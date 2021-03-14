@@ -2,12 +2,12 @@ import CoreFoundation
 
 public extension CFType /* _CFObject */ {
     
-    @inlinable var cfDescription: CFString {
-        return CFCopyDescription(self)
+    @inlinable static var cfDescription: CFString {
+        return CFCopyTypeIDDescription(typeID)
     }
     
-    @inlinable var cfTypeIDDescription: CFString {
-        return CFCopyTypeIDDescription(CFGetTypeID(self))
+    @inlinable var cfDescription: CFString {
+        return CFCopyDescription(self)
     }
     
     @inlinable func cfEqual(to v: CFTypeRef) -> Bool {
