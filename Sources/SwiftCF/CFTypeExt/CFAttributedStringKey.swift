@@ -21,7 +21,14 @@ extension CFAttributedString {
 
 public extension CFAttributedString.Key {
     
-    func ns(_ key: NSAttributedString.Key) -> CFAttributedString.Key {
+    static func ns(_ key: NSAttributedString.Key) -> CFAttributedString.Key {
         return .init(.from(key.rawValue))
+    }
+}
+
+public extension NSAttributedString.Key {
+    
+    static func cf(_ key: CFAttributedString.Key) -> NSAttributedString.Key {
+        return .init(key.rawValue.asSwift())
     }
 }
